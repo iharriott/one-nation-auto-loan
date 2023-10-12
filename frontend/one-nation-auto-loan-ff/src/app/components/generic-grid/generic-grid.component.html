@@ -1,0 +1,86 @@
+<div>
+    <mat-form-field appearance="outline" class="example-full-width">
+        <mat-label>Filter</mat-label>
+        <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="fiter value"
+            #input
+        />
+    </mat-form-field>
+</div>
+
+<table  mat-table [dataSource]="dataSource" matSort>
+    <ng-container
+        [matColumnDef]="col"
+        *ngFor="let col of displayColumns; let i = index"
+    >
+        <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="table-column-header col-width-4"
+        >
+            {{ capitalize(col) }}
+        </th>
+        <div *ngIf="col !== 'action'">
+            <td class="col-width table-column-row" mat-cell *matCellDef="let row">
+                <div *ngIf="i === 0">
+                    <button
+                        class="link-button"
+                        color="primary"
+                        (click)="navigateToDetail(row)"
+                    >
+                        {{ row[col] }}
+                    </button>
+                </div>
+                <div *ngIf="i !== 0">
+                    {{ row[col] }}
+                </div>
+            </td>
+        </div>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+                #c
+                class="table-column-header"
+                (click)="onClick(c.checked, row)"
+                >{{ checkboxLabel }}</mat-checkbox
+            >
+            <button
+                *ngIf="viewHistory"
+                class="link-button"
+                mat-button
+                color="primary"
+                (click)="viewFileHistory(row)"
+            >
+                View History
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <div *ngIf="dataSource.data.length === 0">
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data</td>
+        </tr>
+    </div>
+</table>
+<div class="row" style="background-color: white">
+    <div class="col-md-6" *ngIf="dataSource.data.length > 0">
+        <button mat-button color="primary" (click)="goback()">
+            <mat-icon>fast_rewind</mat-icon>
+            Back
+        </button>
+    </div>
+    <div class="col-md-6">
+        <mat-paginator
+            [hidden]="!dataSource.data.length"
+            [pageSizeOptions]="[15, 25, 35, 50, 100]"
+            aria-label="Select page of
+        files"
+        >
+        </mat-paginator>
+    </div>
+</div>

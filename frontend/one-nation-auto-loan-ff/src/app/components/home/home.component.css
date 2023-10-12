@@ -1,0 +1,24 @@
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+a.title {
+    color: white;
+    text-decoration: none;
+}
+
+/* .login-icon {
+    margin-top: 2px;
+    background: #a4c4fc;
+    color: #4374e3;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+} */
+
+
+.navbar {
+    background: #9b9b9d;
+   
+}
+button {
+   
+}

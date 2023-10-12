@@ -1,0 +1,446 @@
+<form [formGroup]="applicantForm" (ngSubmit)="submit()" >
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title class="text">
+                Applicant Form
+            </mat-card-title>
+           
+    <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div >
+                <div class="row">
+                    <mat-form-field
+                    class="small-height-input"   
+                    appearance="outline" 
+                >
+                <mat-label>Applicant Type</mat-label>
+                <mat-select formControlName="applicantType" (selectionChange)="onSelectEvent($event.value)" >
+                    <mat-option
+                        *ngFor="let type of applicantType"
+                        [value]="type.viewValue"
+                    >
+                        {{ type.viewValue }}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field >
+               </div>
+                <div class="row ">
+                <mat-form-field 
+                class="small-height-input" 
+                appearance="outline" >
+                    <mat-label>First Name</mat-label>
+                        <input
+                            formControlName="firstName"
+                            matInput
+                            placeholder="FirstName"
+                            value=""
+                        />
+                      
+                    </mat-form-field>
+                </div>
+                 <div class="row">
+                    <mat-form-field
+                    class="small-height-input"  
+                    appearance="outline"   
+                >
+                    <mat-label >Last Name</mat-label>
+                    <input
+                        formControlName="lastName"
+                        matInput
+                        placeholder="LastName"
+                        value=""
+                    />
+                </mat-form-field>
+            </div>
+                <!-- <div class="well"> -->
+                    <button
+                    type="button"
+                     mat-icon-button
+                        color="primary"
+                        (click)="addAddress()"
+                       
+                        matTooltip="Add address"
+                    >
+                    Address
+                    <mat-icon
+                    class="w-6"
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="add_to_photos"
+                ></mat-icon>
+
+                </button>
+                   
+                    <div
+                        *ngIf="isAddressExists() > 0"
+                        formArrayName="address"
+                        class="mat-elevation-z2 form-group"
+                    >
+                        <div
+                            *ngFor="
+                                let entity of getAddress()?.controls;
+                                let i = index
+                            "
+                            [formGroupName]="i"
+                        >
+                            <div class="container">
+                                <div>
+                                    <legend class="w-10 w-5">Address {{ i + 1 }}</legend>
+                                </div>
+                                <div>
+                                    <button
+                                    type="button"
+                                    mat-icon-button
+                                        color="accent"
+                                        (click)="removeAddress(i)"
+                                    >
+                                    <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <!-- <div class="row"> -->
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"  
+                                        appearance="outline" 
+                                    >
+                                        <mat-label>Street</mat-label>
+                                        <input
+                                            formControlName="street"
+                                            matInput
+                                            placeholder="Street"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"  
+                                        appearance="outline"       
+                                    >
+                                        <mat-label>City</mat-label>
+                                        <input
+                                            formControlName="city"
+                                            matInput
+                                            placeholder="City"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"
+                                        appearance="outline"     
+                                    >
+                                        <mat-label class="label-height">Province</mat-label>
+                                        <input
+                                            formControlName="province"
+                                            matInput
+                                            placeholder="Province"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input" 
+                                        appearance="outline"     
+                                    >
+                                        <mat-label>Country</mat-label>
+                                        <input
+                                            formControlName="country"
+                                            matInput
+                                            placeholder="Country"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input" 
+                                        appearance="outline"     
+                                    >
+                                        <mat-label>Postal Code</mat-label>
+                                        <input
+                                            formControlName="postalCode"
+                                            matInput
+                                            placeholder="Postal Code"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input" 
+                                        appearance="outline"     
+                                    >
+                                        <mat-label>Residence Years</mat-label>
+                                        <input
+                                            formControlName="residenceYears"
+                                            matInput
+                                            placeholder="ResidenceYears"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"
+                                        appearance="outline"      
+                                    >
+                                        <mat-label>Residence Months</mat-label>
+                                        <input
+                                            formControlName="residenceMonths"
+                                            matInput
+                                            placeholder="ResidenceMonths"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                <!-- </div> -->
+                <br>
+                <div class="row">
+                    <mat-form-field
+                    class="small-height-input"  
+                    appearance="outline"   
+                >
+                    <mat-label class="label-height">Phone</mat-label>
+                    <input
+                        formControlName="phone"
+                        matInput
+                        placeholder="Phone"
+                        value=""
+                    />
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"  
+                appearance="outline"   
+            >
+                <mat-label class="label-height">Email</mat-label>
+                <input
+                    formControlName="email"
+                    matInput
+                    placeholder="Email"
+                    value=""
+                />
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <mat-form-field
+            class="small-height-input"  
+            appearance="outline"   
+        >
+            <mat-label class="label-height">SIN</mat-label>
+            <input
+                formControlName="sin"
+                matInput
+                placeholder="SIN"
+                value=""
+            />
+        </mat-form-field >
+       </div>
+
+       <div class="row">
+        <mat-form-field class="small-height-input"  appearance="outline" >
+            <mat-label>DOB</mat-label>
+            <input matInput [matDatepicker]="picker"
+            formControlName ="dob"
+            >
+            <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+         </div>
+
+         <div class="row">  
+            <mat-form-field
+            class="small-height-input" 
+            appearance="outline"    
+        >
+        <mat-label>Marital Status</mat-label>
+        <mat-select formControlName="maritalStatus">
+            <mat-option
+                *ngFor="let mstatus of mstatuses"
+                [value]="mstatus.viewValue"
+            >
+                {{ mstatus.viewValue }}
+            </mat-option>
+        </mat-select>
+        </mat-form-field >
+        
+       </div>
+       
+    <div class="row">     
+    <mat-label>Gender</mat-label>
+    <mat-radio-group aria-label="Select an option" formControlName="gender" color="primary">
+        <mat-radio-button value="Male">Male</mat-radio-button>
+        <mat-radio-button value="Female">Female</mat-radio-button>
+        <mat-radio-button value="Other">Other</mat-radio-button>
+      </mat-radio-group> 
+   </div>
+
+   <div class="row">
+    <mat-form-field
+    class="small-height-input"  
+    appearance="outline"   
+>
+    <mat-label>Credit Score</mat-label>
+    <input
+        formControlName="creditScore"
+        matInput
+        placeholder="Credit Score"
+        value=""
+    />
+</mat-form-field >
+</div>
+
+<div class="row">
+    <mat-form-field
+    class="small-height-input" 
+    appearance="outline"    
+>
+<mat-label>Status</mat-label>
+<mat-select formControlName="status">
+    <mat-option
+        *ngFor="let stat of status"
+        [value]="stat.viewValue"
+    >
+        {{ stat.viewValue }}
+    </mat-option>
+</mat-select>
+</mat-form-field >
+</div>
+
+<div class="row">
+    <mat-form-field
+    class="small-height-input" 
+    appearance="outline"    
+>
+<mat-label>Deal Status</mat-label>
+<mat-select formControlName="dealStatus">
+    <mat-option
+        *ngFor="let deal of dealStatus"
+        [value]="deal.viewValue"
+    >
+        {{ deal.viewValue }}
+    </mat-option>
+</mat-select>
+</mat-form-field >
+</div>
+
+<div class="row">
+    <mat-form-field
+    class="small-height-input" 
+    appearance="outline"    
+>
+    <mat-label >Referral Code</mat-label>
+    <input
+        formControlName="referralCode"
+        matInput
+        placeholder="Referral Code"
+        value=""
+    />
+</mat-form-field >
+</div>
+
+<div class="row small-height-input">  
+    <mat-label class="m-20">Temp Dealer</mat-label> 
+<ng-multiselect-dropdown
+[settings]="dropdownSettings"
+[data]="dropdownList"
+formControlName="tempDealerId">
+</ng-multiselect-dropdown>
+</div>
+<br>
+<div class="row">
+    <mat-form-field
+    class="small-height-input"  
+    appearance="outline"   
+>
+    <mat-label >Sales</mat-label>
+    <input
+        formControlName="sales"
+        matInput
+        placeholder="Sales"
+        value=""
+    />
+</mat-form-field >
+</div>
+
+<div class="row">
+    <mat-form-field
+    class="small-height-input"
+    appearance="outline"     
+>
+    <mat-label >Finance</mat-label>
+    <input
+        formControlName="finance"
+        matInput
+        placeholder="Finance"
+        value=""
+    />
+</mat-form-field >
+</div>
+
+<div class="row">
+    <mat-form-field
+    class="small-height-input"
+    appearance="outline"     
+>
+    <mat-label >Gross</mat-label>
+    <input
+        formControlName="gross"
+        matInput
+        placeholder="Gross"
+        value=""
+    />
+</mat-form-field >
+</div>
+
+<div class="mat-10">   
+        <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                class="button-width"
+                [disabled]="isDisabled"
+            >
+                Save
+            </button>
+            <button
+            mat-raised-button
+            (click)="clear()"
+            color="primary"
+            type="submit"
+            class="button-width"
+            [disabled]="isDisabled"
+        >
+            clear
+        </button>
+        <button         
+        
+        mat-raised-button
+        color="primary"
+        (click)="close()"
+        class="button-width"
+    >
+        Close
+    </button>      
+    </div>
+    
+</div>
+             
+        </mat-card-content>
+    </mat-card>
+</form>
+

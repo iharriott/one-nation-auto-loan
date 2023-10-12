@@ -1,0 +1,55 @@
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+a.title {
+    color: white;
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* .example-card {
+    margin-top: 10px;
+    max-width: 400px;
+    background-color: lightblue;
+} */
+
+.toolbar-width {
+    width: 100%;
+}
+
+.toolbar-margin {
+    margin-top: calc(5vh - 2px);
+    margin-bottom: 15px;
+}
+
+/* mat-card {width: calc(40% - 20px);   height: calc(100% - 70px); } */
+
+.card {
+    font-size: medium;
+    width: 230px;
+    height: 160px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-color: lightblue;
+}
+.flex {
+    display:flex
+}
+
+.card-align {
+    justify-content: center !important;
+}

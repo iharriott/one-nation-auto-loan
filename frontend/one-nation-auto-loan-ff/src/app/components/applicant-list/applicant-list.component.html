@@ -1,0 +1,98 @@
+<div class="w-25">
+    <mat-toolbar>
+        <mat-toolbar-row class="toobar-position">
+            <div>
+                <button
+               
+                mat-raised-button
+                color="primary"
+                (click)="setTemplate('applicant')"
+                class="button-width"
+            >
+                Add Applicant
+            </button>
+            <!-- <div *ngIf="dataService.isapplicantExists"> -->
+                <button
+                *ngIf="dataService.isapplicantExists"
+                   
+                    mat-raised-button
+                    color="primary"
+                    (click)="setTemplate('note')"
+                    class="button-width"
+                >
+                    Add Note
+                </button>
+                <button
+                *ngIf="dataService.isapplicantExists"
+                    mat-raised-button
+                    color="primary"
+                    (click)="setTemplate('employment')"
+                    class="button-width"
+                >
+                    Add Employment
+                </button>
+                <button
+                *ngIf="dataService.isapplicantExists"
+                    mat-raised-button
+                    color="primary"
+                    (click)="setTemplate('mortgage')"
+                    class="button-width"
+                >
+                    Add Mortgage
+                </button>
+            <!-- </div> -->
+                <button
+               
+                mat-raised-button
+                color="primary"
+                (click)="setTemplate('')"
+                class="button-width"
+            >
+                Close
+            </button>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+</div>
+
+<app-generic-grid
+    [tableDataState$]="tableData$"
+    [displayColumnsInput]="displayedColumns"
+    (linkClicked)="loadData($event)"
+    (checkboxClicked)="onChange($event)"
+    (fileHistoryLinkClicked)="viewHistory($event)"
+    [url]="backUrl"
+    [showCheckbox]="showCheckbox"
+    [viewHistory]="viewFileHistory"
+></app-generic-grid>
+
+<ng-template #employment>
+    <div class="book-appointment-container scrolling-container">
+        <app-employment
+        (closeEmploymentButtonClicked)="setTemplate('')"
+        ></app-employment>
+    </div>
+</ng-template>
+
+<ng-template #mortgage>
+    <div class="book-appointment-container scrolling-container">
+        <app-mortgage (closeMortgageButtonClicked)="setTemplate('')"></app-mortgage>
+    </div>
+</ng-template>
+
+<ng-template #note>
+    <div class="book-appointment-container scrolling-container">
+        <app-note (closeNoteButtonClicked)="setTemplate('')"></app-note>
+    </div>
+</ng-template>
+
+<ng-template #applicant>
+    <div class="book-appointment-container scrolling-container">
+        <app-applicant
+        (closeApplicantButtonClicked)="setTemplate('')"
+        ></app-applicant>
+    </div>
+</ng-template>
+
+<ng-container #container></ng-container>

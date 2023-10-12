@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slide Navbar</title>
+	<link rel="stylesheet" type="text/css" href="">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup" >
+				
+				<form [formGroup]="form" (ngSubmit)="register()">
+					<label for="chk" aria-hidden="true">Sign up</label>
+					<input formControlName="userName" class="form-control" type="text" name="txt" placeholder="User Name" required="">
+                    <input formControlName="firstName" class="form-control" type="text" name="firstN" placeholder="First Name" required="">
+                    <input formControlName="lastName" class="form-control" type="text" name="lastN" placeholder="Last Name" required="">
+					<input formControlName="email" class="form-control" type="email" name="email" placeholder="Email" required="">
+					<input formControlName="password" class="form-control" type="password" name="pswd" placeholder="Password" required="">
+                    <input formControlName="passwordConfirm" class="form-control" type="password" name="pswdConf" placeholder="Password Confirm" required="">
+					<button type="submit">Sign up</button>
+				</form>
+			</div>
+
+			<div class="login">
+				<mat-spinner *ngIf="isSpinnerStarted"></mat-spinner>
+				<form [formGroup]="loginForm" (ngSubmit)="login()">
+					<label for="chk" aria-hidden="true">Login</label>
+					<input formControlName="email" type="email" name="email" placeholder="Email" required="">
+					<input [ngClass]="isPasswordInvalid  ? 'error' : ''" formControlName="password" type="password" name="pswd" placeholder="Password" required="">
+					<mat-error class="password" *ngIf="isPasswordInvalid">
+						{{errorMessage}}
+					</mat-error>
+					<button type="submit">Login</button>
+				</form>
+			</div>
+	</div>
+</body>
+</html>

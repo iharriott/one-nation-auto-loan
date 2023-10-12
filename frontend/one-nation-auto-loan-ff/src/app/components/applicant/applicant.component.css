@@ -1,0 +1,45 @@
+
+add-skill {
+    justify-self: start;
+    padding: 1rem;
+    margin-bottom: 20px;
+   }
+   
+   .example-form {
+       min-width: 150px;
+       max-width: 500px;
+       width: 100%;
+     }
+     
+     .example-full-width {
+       width: 100%;
+     }
+
+      .small-icon-button {
+        width: 24px !important;
+        height: 24px !important;
+        padding: 0px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+     
+        & > *[role=img] {
+           width: 16px;
+           height: 16px;
+           font-size: 16px;
+     
+           svg {
+              width: 16px;
+              height: 16px;
+           }
+        }
+     
+        .mat-mdc-button-touch-target {
+           width: 24px !important;
+           height: 24px !important;
+        }
+     }
+
+
+
+ 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Side Navbar</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <base href="/" />
+    </head>
+    <body>
+        <mat-sidenav-container>
+            <mat-sidenav #sidenav="matSidenav">
+                <img src="" alt="" />
+                <h4 class="name"></h4>
+                <p class="designation">Software Engineer</p>
+                <mat-divider></mat-divider>
+
+                <div class="row">
+                    <a type="button" [routerLink]="['dashboard']">DashBoard</a>
+                </div>
+            </mat-sidenav>
+            <mat-sidenav-content>
+                <div class="content mat-elevation-z4">
+                    <router-outlet> </router-outlet>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </body>
+</html>

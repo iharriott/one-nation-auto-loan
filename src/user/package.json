@@ -1,0 +1,13 @@
+{
+    "name": "@src/user",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.414.0",
+        "@aws-sdk/util-dynamodb": "^3.414.0",
+        "@types/bcryptjs": "^2.4.4",
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^2.4.3",
+        "nanoid": "^5.0.1"
+    }
+}

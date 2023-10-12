@@ -1,0 +1,54 @@
+<form [formGroup]="noteForm" (ngSubmit)="submit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title class="text">
+                Note Form
+            </mat-card-title>
+            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row ">
+                <mat-form-field class="m-20" >   
+                    <mat-label>Note</mat-label>
+                    <textarea rows="10" cols="40"  formControlName="note"
+                    matInput
+                    placeholder="Note"
+                    value=""></textarea>
+                </mat-form-field>
+                          
+                </div>
+                <div class="mat-10">   
+                    <button
+                            mat-raised-button
+                            color="primary"
+                            type="submit"
+                            class="button-width"
+                            
+                        >
+                            Save
+                        </button>
+                        <button
+                        mat-raised-button
+                        (click)="clear()"
+                        color="primary"
+                        type="submit"
+                        class="button-width"
+                       
+                    >
+                        clear
+                    </button>
+                    <button         
+                    
+                    mat-raised-button
+                    color="primary"
+                    (click)="close()"
+                    class="button-width"
+                >
+                    Close
+                </button>      
+                </div>
+                
+           
+       </mat-card-content>        
+    </mat-card>
+</form>

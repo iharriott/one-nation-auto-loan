@@ -1,0 +1,337 @@
+<form [formGroup]="employmentForm" (ngSubmit)="submit()" >
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title class="text">
+               Employment Form
+            </mat-card-title>
+            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div >
+                <div class="well">
+                    <button
+                    type="button"
+                     mat-icon-button
+                        color="primary"
+                        (click)="addEmployment()"
+                       
+                        matTooltip="Add Employment"
+                    >
+                    Employment
+                    <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="add_to_photos"
+                ></mat-icon>
+
+                </button>  
+                    <div
+                        *ngIf="isEmploymentExists() > 0"
+                        formArrayName="employment"
+                        class="mat-elevation-z2 form-group"
+                    >
+                        <div
+                            *ngFor="
+                                let emp of getEmployment()?.controls;
+                                let i = index
+                            "
+                            [formGroupName]="i"
+                        >
+                            <div class="container ">
+                                <div>
+                                    <legend class="w-10 w-5">Employment {{ i + 1 }}</legend>
+                                </div>
+                                <div>
+                                    <button
+                                    type="button"
+                                    mat-icon-button
+                                        color="accent"
+                                        (click)="removeEmployment(i)"
+                                    >
+                                    <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <!-- <div class="row"> -->
+                                <div class="row">
+                                    <mat-form-field
+                                    class="small-height-input"    
+                                >
+                                <mat-label>Employment Status</mat-label>
+                                <mat-select formControlName="empStatus">
+                                    <mat-option
+                                        *ngFor="let estat of empStatus"
+                                        [value]="estat.viewValue"
+                                    >
+                                        {{ estat.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                                </mat-form-field >
+                               </div>
+                               <div class="row">
+                                <mat-form-field
+                                class="small-height-input"    
+                            >
+                            <mat-label>Employment Type</mat-label>
+                            <mat-select formControlName="empType">
+                                <mat-option
+                                    *ngFor="let etype of empType"
+                                    [value]="etype.viewValue"
+                                >
+                                    {{ etype.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field >
+                           </div>
+
+                           <div class="row">
+                            <mat-form-field
+                                class="small-height-input"  
+                            >
+                                <mat-label>Organization Name</mat-label>
+                                <input
+                                    formControlName="organizationName"
+                                    matInput
+                                    placeholder="Organization Name"
+                                    value=""
+                                />
+                            </mat-form-field>
+                        </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"  
+                                    >
+                                        <mat-label>Street</mat-label>
+                                        <input
+                                            formControlName="street"
+                                            matInput
+                                            placeholder="Street"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"        
+                                    >
+                                        <mat-label>City</mat-label>
+                                        <input
+                                            formControlName="city"
+                                            matInput
+                                            placeholder="City"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"    
+                                    >
+                                        <mat-label class="label-height">Province</mat-label>
+                                        <input
+                                            formControlName="province"
+                                            matInput
+                                            placeholder="Province"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"     
+                                    >
+                                        <mat-label>Country</mat-label>
+                                        <input
+                                            formControlName="country"
+                                            matInput
+                                            placeholder="Country"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"     
+                                    >
+                                        <mat-label>Postal Code</mat-label>
+                                        <input
+                                            formControlName="postalCode"
+                                            matInput
+                                            placeholder="Postal Code"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"     
+                                    >
+                                        <mat-label>Phone</mat-label>
+                                        <input
+                                            formControlName="phone"
+                                            matInput
+                                            placeholder="Phone"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"     
+                                    >
+                                        <mat-label>Employment Years</mat-label>
+                                        <input
+                                            formControlName="empYears"
+                                            matInput
+                                            placeholder="Employment Years"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"     
+                                    >
+                                        <mat-label>Employment Months</mat-label>
+                                        <input
+                                            formControlName="empMonths"
+                                            matInput
+                                            placeholder="Employment Months"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field
+                                        class="small-height-input"     
+                                    >
+                                        <mat-label>Gross Income</mat-label>
+                                        <input
+                                            formControlName="grossIncome"
+                                            matInput
+                                            placeholder="Gross Income"
+                                            value=""
+                                        />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <mat-form-field class="small-height-input" >
+                                        <mat-label>Start Date</mat-label>
+                                        <input matInput [matDatepicker]="picker"
+                                        formControlName ="startDate"
+                                        >
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                      </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <mat-form-field class="small-height-input" >
+                                        <mat-label>End Date</mat-label>
+                                        <input matInput [matDatepicker]="picker2"
+                                        formControlName ="endDate"
+                                        >
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                      </mat-form-field>
+                                </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <mat-form-field
+                        class="small-height-input"     
+                    >
+                        <mat-label>Occupation</mat-label>
+                        <input
+                            formControlName="occupation"
+                            matInput
+                            placeholder="Occupation"
+                            value=""
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field
+                    class="small-height-input"    
+                >
+                    <mat-label class="label-height">Other Income</mat-label>
+                    <input
+                        formControlName="otherIncome"
+                        matInput
+                        placeholder="Other Income"
+                        value=""
+                    />
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field
+                    class="small-height-input"     
+                >
+                    <mat-label>Other Income Type</mat-label>
+                    <input
+                        formControlName="otherIncomeType"
+                        matInput
+                        placeholder="Other Income Type"
+                        value=""
+                    />
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+                <mat-label class="label-height">Frequency</mat-label>
+                <input
+                    formControlName="frequency"
+                    matInput
+                    placeholder="Frequency"
+                    value=""
+                />
+            </mat-form-field>
+        </div>
+
+<div class="mat-10">
+    
+        <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                class="button-width"
+                [disabled]="isDisabled"
+            >
+                Save
+            </button>
+            <button
+            mat-raised-button
+            (click)="clear()"
+            color="primary"
+            type="submit"
+            class="button-width"
+            [disabled]="isDisabled"
+        >
+            clear
+        </button>
+        <button
+        mat-raised-button
+        color="primary"
+        (click)="close()"
+        class="button-width"
+    >
+        Close
+    </button>  
+    </div>      
+</div>
+             
+        </mat-card-content>
+    </mat-card>
+</form>
+

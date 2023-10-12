@@ -1,0 +1,93 @@
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.w-75 {
+    max-width: 75px;
+}
+
+.w-100 {
+    max-width: 100px;
+}
+
+a:link {
+    color: #004a9f;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.w-25 {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.example-full-width {
+    width: 30%;
+}
+
+.center {
+    border: none;
+    /* display: flex; */
+    justify-content: center;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    margin-top: 18%;
+    position: relative;
+    /* height: calc(100vh - 20px); */
+    /* background: red; */
+}
+.inner {
+    /* background: green; */
+    color: white;
+    padding: 12px;
+}
+
+.table-column-header {
+    font-weight: bold;
+    font-size: small;
+    color: rgb(43, 43, 204);
+    justify-content: left;
+}
+
+th.mat-header-cell {
+    text-align: center !important;
+}
+
+.mat-row:nth-child(even) {
+    background-color: lightgrey;
+}
+
+.mat-row:nth-child(odd) {
+    background-color: white;
+}
+
+.button-position {
+    justify-content: right;
+    float: right;
+    margin-bottom: 8px;
+}
+
+.col-width-2 {
+    width: 200px;
+    font-size: small;
+}
+
+.col-width {
+    width: 120px;
+    font-size: small;
+}

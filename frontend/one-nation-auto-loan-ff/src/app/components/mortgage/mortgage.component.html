@@ -1,0 +1,130 @@
+<form [formGroup]="mortgageForm" (ngSubmit)="submit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title class="text">
+                Mortgage Form
+            </mat-card-title>
+            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+            <mat-label>Mortgage Type</mat-label>
+            <mat-select formControlName="mortgageType">
+                <mat-option
+                    *ngFor="let mtype of mortgageType"
+                    [value]="mtype.viewValue"
+                >
+                    {{ mtype.viewValue }}
+                </mat-option>
+            </mat-select>
+            </mat-form-field >
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+            <mat-label>Mortgage Holder</mat-label>
+            <mat-select formControlName="mortgageHolder">
+                <mat-option
+                    *ngFor="let mhold of mortgageHolder"
+                    [value]="mhold.viewValue"
+                >
+                    {{ mhold.viewValue }}
+                </mat-option>
+            </mat-select>
+            </mat-form-field >
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+            <mat-label>Mortgage Status</mat-label>
+            <mat-select formControlName="status">
+                <mat-option
+                    *ngFor="let mstat of mortgageStatus"
+                    [value]="mstat.viewValue"
+                >
+                    {{ mstat.viewValue }}
+                </mat-option>
+            </mat-select>
+            </mat-form-field >
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+                <mat-label >Mortgage Payment</mat-label>
+                <input
+                    formControlName="mortgagePayment"
+                    matInput
+                    placeholder="Mortgage Payment"
+                    value=""
+                />
+            </mat-form-field >
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+                <mat-label >Mortgage Amount</mat-label>
+                <input
+                    formControlName="mortgageAmount"
+                    matInput
+                    placeholder="Mortgage Amount"
+                    value=""
+                />
+            </mat-form-field >
+            </div>
+            <div class="row">
+                <mat-form-field
+                class="small-height-input"    
+            >
+                <mat-label >Market Value</mat-label>
+                <input
+                    formControlName="marketValue"
+                    matInput
+                    placeholder="Market Value"
+                    value=""
+                />
+            </mat-form-field >
+            </div>
+          
+                <div class="mat-10">   
+                    <button
+                            mat-raised-button
+                            color="primary"
+                            type="submit"
+                            class="button-width"
+                            
+                        >
+                            Save
+                        </button>
+                        <button
+                        mat-raised-button
+                        (click)="clear()"
+                        color="primary"
+                        type="submit"
+                        class="button-width"
+                       
+                    >
+                        clear
+                    </button>
+                    <button         
+                    
+                    mat-raised-button
+                    color="primary"
+                    (click)="close()"
+                    class="button-width"
+                >
+                    Close
+                </button>      
+                </div>
+                
+           
+       </mat-card-content>        
+    </mat-card>
+</form>
+
