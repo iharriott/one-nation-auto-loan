@@ -13,6 +13,10 @@ export class DashboardComponent implements OnInit {
   applicantList() {
     this.router.navigate(['applicantlist']);
   }
+
+  aggridList() {
+    this.router.navigate(['aggridlist']);
+  }
   editFileList() {}
   addNewFile() {}
   viewCharacteristics() {}

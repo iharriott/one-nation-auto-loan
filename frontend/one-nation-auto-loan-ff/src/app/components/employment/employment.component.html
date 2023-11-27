@@ -1,14 +1,46 @@
+<div class="form-margin">
 <form [formGroup]="employmentForm" (ngSubmit)="submit()" >
-    <mat-card>
+    <mat-card class="example-card success-card">
         <mat-card-header>
-            <mat-card-title class="text">
-               Employment Form
-            </mat-card-title>
-            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+          <mat-card-title-group>
+            <mat-card-title class="success-card-title">Employment Form</mat-card-title>
+            <!-- <mat-card-subtitle class="success-card-subtitle">mat-sm-card-image</mat-card-subtitle> -->
+            <!-- <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" > -->
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="success-card-content2">
+         <b>Name:</b> {{applicant}} <br>
+         <b>Email:</b>  {{applicantEmail}} <br>
+         <b>Phone:</b> {{applicantPhone}} <br>
+         <b>Address:</b> {{applicantAddress}} <br>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    <mat-card class="example-card success-card">
+        <mat-card-header>
+            <!-- <mat-card-title class="success-card-title">
+             <p>Employment Form</p>  
+            </mat-card-title> -->
+            <!-- <mat-card-subtitle class="success-card-subtitle">{{applicant}}</mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>
             <div >
-                <div class="well">
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="pk" matInput placeholder="pk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="sk" matInput placeholder="sk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1PK" matInput placeholder="gsI1PK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1SK" matInput placeholder="gsI1SK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="documentType" matInput placeholder="documentType"  type="input">
+                </mat-form-field> 
+                    <!-- <div class="well"> -->
                     <button
                     type="button"
                      mat-icon-button
@@ -17,7 +49,7 @@
                        
                         matTooltip="Add Employment"
                     >
-                    Employment
+                    <span  class="form-title2">Add Employment </span>
                     <mat-icon
                     aria-hidden="false"
                     aria-label="Example home icon"
@@ -27,8 +59,7 @@
                 </button>  
                     <div
                         *ngIf="isEmploymentExists() > 0"
-                        formArrayName="employment"
-                        class="mat-elevation-z2 form-group"
+                        formArrayName="employmentList"     
                     >
                         <div
                             *ngFor="
@@ -37,9 +68,8 @@
                             "
                             [formGroupName]="i"
                         >
-                            <div class="container ">
-                                <div>
-                                    <legend class="w-10 w-5">Employment {{ i + 1 }}</legend>
+                            <div class="">
+                                <div>         
                                 </div>
                                 <div>
                                     <button
@@ -47,19 +77,24 @@
                                     mat-icon-button
                                         color="accent"
                                         (click)="removeEmployment(i)"
+                                        matTooltip= "Delete Employment"  
+                                       matTooltipPosition="below"
                                     >
+                                    <span class="form-title">Employment {{ i + 1 }}</span>
                                     <mat-icon>delete</mat-icon>
                                     </button>
                                 </div>
                             </div>
+                            <br>
     
                             <!-- <div class="row"> -->
                                 <div class="row">
-                                    <mat-form-field
-                                    class="small-height-input"    
+                                    <mat-form-field 
+                                    appearance="outline"  
+                                    color="primary"
                                 >
                                 <mat-label>Employment Status</mat-label>
-                                <mat-select formControlName="empStatus">
+                                <mat-select  formControlName="employmentStatus">
                                     <mat-option
                                         *ngFor="let estat of empStatus"
                                         [value]="estat.viewValue"
@@ -71,10 +106,11 @@
                                </div>
                                <div class="row">
                                 <mat-form-field
-                                class="small-height-input"    
+                                class=""  
+                                appearance="outline"  
                             >
                             <mat-label>Employment Type</mat-label>
-                            <mat-select formControlName="empType">
+                            <mat-select formControlName="employmentType">
                                 <mat-option
                                     *ngFor="let etype of empType"
                                     [value]="etype.viewValue"
@@ -87,20 +123,19 @@
 
                            <div class="row">
                             <mat-form-field
-                                class="small-height-input"  
+                                appearance="outline"
                             >
                                 <mat-label>Organization Name</mat-label>
                                 <input
                                     formControlName="organizationName"
                                     matInput
                                     placeholder="Organization Name"
-                                    value=""
                                 />
                             </mat-form-field>
                         </div>
                                 <div class="row">
-                                    <mat-form-field
-                                        class="small-height-input"  
+                                    <mat-form-field  
+                                        appearance="outline"
                                     >
                                         <mat-label>Street</mat-label>
                                         <input
@@ -113,7 +148,7 @@
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"        
+                                        appearance="outline"      
                                     >
                                         <mat-label>City</mat-label>
                                         <input
@@ -125,10 +160,10 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
-                                    <mat-form-field
-                                        class="small-height-input"    
+                                    <mat-form-field  
+                                        appearance="outline" 
                                     >
-                                        <mat-label class="label-height">Province</mat-label>
+                                        <mat-label class="">Province</mat-label>
                                         <input
                                             formControlName="province"
                                             matInput
@@ -139,21 +174,20 @@
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"     
+                                        appearance="outline"    
                                     >
                                         <mat-label>Country</mat-label>
                                         <input
                                             formControlName="country"
                                             matInput
                                             placeholder="Country"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
 
                                 <div class="row">
-                                    <mat-form-field
-                                        class="small-height-input"     
+                                    <mat-form-field   
+                                        appearance="outline"  
                                     >
                                         <mat-label>Postal Code</mat-label>
                                         <input
@@ -167,46 +201,43 @@
 
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"     
+                                        appearance="outline"   
                                     >
                                         <mat-label>Phone</mat-label>
                                         <input
                                             formControlName="phone"
                                             matInput
                                             placeholder="Phone"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"     
+                                        appearance="outline"    
                                     >
                                         <mat-label>Employment Years</mat-label>
                                         <input
-                                            formControlName="empYears"
+                                            formControlName="employmentYears"
                                             matInput
                                             placeholder="Employment Years"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"     
+                                        appearance="outline"    
                                     >
                                         <mat-label>Employment Months</mat-label>
                                         <input
-                                            formControlName="empMonths"
+                                            formControlName="employmentMonths"
                                             matInput
                                             placeholder="Employment Months"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
-                                    <mat-form-field
-                                        class="small-height-input"     
+                                    <mat-form-field  
+                                        appearance="outline"   
                                     >
                                         <mat-label>Gross Income</mat-label>
                                         <input
@@ -219,24 +250,26 @@
                                 </div>
 
                                 <div class="row">
-                                    <mat-form-field class="small-height-input" >
+                                    <mat-form-field 
+                                     appearance="outline"
+                                     >
                                         <mat-label>Start Date</mat-label>
                                         <input matInput [matDatepicker]="picker"
                                         formControlName ="startDate"
                                         >
-                                        <mat-hint>MM/DD/YYYY</mat-hint>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
                                       </mat-form-field>
                                 </div>
 
                                 <div class="row">
-                                    <mat-form-field class="small-height-input" >
+                                    <mat-form-field 
+                                    appearance="outline"
+                                    >
                                         <mat-label>End Date</mat-label>
                                         <input matInput [matDatepicker]="picker2"
                                         formControlName ="endDate"
                                         >
-                                        <mat-hint>MM/DD/YYYY</mat-hint>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                         <mat-datepicker #picker2></mat-datepicker>
                                       </mat-form-field>
@@ -244,62 +277,58 @@
                             <!-- </div> -->
                         </div>
                     </div>
-                </div>
+                <!-- </div> -->
                 <br>
                 <div class="row">
                     <mat-form-field
-                        class="small-height-input"     
+                        appearance="outline"    
                     >
                         <mat-label>Occupation</mat-label>
                         <input
                             formControlName="occupation"
                             matInput
                             placeholder="Occupation"
-                            value=""
                         />
                     </mat-form-field>
                 </div>
                 <div class="row">
                     <mat-form-field
-                    class="small-height-input"    
+                    appearance="outline"   
                 >
-                    <mat-label class="label-height">Other Income</mat-label>
+                    <mat-label class="">Other Income</mat-label>
                     <input
                         formControlName="otherIncome"
                         matInput
                         placeholder="Other Income"
-                        value=""
                     />
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field
-                    class="small-height-input"     
+                <mat-form-field  
+                    appearance="outline"   
                 >
                     <mat-label>Other Income Type</mat-label>
                     <input
                         formControlName="otherIncomeType"
                         matInput
                         placeholder="Other Income Type"
-                        value=""
                     />
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field 
+                appearance="outline"  
             >
-                <mat-label class="label-height">Frequency</mat-label>
+                <mat-label class="">Frequency</mat-label>
                 <input
                     formControlName="frequency"
                     matInput
                     placeholder="Frequency"
-                    value=""
                 />
             </mat-form-field>
         </div>
 
-<div class="mat-10">
+<div class="button-set">
     
         <button
                 mat-raised-button
@@ -334,4 +363,5 @@
         </mat-card-content>
     </mat-card>
 </form>
+</div>
 

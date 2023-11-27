@@ -21,6 +21,13 @@ import { NoteComponent } from './note/note.component';
 import { ApplicantComponent } from './applicant/applicant.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ApplicantTypeSelectionPopupComponent } from './applicant-type-selection-popup/applicant-type-selection-popup.component';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { AgGridListComponent } from './ag-grid-list/ag-grid-list.component';
+import { GridDeleteComponent } from './grid-delete/grid-delete.component';
+import { PinIconHooverDirective } from './directives/pin-icon-hoover.directive';
+import { CustomSidenavComponent } from './custom-sidenav/custom-sidenav.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { ApplicantViewComponent } from './applicant-view/applicant-view.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +42,13 @@ import { ApplicantTypeSelectionPopupComponent } from './applicant-type-selection
     NoteComponent,
     ApplicantComponent,
     ApplicantTypeSelectionPopupComponent,
+    DeleteDialogComponent,
+    AgGridListComponent,
+    GridDeleteComponent,
+    PinIconHooverDirective,
+    CustomSidenavComponent,
+    AnalyticsComponent,
+    ApplicantViewComponent,
   ],
   imports: [
     CommonModule,

@@ -28,6 +28,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AgGridModule } from 'ag-grid-angular';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [],
@@ -67,6 +70,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatProgressBarModule,
     MatTabsModule,
     MatFormFieldModule,
+    MatTooltipModule,
+    AgGridModule,
+    FontAwesomeModule,
   ],
 })
 export class MaterialModule {}

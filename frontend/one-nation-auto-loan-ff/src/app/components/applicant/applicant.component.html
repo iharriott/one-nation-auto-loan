@@ -1,17 +1,33 @@
+<div class="form-margin"  >
 <form [formGroup]="applicantForm" (ngSubmit)="submit()" >
-    <mat-card>
+    <mat-card class="example-card success-card">
         <mat-card-header>
-            <mat-card-title class="text">
+            <mat-card-title class="success-card-title">
                 Applicant Form
             </mat-card-title>
            
-    <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+       <mat-card-subtitle class="success-card-subtitle">{{applicant}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
             <div >
+                <br>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="pk" matInput placeholder="pk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="sk" matInput placeholder="sk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1PK" matInput placeholder="gsI1PK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1SK" matInput placeholder="gsI1SK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="documentType" matInput placeholder="documentType"  type="input">
+                </mat-form-field> 
                 <div class="row">
-                    <mat-form-field
-                    class="small-height-input"   
+                    <mat-form-field 
                     appearance="outline" 
                 >
                 <mat-label>Applicant Type</mat-label>
@@ -27,21 +43,18 @@
                </div>
                 <div class="row ">
                 <mat-form-field 
-                class="small-height-input" 
                 appearance="outline" >
                     <mat-label>First Name</mat-label>
                         <input
                             formControlName="firstName"
                             matInput
                             placeholder="FirstName"
-                            value=""
                         />
                       
                     </mat-form-field>
                 </div>
                  <div class="row">
-                    <mat-form-field
-                    class="small-height-input"  
+                    <mat-form-field 
                     appearance="outline"   
                 >
                     <mat-label >Last Name</mat-label>
@@ -49,7 +62,6 @@
                         formControlName="lastName"
                         matInput
                         placeholder="LastName"
-                        value=""
                     />
                 </mat-form-field>
             </div>
@@ -62,20 +74,17 @@
                        
                         matTooltip="Add address"
                     >
-                    Address
+                    <span  class="form-title2">Add Address </span>
                     <mat-icon
-                    class="w-6"
                     aria-hidden="false"
                     aria-label="Example home icon"
                     fontIcon="add_to_photos"
                 ></mat-icon>
-
                 </button>
                    
                     <div
                         *ngIf="isAddressExists() > 0"
                         formArrayName="address"
-                        class="mat-elevation-z2 form-group"
                     >
                         <div
                             *ngFor="
@@ -84,9 +93,8 @@
                             "
                             [formGroupName]="i"
                         >
-                            <div class="container">
+                            <div class="">
                                 <div>
-                                    <legend class="w-10 w-5">Address {{ i + 1 }}</legend>
                                 </div>
                                 <div>
                                     <button
@@ -94,16 +102,19 @@
                                     mat-icon-button
                                         color="accent"
                                         (click)="removeAddress(i)"
+                                        matTooltip= "Delete Address"  
+                                        matTooltipPosition="below"
                                     >
+                                    <span class="form-title">Address {{ i + 1 }}</span>
                                     <mat-icon>delete</mat-icon>
                                     </button>
                                 </div>
                             </div>
+                            <br>
     
                             <!-- <div class="row"> -->
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"  
                                         appearance="outline" 
                                     >
                                         <mat-label>Street</mat-label>
@@ -111,13 +122,11 @@
                                             formControlName="street"
                                             matInput
                                             placeholder="Street"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
-                                    <mat-form-field
-                                        class="small-height-input"  
+                                    <mat-form-field 
                                         appearance="outline"       
                                     >
                                         <mat-label>City</mat-label>
@@ -125,27 +134,23 @@
                                             formControlName="city"
                                             matInput
                                             placeholder="City"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"
                                         appearance="outline"     
                                     >
-                                        <mat-label class="label-height">Province</mat-label>
+                                        <mat-label>Province</mat-label>
                                         <input
                                             formControlName="province"
                                             matInput
                                             placeholder="Province"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input" 
                                         appearance="outline"     
                                     >
                                         <mat-label>Country</mat-label>
@@ -153,14 +158,12 @@
                                             formControlName="country"
                                             matInput
                                             placeholder="Country"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
 
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input" 
                                         appearance="outline"     
                                     >
                                         <mat-label>Postal Code</mat-label>
@@ -168,14 +171,12 @@
                                             formControlName="postalCode"
                                             matInput
                                             placeholder="Postal Code"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
 
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input" 
                                         appearance="outline"     
                                     >
                                         <mat-label>Residence Years</mat-label>
@@ -183,13 +184,11 @@
                                             formControlName="residenceYears"
                                             matInput
                                             placeholder="ResidenceYears"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
                                 <div class="row">
                                     <mat-form-field
-                                        class="small-height-input"
                                         appearance="outline"      
                                     >
                                         <mat-label>Residence Months</mat-label>
@@ -197,7 +196,6 @@
                                             formControlName="residenceMonths"
                                             matInput
                                             placeholder="ResidenceMonths"
-                                            value=""
                                         />
                                     </mat-form-field>
                                 </div>
@@ -207,40 +205,36 @@
                 <!-- </div> -->
                 <br>
                 <div class="row">
-                    <mat-form-field
-                    class="small-height-input"  
+                    <mat-form-field  
                     appearance="outline"   
                 >
-                    <mat-label class="label-height">Phone</mat-label>
+                    <mat-label class="">Phone</mat-label>
                     <input
                         formControlName="phone"
                         matInput
                         placeholder="Phone"
-                        value=""
+                        
                     />
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"  
+                <mat-form-field 
                 appearance="outline"   
             >
-                <mat-label class="label-height">Email</mat-label>
+                <mat-label>Email</mat-label>
                 <input
                     formControlName="email"
                     matInput
                     placeholder="Email"
-                    value=""
                 />
             </mat-form-field>
         </div>
 
         <div class="row">
             <mat-form-field
-            class="small-height-input"  
             appearance="outline"   
         >
-            <mat-label class="label-height">SIN</mat-label>
+            <mat-label>SIN</mat-label>
             <input
                 formControlName="sin"
                 matInput
@@ -251,7 +245,7 @@
        </div>
 
        <div class="row">
-        <mat-form-field class="small-height-input"  appearance="outline" >
+        <mat-form-field  appearance="outline" >
             <mat-label>DOB</mat-label>
             <input matInput [matDatepicker]="picker"
             formControlName ="dob"
@@ -264,7 +258,6 @@
 
          <div class="row">  
             <mat-form-field
-            class="small-height-input" 
             appearance="outline"    
         >
         <mat-label>Marital Status</mat-label>
@@ -291,7 +284,6 @@
 
    <div class="row">
     <mat-form-field
-    class="small-height-input"  
     appearance="outline"   
 >
     <mat-label>Credit Score</mat-label>
@@ -306,7 +298,6 @@
 
 <div class="row">
     <mat-form-field
-    class="small-height-input" 
     appearance="outline"    
 >
 <mat-label>Status</mat-label>
@@ -323,7 +314,6 @@
 
 <div class="row">
     <mat-form-field
-    class="small-height-input" 
     appearance="outline"    
 >
 <mat-label>Deal Status</mat-label>
@@ -340,7 +330,6 @@
 
 <div class="row">
     <mat-form-field
-    class="small-height-input" 
     appearance="outline"    
 >
     <mat-label >Referral Code</mat-label>
@@ -348,23 +337,23 @@
         formControlName="referralCode"
         matInput
         placeholder="Referral Code"
-        value=""
     />
 </mat-form-field >
 </div>
 
-<div class="row small-height-input">  
-    <mat-label class="m-20">Temp Dealer</mat-label> 
+<div >  
+    <mat-label class="m-20">Assigned Dealer</mat-label> 
 <ng-multiselect-dropdown
 [settings]="dropdownSettings"
 [data]="dropdownList"
-formControlName="tempDealerId">
+formControlName="tempDealerId"
+>
+
 </ng-multiselect-dropdown>
 </div>
 <br>
 <div class="row">
-    <mat-form-field
-    class="small-height-input"  
+    <mat-form-field 
     appearance="outline"   
 >
     <mat-label >Sales</mat-label>
@@ -372,14 +361,12 @@ formControlName="tempDealerId">
         formControlName="sales"
         matInput
         placeholder="Sales"
-        value=""
     />
 </mat-form-field >
 </div>
 
 <div class="row">
     <mat-form-field
-    class="small-height-input"
     appearance="outline"     
 >
     <mat-label >Finance</mat-label>
@@ -387,14 +374,12 @@ formControlName="tempDealerId">
         formControlName="finance"
         matInput
         placeholder="Finance"
-        value=""
     />
 </mat-form-field >
 </div>
 
 <div class="row">
     <mat-form-field
-    class="small-height-input"
     appearance="outline"     
 >
     <mat-label >Gross</mat-label>
@@ -402,12 +387,11 @@ formControlName="tempDealerId">
         formControlName="gross"
         matInput
         placeholder="Gross"
-        value=""
     />
 </mat-form-field >
 </div>
 
-<div class="mat-10">   
+<div class="button-set">   
         <button
                 mat-raised-button
                 color="primary"
@@ -443,4 +427,5 @@ formControlName="tempDealerId">
         </mat-card-content>
     </mat-card>
 </form>
+</div>
 

@@ -1,13 +1,45 @@
+<div class="form-margin">
 <form [formGroup]="noteForm" (ngSubmit)="submit()">
-    <mat-card>
+    <mat-card class="example-card success-card">
         <mat-card-header>
-            <mat-card-title class="text">
+          <mat-card-title-group>
+            <mat-card-title class="success-card-title">Note Form</mat-card-title>
+            <!-- <mat-card-subtitle class="success-card-subtitle">mat-sm-card-image</mat-card-subtitle> -->
+            <!-- <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" > -->
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="success-card-content2">
+         <b>Name:</b> {{applicant}} <br>
+         <b>Email:</b>  {{applicantEmail}} <br>
+         <b>Phone:</b> {{applicantPhone}} <br>
+         <b>Address:</b> {{applicantAddress}} <br>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    <mat-card class="example-card success-card">
+        <mat-card-header>
+            <!-- <mat-card-title class="text">
                 Note Form
             </mat-card-title>
-            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>
-            <div class="row ">
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="pk" matInput placeholder="pk"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="sk" matInput placeholder="sk"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="gsI1PK" matInput placeholder="gsI1PK"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="gsI1SK" matInput placeholder="gsI1SK"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="documentType" matInput placeholder="documentType"  type="input">
+            </mat-form-field> 
+            <!-- <div class="row ">
                 <mat-form-field class="m-20" >   
                     <mat-label>Note</mat-label>
                     <textarea rows="10" cols="40"  formControlName="note"
@@ -16,8 +48,65 @@
                     value=""></textarea>
                 </mat-form-field>
                           
-                </div>
-                <div class="mat-10">   
+                </div> -->
+                <button
+                type="button"
+                 mat-icon-button
+                    color="primary"
+                    (click)="addNote()"
+                   
+                    matTooltip="Add Note"
+                    matTooltipPosition="right"
+                >
+                <span  class="form-title2">Add Note </span>
+                <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="add_to_photos"
+            ></mat-icon>
+
+            </button>
+                <div
+                        *ngIf="isNoteExists() > 0"
+                        formArrayName="notes"
+                    >
+                        <div
+                            *ngFor="
+                                let entity of getAllNote()?.controls;
+                                let i = index
+                            "
+                            [formGroupName]="i"
+                        >
+                            <div class="">
+                                <div>
+                                    <!-- <legend class="w-10 w-5">Note {{ i + 1 }}</legend> -->
+                                </div>
+                                <div>
+                                    <button
+                                    type="button"
+                                    matTooltip= "Delete Note"  
+                                    matTooltipPosition="below"
+                                    mat-icon-button
+                                        color="accent"
+                                        (click)="removeNote(i)"
+                                    >
+                                    <span class="form-title">Note {{ i + 1 }}</span>
+                                    <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+                          
+                            <mat-form-field class="text-input" appearance="outline">   
+                                <mat-label>Note</mat-label>
+                                <textarea rows="5" cols="10"   formControlName="noteText"
+                                matInput
+                                placeholder="Note"
+                               ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                <div class="button-set">   
                     <button
                             mat-raised-button
                             color="primary"
@@ -46,9 +135,8 @@
                 >
                     Close
                 </button>      
-                </div>
-                
-           
+                </div>       
        </mat-card-content>        
     </mat-card>
 </form>
+</div>

@@ -14,10 +14,10 @@
                     <mat-card-subtitle>Add Applicant</mat-card-subtitle>
                     <mat-card-content>
                         <p>
-                            This enables the adding of Applicants
+                            This enables the adding and editing of Applicants
                         </p>
-                        <button mat-button color="primary" (click)="addNewFile()">
-                           Add Applicant
+                        <button mat-button color="primary" (click)="applicantList()">
+                           Add/Edit Applicant
                         </button>
                     </mat-card-content>
                 </mat-card>
@@ -33,13 +33,13 @@
                         fontIcon="edit"
                     ></mat-icon
                 ></mat-card-title>
-                <mat-card-subtitle>Edit Applicants</mat-card-subtitle>
+                <mat-card-subtitle>AG Grid Analytics</mat-card-subtitle>
                 <mat-card-content>
                     <p>
-                        This enables the creation and editing of applicants
+                        This allows analytics of applicants
                     </p>
-                    <button mat-button color="primary" (click)="editFileList()">
-                        Edit Applicant
+                    <button mat-button color="primary" (click)="aggridList()">
+                        Analytics
                     </button>
                 </mat-card-content>
             </mat-card>

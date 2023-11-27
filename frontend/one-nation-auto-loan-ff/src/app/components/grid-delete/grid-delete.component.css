@@ -1,0 +1,66 @@
+.my-header-class .ag-header-cell-label {
+    justify-content: center !important;
+    font-size: 10px !important;
+}
+
+.ag-row .ag-cell {
+  display: flex;
+  justify-content: center !important; /* align horizontal */
+  align-items: center !important;
+}
+
+.cell-vertical-align-text-left {
+  /* display: flex!important; */
+  justify-content: center !important;
+  align-items: center;
+  margin-bottom: 20px !important;
+}
+
+.cell-vertical-align-text-right {
+  display: flex!important;
+  flex-direction: row-reverse;
+  text-align: right!important;
+  align-items: center;
+}
+
+.align-buttons {
+  display: flex;
+  align-items: flex-start;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container2 { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 0px; 
+  margin-right: 1px;
+} 
+
+.mat-mdc-icon-button .mat-mdc-button-touch-target {
+  position: absolute;
+  top: 50%;
+  height: 48px;
+  left: 50%;
+  width: 30px !important;
+  transform: translate(-50%, -50%);
+  padding-right: 0px !important;
+}
+
+.icon-size {
+  font-size: 15px;
+  height: 15px;
+  width: 15px;
+  padding: 0px;
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+  width: 20px !important;
+  height: 20px !important;
+  padding: 10px 7px !important;
+}
+
+   

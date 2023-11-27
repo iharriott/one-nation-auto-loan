@@ -23,6 +23,8 @@ export interface Applicant {
   gross: number;
   display: boolean;
   createdBy: string;
+  pinStatus: string;
+  accessedDate: Date;
   assignedDate: Date;
   completedDate: Date;
   createdDate: Date;

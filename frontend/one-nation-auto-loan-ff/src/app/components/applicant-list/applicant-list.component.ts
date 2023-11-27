@@ -21,6 +21,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { CommonConstants } from 'src/app/constants/common-constants';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-applicant-list',
@@ -33,35 +34,47 @@ export class ApplicantListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
   tableData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  backUrl: string = 'revision';
-  showCheckbox = true;
+  backUrl: string = 'dashboard';
+  showCheckbox = false;
   isapplicantExists = false;
+  isEditMode = false;
   constructor(
     private apiService: ApiService,
     public dataService: DataService,
     private router: Router,
     private route: ActivatedRoute,
-    // public dialogRef: MatDialogRef<FileSelectionPopupComponent>,
+    public dialogRef: MatDialogRef<DeleteDialogComponent>,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dialogData: string
   ) {
     this.dataSource = new MatTableDataSource();
   }
   ngOnInit(): void {
+    //debugger;
     // this.dataService.applicantExist$.subscribe((data) => {
     //   this.isapplicantExists = data;
     // });
 
-    this.getListData();
-    this.isapplicantExists =
-      this.dataService.primaryApplicant == null ? false : true;
+    this.dataService.getNewListData();
+    this.dataService.applicantExist$.subscribe({
+      next: (data) => {
+        this.isapplicantExists = data;
+      },
+      error: console.log,
+    });
+    //this.dataService.primaryApplicant == null ? false : true;
+    this.dataService.editMode$.subscribe({
+      next: (data) => {
+        this.isEditMode = data;
+      },
+    });
   }
 
   columnHeadings!: string[];
   action: string = 'idAction001';
   view!: string;
   dataLoaded = false;
-  checkBoxLabel!: string;
+  checkBoxLabel: string = 'Hide';
   buttonLabel!: string;
   navigatedRoute!: string;
   fontIcon!: string;
@@ -102,34 +115,6 @@ export class ApplicantListComponent implements OnInit {
 
   loadData(row: any) {}
 
-  getListData() {
-    this.apiService.getAllApplicant().subscribe({
-      next: (result) => {
-        this.data = result.map((res) => {
-          return {
-            pk: res.pk,
-            sk: res.sk,
-            gsI1PK: res.gsI1PK,
-            gsI1SK: res.gsI1SK,
-            fullName: `${res.firstName} ${res.lastName}`,
-            city: res.address[0].city,
-            province: res.address[0].province,
-            phone: res.phone,
-            creditScore: res.creditScore,
-            assigned: res.tempDealerId[0].item,
-            verifiedStatus: res.status,
-            dealStatus: res.dealStatus,
-            dateCompleted: res.completedDate,
-            dateAssigned: res.assignedDate,
-          };
-        });
-        this.tableData$.next(this.data);
-        console.log(`List data ${JSON.stringify(this.data)}`);
-      },
-      error: console.log,
-    });
-  }
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -143,6 +128,40 @@ export class ApplicantListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.determineTemplate();
+  }
+
+  deleteRow(row: any) {
+    // debugger;
+    let dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      enterAnimationDuration: 0,
+      exitAnimationDuration: 0,
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      console.log(data);
+      if (data == 'delete') {
+        const { pk, sk } = row;
+        this.dataService.applicantPk = pk;
+        this.dataService.applicantSk = sk;
+        this.apiService.deleteApplicant(sk, pk).subscribe({
+          next: (data) => {
+            this.dataService.openSackBar('Applicant Deleted', 'OK');
+            this.dataService.getNewListData();
+          },
+          error: console.log,
+        });
+      }
+    });
+  }
+
+  editRow(row: any) {
+    const { pk, sk } = row;
+    this.dataService.applicantPk = pk;
+    this.dataService.applicantSk = sk;
+    this.setTemplate('applicant');
+    this.dataService.primaryApplicant = row;
+    this.dataService.editMode$.next(true);
   }
 
   onChange(row: any) {}
@@ -175,11 +194,33 @@ export class ApplicantListComponent implements OnInit {
   }
 
   setTemplate(val: string) {
-    // if (val == 'applicant') {
-    //   this.dataService.isapplicantExists = true;
-    // }
+    debugger;
+    //this.dataService.editMode$.next(true);
+    //this.dataService.applicantExist$.next(false);
     this.selectedUI = val;
     this.utility = CommonConstants.listOfUI[this.selectedUI];
     this.determineTemplate();
+  }
+
+  hideApplicant(data: any) {
+    debugger;
+    const user = this.dataService.getLoggedInUser();
+    const { pk, sk } = data;
+    const currentApplicant = { pk, sk };
+    this.dataService.updateAttribute(currentApplicant, user, 'HIDE');
+    this.dataService.getNewListData();
+    this.dialogData = 'Applicant Successfully Hidden';
+    this.dataService.openSackBar(this.dialogData, 'ok');
+  }
+
+  openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): any {
+    return this.dialog.open(DeleteDialogComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
   }
 }

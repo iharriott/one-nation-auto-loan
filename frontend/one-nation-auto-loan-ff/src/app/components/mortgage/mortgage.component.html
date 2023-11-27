@@ -1,18 +1,50 @@
+<div class="form-margin">
 <form [formGroup]="mortgageForm" (ngSubmit)="submit()">
-    <mat-card>
+    <mat-card class="example-card success-card">
         <mat-card-header>
-            <mat-card-title class="text">
+          <mat-card-title-group>
+            <mat-card-title class="success-card-title">Mortgage Form</mat-card-title>
+            <!-- <mat-card-subtitle class="success-card-subtitle">mat-sm-card-image</mat-card-subtitle> -->
+            <!-- <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" > -->
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="success-card-content2">
+         <b>Name:</b> {{applicant}} <br>
+         <b>Email:</b>  {{applicantEmail}} <br>
+         <b>Phone:</b> {{applicantPhone}} <br>
+         <b>Address:</b> {{applicantAddress}} <br>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    <mat-card class="example-card success-card">
+        <mat-card-header>
+            <!-- <mat-card-title class="text">
                 Mortgage Form
             </mat-card-title>
-            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle>
+            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="pk" matInput placeholder="pk"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="sk" matInput placeholder="sk"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="gsI1PK" matInput placeholder="gsI1PK"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="gsI1SK" matInput placeholder="gsI1SK"  type="input">
+            </mat-form-field>
+            <mat-form-field [hidden]="true" class="small-height-input">
+                <input formControlName="documentType" matInput placeholder="documentType"  type="input">
+            </mat-form-field> 
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field   
+                appearance="outline"
             >
             <mat-label>Mortgage Type</mat-label>
-            <mat-select formControlName="mortgageType">
+            <mat-select  formControlName="mortgageType">
                 <mat-option
                     *ngFor="let mtype of mortgageType"
                     [value]="mtype.viewValue"
@@ -23,11 +55,11 @@
             </mat-form-field >
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field  
+                appearance="outline" 
             >
             <mat-label>Mortgage Holder</mat-label>
-            <mat-select formControlName="mortgageHolder">
+            <mat-select  formControlName="mortgageHolder">
                 <mat-option
                     *ngFor="let mhold of mortgageHolder"
                     [value]="mhold.viewValue"
@@ -38,11 +70,11 @@
             </mat-form-field >
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field 
+                appearance="outline"  
             >
             <mat-label>Mortgage Status</mat-label>
-            <mat-select formControlName="status">
+            <mat-select  formControlName="status">
                 <mat-option
                     *ngFor="let mstat of mortgageStatus"
                     [value]="mstat.viewValue"
@@ -53,21 +85,20 @@
             </mat-form-field >
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field 
+                appearance="outline"   
             >
                 <mat-label >Mortgage Payment</mat-label>
                 <input
                     formControlName="mortgagePayment"
                     matInput
                     placeholder="Mortgage Payment"
-                    value=""
                 />
             </mat-form-field >
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field   
+                appearance="outline"
             >
                 <mat-label >Mortgage Amount</mat-label>
                 <input
@@ -79,8 +110,8 @@
             </mat-form-field >
             </div>
             <div class="row">
-                <mat-form-field
-                class="small-height-input"    
+                <mat-form-field 
+                appearance="outline"  
             >
                 <mat-label >Market Value</mat-label>
                 <input
@@ -92,7 +123,7 @@
             </mat-form-field >
             </div>
           
-                <div class="mat-10">   
+                <div class="button-set">   
                     <button
                             mat-raised-button
                             color="primary"
@@ -127,4 +158,5 @@
        </mat-card-content>        
     </mat-card>
 </form>
+</div>
 

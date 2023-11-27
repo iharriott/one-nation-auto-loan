@@ -30,6 +30,9 @@ export class GenericGridComponent {
   @Output() linkClicked = new EventEmitter<any>();
   @Output() checkboxClicked = new EventEmitter<any>();
   @Output() fileHistoryLinkClicked = new EventEmitter<any>();
+  @Output() hideButtonClicked = new EventEmitter<any>();
+  @Output() editButtonClicked = new EventEmitter<any>();
+  @Output() deleteButtonClicked = new EventEmitter<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private router: Router) {
@@ -70,6 +73,18 @@ export class GenericGridComponent {
 
   navigateToDetail(data: any) {
     this.linkClicked.emit(data);
+  }
+
+  deleteRow(data: any) {
+    this.deleteButtonClicked.emit(data);
+  }
+
+  hideRow(data: any) {
+    this.hideButtonClicked.emit(data);
+  }
+
+  editRow(data: any) {
+    this.editButtonClicked.emit(data);
   }
 
   onClick(state: any, data: any) {

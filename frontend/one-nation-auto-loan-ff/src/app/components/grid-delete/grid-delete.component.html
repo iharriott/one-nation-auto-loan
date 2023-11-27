@@ -1,0 +1,41 @@
+<div class ="" >
+     
+    <button class="" *ngIf="isDisplay =='active'"  mat-icon-button matTooltip= 
+    "Hide Applicant"
+        matTooltipPosition="left" color="warn" (click)="hideRow()">
+        <mat-icon   class="inline-icon"  >archive</mat-icon>
+    </button>
+
+    <button *ngIf="isDisplay =='inactive'" mat-icon-button matTooltip= 
+    "UnHide Applicant"
+        matTooltipPosition="left" color="warn" (click)="hideRow()">
+        <mat-icon   class="inline-icon">unarchive</mat-icon>
+    </button>
+
+    <button  mat-icon-button matTooltip= 
+    "Delete Applicant"
+        matTooltipPosition="left" color="warn" (click)="hideRow()">
+        <mat-icon   class="inline-icon">delete_forever</mat-icon>
+    </button>
+  
+   <div *ngIf="isPinned"  [ngClass]="isPinned ? 'icon-pin-filled cursor-pointer': 'icon-pin-outlined cursor-pointer'" (click)="onPinItem()" matTooltip= 
+   "Unpin Applicant"
+       matTooltipPosition="left">{{isPinned}}</div>
+   <div *ngIf="!isPinned" appPinIconHoover [mouseEnter]="'icon-pin-filled cursor-pointer'" [mouseLeave]="'icon-pin-outlined cursor-pointer'"  [ngClass]="isPinned ? 'icon-pin-filled cursor-pointer': 'icon-pin-outlined cursor-pointer'"  (click)="onPinItem()" matTooltip= 
+   "Pin Applicant"
+       matTooltipPosition="left"> {{isPinned}}
+    </div>
+    <!-- <div> -->
+        <button  mat-icon-button matTooltip= 
+         "Edit Applicant"
+        matTooltipPosition="left" color="primary" (click)="editRow()">
+        <mat-icon   class="inline-icon">edit</mat-icon>
+    </button>
+    <button  mat-icon-button matTooltip= 
+    "View Details"
+   matTooltipPosition="left" color="primary" (click)="setViewTemplate()">
+   <mat-icon   class="inline-icon">visibility</mat-icon>
+</button>
+    <!-- </div> -->
+       <!-- <button (click)="edit($event)" mat-icon-button coler="accent"><i class="fa fa-pencil"></i></button> -->
+</div>

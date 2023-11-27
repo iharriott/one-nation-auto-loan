@@ -7,12 +7,17 @@ import { CommonConstants } from '../constants/common-constants';
 import { User } from '../interfaces/user';
 import { Applicant } from '../interfaces/applicant';
 import { Employment } from '../interfaces/employment';
+import { Pinitem } from '../interfaces/pinitem';
+import { PinnedApplicant } from '../interfaces/pinnedApplicants';
+import { SearchParams } from '../interfaces/searchParams';
+import { Note } from '../interfaces/note';
+import { Mortgage } from '../interfaces/mortgage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient, private dataService: DataService) {}
+  constructor(private http: HttpClient) {}
   endpoint!: string;
   baseUrl = environment.userApiEndpoint;
   register(data: any): Observable<any> {
@@ -39,6 +44,76 @@ export class ApiService {
     return this.http.post<Applicant>(this.endpoint, data);
   }
 
+  updateApplicant(
+    data: any,
+    userId: string,
+    orgId: string,
+    id: string
+  ): Observable<Applicant> {
+    //debugger;
+    console.log(data);
+    const apiAction = 'applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?orgId=${orgId}&userId=${userId}`;
+    console.log(this.endpoint);
+    return this.http.put<Applicant>(this.endpoint, data);
+  }
+
+  updateNote(
+    data: any,
+    userId: string,
+    appId: string,
+    id: string
+  ): Observable<Note> {
+    //debugger;
+    console.log(data);
+    const apiAction = 'note';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?appId=${appId}&userId=${userId}`;
+    console.log(this.endpoint);
+    return this.http.put<Note>(this.endpoint, data);
+  }
+
+  updateEmployment(
+    data: any,
+    userId: string,
+    appId: string,
+    id: string
+  ): Observable<Employment> {
+    console.log(data);
+    const apiAction = 'employment';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?appId=${appId}&userId=${userId}`;
+    console.log(this.endpoint);
+    return this.http.put<Employment>(this.endpoint, data);
+  }
+
+  updateMortgage(
+    data: any,
+    userId: string,
+    appId: string,
+    id: string
+  ): Observable<Mortgage> {
+    console.log(`mortgage update ${JSON.stringify(data)}`);
+    debugger;
+    const apiAction = 'mortgage';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?appId=${appId}&userId=${userId}`;
+    console.log(this.endpoint);
+    return this.http.put<Mortgage>(this.endpoint, data);
+  }
+
+  deleteApplicant(id: string, orgId: string): Observable<any> {
+    const apiAction = 'applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}`;
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?orgId=${orgId}`;
+    return this.http.delete<any>(this.endpoint);
+  }
+
+  updateApplicantAttribute(requestBody: any): Observable<any> {
+    const apiAction = 'applicant/updateattribute';
+    this.endpoint = `${this.baseUrl}/${apiAction}`;
+    console.log(this.endpoint);
+    console.log(`body ${JSON.stringify(requestBody)}`);
+    return this.http.put<any>(this.endpoint, requestBody);
+  }
+
   getAllApplicant(): Observable<Applicant[]> {
     const apiAction = 'applicant/all';
     this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
@@ -46,37 +121,54 @@ export class ApiService {
     return this.http.get<Applicant[]>(this.endpoint);
   }
 
-  createEmployment(data: any, user: User): Observable<Employment> {
+  getAllNewApplicant(): Observable<Applicant[]> {
+    const apiAction = 'applicant/new';
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+    console.log(this.endpoint);
+    return this.http.get<Applicant[]>(this.endpoint);
+  }
+
+  searchApplicant(searchParams: SearchParams): Observable<Applicant[]> {
+    const apiAction = 'applicant/search';
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+    console.log(this.endpoint);
+    return this.http.post<Applicant[]>(this.endpoint, searchParams);
+  }
+
+  getApplicantById(id: string, orgId: string): Observable<Applicant> {
+    const apiAction = 'applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?orgId=${orgId}`;
+    console.log(this.endpoint);
+    return this.http.get<Applicant>(this.endpoint);
+  }
+
+  createEmployment(
+    data: any,
+    user: string,
+    appId: string
+  ): Observable<Employment> {
     console.log(data);
     const apiAction = 'employment';
-    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}&userId=${user.sk}`;
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}&userId=${user}&appId=${appId}`;
     console.log(this.endpoint);
     return this.http.post<Employment>(this.endpoint, data);
   }
 
-  test(data: string): Observable<any> {
+  createNote(data: any, user: string, appId: string): Observable<Note> {
+    //debugger;
     console.log(data);
-    const baseUrl = environment.testendpoint;
-    const apiAction = 'calculator';
-    const apiAction2 = 'add';
-    const val1 = 5;
-    const val2 = 20;
-    //this.endpoint = `${baseUrl}/${apiAction}?userId=c8a5bcd5-5aba-4227-9457-7158e1e66111`;
-    //this.endpoint = `${baseUrl}`;
-    this.endpoint = `${baseUrl}/${apiAction}/${apiAction2}/${val1}/${val2}`;
+    const apiAction = 'note';
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}&userId=${user}&appId=${appId}`;
     console.log(this.endpoint);
-    return this.http.get(this.endpoint);
+    return this.http.post<Note>(this.endpoint, data);
   }
 
-  testPost(data: any): Observable<any> {
-    // data = { ...data, Id: 'c8a5bcd5-5aba-4227-9457-7158e1e66678' };
-    //data = { Id: 1, FirstName: 'Ian', LastName: 'Harriott' };
+  createMortgage(data: any, user: string, appId: string): Observable<Mortgage> {
     console.log(data);
-    const baseUrl = environment.testendpoint;
-    const apiAction = 'user';
-    this.endpoint = `${baseUrl}/${apiAction}?orgId=bmw`;
+    const apiAction = 'mortgage';
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}&userId=${user}&appId=${appId}`;
     console.log(this.endpoint);
-    return this.http.post(this.endpoint, data);
+    return this.http.post<Mortgage>(this.endpoint, data);
   }
 
   getOrganization(): Observable<any> {
@@ -84,5 +176,54 @@ export class ApiService {
     const apiAction = 'organization';
     this.endpoint = `${baseUrl}/${apiAction}`;
     return this.http.get(this.endpoint);
+  }
+
+  getUserPinnedItems(userId: string): Observable<Pinitem[]> {
+    const apiAction = 'pinitem/all';
+    this.endpoint = `${this.baseUrl}/${apiAction}/?userId=${userId}`;
+    return this.http.get<Pinitem[]>(this.endpoint);
+  }
+
+  getCurrentEmployment(appId: string): Observable<Employment> {
+    const apiAction = 'employment/applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${appId}`;
+    return this.http.get<Employment>(this.endpoint);
+  }
+
+  getCurrentNote(appId: string): Observable<Note> {
+    const apiAction = 'note/applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${appId}`;
+    return this.http.get<Note>(this.endpoint);
+  }
+
+  getCurrentMortgage(appId: string): Observable<Mortgage> {
+    const apiAction = 'mortgage/applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${appId}`;
+    return this.http.get<Mortgage>(this.endpoint);
+  }
+
+  getRecentlyAccessedItems(
+    userId: string,
+    orgId: string
+  ): Observable<PinnedApplicant[]> {
+    const apiAction = 'pinitem/recentlyaccessed';
+    this.endpoint = `${this.baseUrl}/${apiAction}/?userId=${userId}&orgId=${orgId}`;
+    return this.http.get<PinnedApplicant[]>(this.endpoint);
+  }
+
+  createPinnedApplicant(data: any): Observable<Pinitem> {
+    console.log(data);
+    const apiAction = 'pinitem';
+    this.endpoint = `${this.baseUrl}/${apiAction}`;
+    console.log(this.endpoint);
+    return this.http.post<Pinitem>(this.endpoint, data);
+  }
+
+  updatePinnedApplicant(data: Pinitem): Observable<Pinitem> {
+    console.log(data);
+    const apiAction = 'pinitem';
+    this.endpoint = `${this.baseUrl}/${apiAction}`;
+    console.log(this.endpoint);
+    return this.http.put<Pinitem>(this.endpoint, data);
   }
 }

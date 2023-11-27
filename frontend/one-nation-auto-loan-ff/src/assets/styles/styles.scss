@@ -1,0 +1,163 @@
+@use "@angular/material" as mat;
+@include mat.core();
+
+$my-primary: mat.define-palette(mat.$red-palette, 600);
+$my-accent: mat.define-palette(mat.$amber-palette, A200, A100,A400);
+$my-warn: mat.define-palette(mat.$green-palette, A200, A100,A400);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+  )
+);
+
+@include mat.all-component-themes($my-theme);
+
+$text-surface-900: #333333;
+$grid_system: 8px;
+$default-grid: 8px;
+
+$grid_1x: $grid_system;
+$grid_2x: $grid_system * 2;
+$grid_3x: $grid_system * 3;
+$grid_4x: $grid_system * 4;
+$grid_5x: $grid_system * 5;
+$grid_6x: $grid_system * 6;
+$grid_7x: $grid_system * 7;
+$grid_8x: $grid_system * 8;
+$grid_9x: $grid_system * 9;
+$grid_10x: $grid_system * 10;
+$grid_11x: $grid_system * 11;
+$grid_12x: $grid_system * 12;
+$grid_13x: $grid_system * 13;
+$grid_14x: $grid_system * 14;
+$grid_15x: $grid_system * 15;
+$grid_16x: $grid_system * 16;
+$grid_17x: $grid_system * 17;
+$grid_18x: $grid_system * 18;
+$grid_19x: $grid_system * 19;
+$grid_20x: $grid_system * 20;
+$grid_21x: $grid_system * 21;
+$grid_23x: $grid_system * 23;
+$grid_30x: $grid_system * 30;
+$grid_31x: $grid_system * 31;
+$grid_35x: $grid_system * 35;
+$grid_43x: $grid_system * 43;
+$grid_50x: $grid_system * 50;
+$dark-grey: #8a8a8a;
+$text-surface-600: #8a8a8a;
+
+@import "./icons";
+
+
+// $icon-pin-filled: "pin-filled.svg";
+// $icon-pin-outlined:"pin-outlined.svg";
+
+
+@mixin icon-placeholder($icon) {
+    width: 24px;
+    height: 24px;
+    float: left;
+    background-size: 100%;
+    background-image: url($icon);
+    background-repeat: no-repeat;
+  }
+  
+  @mixin icon-color-placeholder($icon) {
+    width: 24px;
+    height: 24px;
+    float: left;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    -webkit-mask-image: url($icon);
+    mask-image: url($icon);
+    -webkit-mask-size: 100%;
+  }
+
+  .icon-pin-filled,
+  .icon-pin-outlined
+   {
+    background: $text-surface-900;
+  }  
+
+  .icon-pin-filled {
+    float: left;
+    @include icon-color-placeholder($icon-pin-filled);
+  }
+  
+  .icon-pin-outlined {
+    float: left;
+    @include icon-color-placeholder($icon-pin-outlined);
+  }
+
+  .icon-size-16 {
+    width: 16px !important;
+    height: 16px !important;
+    margin: 2px 8px 2px 0 !important;
+    box-sizing: border-box;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .search-icon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    float: left;
+    font-size: 18px;
+    margin: 8px;
+  }
+  
+  .search-icon .search-img {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    left: 8px;
+    color: $text-surface-600;
+    transition: 0.3s;
+  }
+  
+  
+  .search-box {
+        border-bottom: 1px solid $dark-grey;
+        margin: 8px 8px 0 16px;
+        width: 250px;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: $grid_1x;
+        .search-control {
+          padding-left: 0;
+          border-radius: 0;
+          box-shadow: none;
+          border: 0;
+        }
+        .search-bar-icon {
+          margin-top: ($grid_1x - 3);
+          width: ($grid_2x + 4);
+          height: ($grid_2x + 4);
+        }
+      }
+
+      .close-icon {
+        width: 10%;
+        float: right;
+        margin-top: ($default-grid - 1);
+        cursor: pointer;
+      }
+
+      .account-row-setter {
+        width: 100%;
+        float: left;
+        padding: 0 24px 0 32px;
+        box-sizing: border-box;
+        position: relative;
+      }
+  

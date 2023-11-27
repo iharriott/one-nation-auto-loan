@@ -1,7 +1,17 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { CommonConstants } from 'src/app/constants/common-constants';
+import { Employment } from 'src/app/interfaces/employment';
+import { EmploymentDetails } from 'src/app/interfaces/employmentDetails';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -10,7 +20,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './employment.component.html',
   styleUrls: ['./employment.component.css'],
 })
-export class EmploymentComponent implements OnInit {
+export class EmploymentComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
@@ -25,23 +35,58 @@ export class EmploymentComponent implements OnInit {
   empStatus = CommonConstants.empStatus;
   empType = CommonConstants.empType;
   applicant = '';
+  applicantPhone: string | undefined;
+  applicantAddress: string | undefined;
+  applicantEmail: string | undefined;
+  private addEmploymentSubscription?: Subscription;
 
   ngOnInit(): void {
     this.employmentForm = this.fb.group({
+      pk: [''],
+      sk: [''],
+      gsI1PK: [''],
+      gsI1SK: [''],
+      documentType: [''],
       occupation: [''],
       otherIncome: [''],
       otherIncomeType: [''],
       frequency: [''],
       status: [''],
-      employment: this.fb.array([]),
+      employmentList: this.fb.array([]),
     });
-    this.applicant = `${this.dataService.primaryApplicant?.firstName} ${this.dataService.primaryApplicant?.lastName}`;
+
+    //debugger;
+    if (!this.dataService.isEditModeEmployment()) {
+      this.addEmployment();
+    }
+
+    if (this.dataService?.primaryApplicant !== null) {
+      const { fullName } = this.dataService.primaryApplicant;
+      this.applicant = fullName;
+      this.applicantPhone = this.dataService.currentApplicant?.phone;
+      this.applicantEmail = this.dataService.currentApplicant?.email;
+      this.applicantAddress = `${this.dataService.currentApplicant?.address[0].street} 
+       ${this.dataService.currentApplicant?.address[0].city} 
+       ${this.dataService.currentApplicant?.address[0].province} 
+       ${this.dataService.currentApplicant?.address[0].postalCode} ${this.dataService.currentApplicant?.address[0].country}`;
+    }
+
+    if (this.dataService.isEditModeEmployment()) {
+      if (this.dataService.currentEmployment != undefined) {
+        const { employmentList, ...otherFormdata } =
+          this.dataService.currentEmployment;
+        this.employmentForm.patchValue(otherFormdata);
+        if (employmentList?.length > 0) {
+          this.setEmploymentDetails(employmentList);
+        }
+      }
+    }
   }
 
   employmentFormGroup(): FormGroup {
     return this.fb.group({
-      empStatus: [''],
-      empType: [''],
+      employmentStatus: [''],
+      employmentType: [''],
       organizationName: [''],
       street: [''],
       city: [''],
@@ -49,26 +94,69 @@ export class EmploymentComponent implements OnInit {
       country: [''],
       postalCode: [''],
       phone: [''],
-      empYears: [''],
-      empMonths: [''],
+      employmentYears: [''],
+      employmentMonths: [''],
       grossIncome: [''],
       startDate: [''],
       endDate: [''],
     });
   }
 
+  addEmploymentDetailsFormGroup(
+    employmentDetails: EmploymentDetails
+  ): FormGroup {
+    return this.fb.group({
+      employmentStatus: employmentDetails.employmentStatus,
+      employmentType: employmentDetails.employmentType,
+      organizationName: employmentDetails.organizationName,
+      street: employmentDetails.street,
+      city: employmentDetails.city,
+      province: employmentDetails.province,
+      country: employmentDetails.country,
+      postalCode: employmentDetails.postalCode,
+      phone: employmentDetails.phone,
+      employmentYears: employmentDetails.employmentYears,
+      employmentMonths: employmentDetails.employmentMonths,
+      grossIncome: employmentDetails.grossIncome,
+      startDate: employmentDetails.startDate,
+      endDate: employmentDetails.endDate,
+    });
+  }
+
+  mytooltipText(desc: string, numb: number) {
+    return `${desc}${numb}`;
+  }
+
+  addEmploymentDetail(employmentDetailsInput: EmploymentDetails): FormGroup {
+    const employmentDetail = this.addEmploymentDetailsFormGroup(
+      employmentDetailsInput
+    );
+    (<FormArray>this.employmentForm.get('employmentList')).push(
+      employmentDetail
+    );
+    return employmentDetail;
+  }
+
+  setEmploymentDetails(employmentDetails: EmploymentDetails[]): void {
+    employmentDetails.forEach((empDetail) => {
+      const addedEmploymentDetail = this.addEmploymentDetail(empDetail);
+    });
+  }
+
   addEmployment(): void {
     const employment = this.employmentFormGroup();
-    (<FormArray>this.employmentForm.get('employment')).push(employment);
+    (<FormArray>this.employmentForm.get('employmentList')).push(employment);
   }
 
   removeEmployment(i: number): void {
-    (<FormArray>this.employmentForm.get('employment')).removeAt(i);
+    if (i !== 0) {
+      (<FormArray>this.employmentForm.get('employmentList')).removeAt(i);
+    }
   }
 
   getEmployment(): FormArray {
-    const entities = this.employmentForm.get('employment') as FormArray;
-    return this.employmentForm.get('employment') as FormArray;
+    const entities = this.employmentForm.get('employmentList') as FormArray;
+    return this.employmentForm.get('employmentList') as FormArray;
   }
 
   isEmploymentExists(): number {
@@ -76,14 +164,32 @@ export class EmploymentComponent implements OnInit {
   }
 
   submit(): void {
+    // debugger;
     const currentEmployment = this.employmentForm.getRawValue();
-    const user = this.dataService.user;
-    this.apiService
-      .createEmployment(currentEmployment, user!)
-      .subscribe((data) => {
-        this.dataService.currentEmployment = data;
-        console.log(JSON.stringify(this.dataService.currentEmployment));
-      });
+    const userId = this.dataService.getLoggedInUserId();
+    const appId = this.dataService.getPrimaryApplicantId();
+    if (currentEmployment != null && userId != null) {
+      if (this.dataService.isEditModeEmployment()) {
+        const { pk, sk } = currentEmployment;
+        this.addEmploymentSubscription = this.apiService
+          .updateEmployment(currentEmployment, userId, pk, sk)
+          .subscribe((data) => {
+            this.dataService.currentEmployment = data;
+            console.log(JSON.stringify(this.dataService.currentEmployment));
+            this.close();
+          });
+      } else {
+        const { pk, sk, gsI1PK, gsI1SK, documentType, ...data } =
+          currentEmployment;
+        this.addEmploymentSubscription = this.apiService
+          .createEmployment(currentEmployment, userId, appId)
+          .subscribe((data) => {
+            this.dataService.currentEmployment = data;
+            console.log(JSON.stringify(this.dataService.currentEmployment));
+            this.close();
+          });
+      }
+    }
   }
 
   close(): void {
@@ -92,5 +198,9 @@ export class EmploymentComponent implements OnInit {
 
   clear() {
     this.employmentForm.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.addEmploymentSubscription?.unsubscribe();
   }
 }

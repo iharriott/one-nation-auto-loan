@@ -1,6 +1,6 @@
 export interface EmploymentDetails {
-  empStatus: string;
-  empType: string;
+  employmentStatus: string;
+  employmentType: string;
   organizationName: string;
   street: string;
   city: string;
@@ -8,8 +8,8 @@ export interface EmploymentDetails {
   country: string;
   postalCode: string;
   phone: string;
-  empYears: number;
-  empMonths: number;
+  employmentYears: number;
+  employmentMonths: number;
   grossIncome: number;
   startDate: Date;
   endDate: Date;

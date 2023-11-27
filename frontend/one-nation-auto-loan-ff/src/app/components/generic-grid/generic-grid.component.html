@@ -19,17 +19,17 @@
             mat-header-cell
             *matHeaderCellDef
             mat-sort-header
-            class="table-column-header col-width-4"
+            class="table-column-header"
         >
             {{ capitalize(col) }}
         </th>
         <div *ngIf="col !== 'action'">
-            <td class="col-width table-column-row" mat-cell *matCellDef="let row">
+            <td class="table-column-row" mat-cell *matCellDef="let row">
                 <div *ngIf="i === 0">
                     <button
                         class="link-button"
                         color="primary"
-                        (click)="navigateToDetail(row)"
+                        (click)="editRow(row)"
                     >
                         {{ row[col] }}
                     </button>
@@ -39,21 +39,35 @@
                 </div>
             </td>
         </div>
-        <td mat-cell *matCellDef="let row">
+        
+        <td class="table-column-row" mat-cell *matCellDef="let row">
+            <div class="row">
+                <button mat-icon-button matTooltip= 
+                "Hide Applicant"
+                    matTooltipPosition="below" color="warn" (click)="hideRow(row)">
+                    <mat-icon class="inline-icon">delete</mat-icon>
+                    </button>
+                <button mat-icon-button matTooltip= 
+                "Delete Applicant"
+                    matTooltipPosition="below" color="warn" (click)="deleteRow(row)">
+                    <mat-icon class="inline-icon">delete_forever</mat-icon>
+                    </button>             
+            </div>
+            
             <mat-checkbox
+            *ngIf="showCheckbox"
                 #c
-                class="table-column-header"
                 (click)="onClick(c.checked, row)"
                 >{{ checkboxLabel }}</mat-checkbox
             >
             <button
                 *ngIf="viewHistory"
-                class="link-button"
+                class="link-button customIconSize"
                 mat-button
                 color="primary"
                 (click)="viewFileHistory(row)"
             >
-                View History
+              <span style="font-size: x-small !important;">View History</span>  
             </button>
         </td>
     </ng-container>
@@ -67,7 +81,7 @@
         </tr>
     </div>
 </table>
-<div class="row" style="background-color: white">
+<div class="row example-full-width" style="background-color: white">
     <div class="col-md-6" *ngIf="dataSource.data.length > 0">
         <button mat-button color="primary" (click)="goback()">
             <mat-icon>fast_rewind</mat-icon>

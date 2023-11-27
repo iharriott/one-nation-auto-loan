@@ -10,7 +10,7 @@
 		<input type="checkbox" id="chk" aria-hidden="true">
 
 			<div class="signup" >
-				
+				<mat-spinner class="center" *ngIf="isRegistrationSpinnerStarted"></mat-spinner>
 				<form [formGroup]="form" (ngSubmit)="register()">
 					<label for="chk" aria-hidden="true">Sign up</label>
 					<input formControlName="userName" class="form-control" type="text" name="txt" placeholder="User Name" required="">
@@ -24,7 +24,7 @@
 			</div>
 
 			<div class="login">
-				<mat-spinner *ngIf="isSpinnerStarted"></mat-spinner>
+				<mat-spinner class="center" *ngIf="isSpinnerStarted"></mat-spinner>
 				<form [formGroup]="loginForm" (ngSubmit)="login()">
 					<label for="chk" aria-hidden="true">Login</label>
 					<input formControlName="email" type="email" name="email" placeholder="Email" required="">

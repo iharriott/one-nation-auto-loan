@@ -10,14 +10,14 @@ import { DataService } from 'src/app/services/data.service';
 export class HomeComponent implements OnInit {
   constructor(private router: Router, private dataService: DataService) {}
   ngOnInit(): void {
-    this.isUserLoggedIn = this.dataService.isUserLoggedIn;
+    // this.isUserLoggedIn = this.dataService.isUserLoggedIn;
   }
   isUserLoggedIn!: boolean;
   loginPopup() {
     this.router.navigate(['login']);
   }
   logout() {
-    this.dataService.isUserLoggedIn = false;
+    //this.dataService.isUserLoggedIn = false;
     this.router.navigate(['home']);
   }
 

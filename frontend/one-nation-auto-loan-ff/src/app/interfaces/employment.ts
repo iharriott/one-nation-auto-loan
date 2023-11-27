@@ -11,5 +11,5 @@ export interface Employment {
   otherIncomeType: string;
   frequency: number;
   status: string;
-  employment: EmploymentDetails[];
+  employmentList: EmploymentDetails[];
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   MatSnackBar,
@@ -15,7 +15,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loginForm!: FormGroup;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -44,21 +44,30 @@ export class LoginComponent implements OnInit {
       password: '',
     });
   }
+  ngOnDestroy(): void {}
 
   isUserSignedUp = true;
   isUserLoggedIn!: boolean;
   isSpinnerStarted = false;
   isPasswordInvalid = false;
+  isRegistrationSpinnerStarted = false;
 
   ngOnInit(): void {
-    this.isUserLoggedIn = this.dataService.isUserLoggedIn;
+    //this.isUserLoggedIn = this.dataService.isUserLoggedIn;
+
+    this.dataService.loginStatus$.subscribe((data) => {
+      this.isUserLoggedIn = data;
+    });
   }
 
   register(): void {
     const formValues = this.form.getRawValue();
+    this.isRegistrationSpinnerStarted = true;
     console.log(this.form.getRawValue());
     this.api.register(formValues).subscribe({
       next: (data) => {
+        this.isRegistrationSpinnerStarted = false;
+        this.dataService.openSackBar('Registered Successfully', 'Ok');
         console.log(data);
       },
       error: (error) => console.log(error),
@@ -87,11 +96,14 @@ export class LoginComponent implements OnInit {
     this.api.login(formValues).subscribe({
       next: (data) => {
         console.log(JSON.stringify(data));
+        this.dataService.setLocalStorageItem('userData', data);
+        //window.localStorage.setItem('userData', JSON.stringify(data));
         this.isSpinnerStarted = false;
         this.dataService.user = data;
         console.log(`data service user ${this.dataService.user}`);
         this.dataService.loginStatus$.next(true);
-        this.openSnackBar();
+        this.dataService.openSackBar('Logged In Successfully', 'Ok');
+        //this.openSnackBar();
         this.router.navigate(['dashboard']);
       },
       error: (error) => {

@@ -4,6 +4,7 @@ export class CommonConstants {
     mortgage: 'mortgage',
     note: 'note',
     applicant: 'applicant',
+    applicantview: 'applicantview',
   };
 
   public static maritalStatus: any[] = [
@@ -22,12 +23,19 @@ export class CommonConstants {
     { value: 'I', viewValue: 'Information Received' },
     { value: 'A', viewValue: 'Approved' },
     { value: 'D', viewValue: 'Declined' },
+    { value: 'N', viewValue: 'New' },
   ];
 
   public static dealStatus: any[] = [
     { value: 'M', viewValue: 'Verified Manual' },
     { value: 'P', viewValue: 'Pending Verification' },
     { value: 'V', viewValue: 'Verified' },
+    { value: 'C', viewValue: 'Completed' },
+  ];
+
+  public static applicantStatus: any[] = [
+    { value: 'A', viewValue: 'active' },
+    { value: 'I', viewValue: 'inactive' },
   ];
 
   public static dealer: any[] = [

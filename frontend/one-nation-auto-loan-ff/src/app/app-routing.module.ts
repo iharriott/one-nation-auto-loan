@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/public/login/login.component';
-import { SideNavigationComponent } from './components/side-navigation/side-navigation.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ApplicantListComponent } from './components/applicant-list/applicant-list.component';
+import { AgGridListComponent } from './components/ag-grid-list/ag-grid-list.component';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { ApplicantViewComponent } from './components/applicant-view/applicant-view.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,21 @@ const routes: Routes = [
         path: 'applicantlist',
         component: ApplicantListComponent,
         data: { view: 'applicantlist' },
+      },
+      {
+        path: 'aggridlist',
+        component: AgGridListComponent,
+        data: { view: 'aggridlist' },
+      },
+      {
+        path: 'analytics',
+        component: AnalyticsComponent,
+        data: { view: 'analytics' },
+      },
+      {
+        path: 'applicantview',
+        component: ApplicantViewComponent,
+        data: { view: 'view' },
       },
     ],
   },

@@ -4,9 +4,13 @@ export interface Note {
   gsI1PK: string;
   gsI1SK: string;
   documentType: string;
-  note: string;
+  notes: NoteDetail[];
   createdBy: string;
   createdDate: Date;
   updatedBy: string;
   updatedDate: Date;
+}
+
+export interface NoteDetail {
+  noteText: string;
 }

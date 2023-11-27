@@ -1,0 +1,92 @@
+.icon-pin-filled,
+.icon-pin-outlined {
+  background: #333333;
+}
+
+.icon-pin-filled {
+  float: left;
+  width: 24px;
+  height: 24px;
+  float: left;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: url("../images/pin-filled.svg");
+  mask-image: url("../images/pin-filled.svg");
+  -webkit-mask-size: 100%;
+}
+
+.icon-pin-outlined {
+  float: left;
+  width: 24px;
+  height: 24px;
+  float: left;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: url("../images/pin-outlined.svg");
+  mask-image: url("../images/pin-outlined.svg");
+  -webkit-mask-size: 100%;
+}
+
+.icon-size-16 {
+  width: 16px !important;
+  height: 16px !important;
+  margin: 2px 8px 2px 0 !important;
+  box-sizing: border-box;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.search-icon {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  float: left;
+  font-size: 18px;
+  margin: 8px;
+}
+
+.search-icon .search-img {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  left: 8px;
+  color: #8a8a8a;
+  transition: 0.3s;
+}
+
+.search-box {
+  border-bottom: 1px solid #8a8a8a;
+  margin: 8px 8px 0 16px;
+  width: 250px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.search-box .search-control {
+  padding-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: 0;
+}
+.search-box .search-bar-icon {
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.close-icon {
+  width: 10%;
+  float: right;
+  margin-top: 7px;
+  cursor: pointer;
+}
+
+.account-row-setter {
+  width: 100%;
+  float: left;
+  padding: 0 24px 0 32px;
+  box-sizing: border-box;
+  position: relative;
+}/*# sourceMappingURL=styles.css.map */
