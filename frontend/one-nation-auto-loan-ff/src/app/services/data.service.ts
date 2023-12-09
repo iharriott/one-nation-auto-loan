@@ -12,6 +12,8 @@ import { SearchParams } from '../interfaces/searchParams';
 import { Employment } from '../interfaces/employment';
 import { Mortgage } from '../interfaces/mortgage';
 import { Note } from '../interfaces/note';
+import { FormControl, FormGroup } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +21,7 @@ import { Note } from '../interfaces/note';
 export class DataService {
   isapplicantExists!: boolean;
   primaryApplicant: any = null;
-  currentApplicant: Applicant | undefined = undefined;
+  currentApplicant!: Applicant;
   currentEmployment!: Employment | undefined;
   currentMortgage!: Mortgage | undefined;
   currentNote!: Note | undefined;
@@ -31,7 +33,7 @@ export class DataService {
   loginStatus$ = new BehaviorSubject<boolean>(false);
   applicantExist$ = new BehaviorSubject<boolean>(false);
   editMode$ = new BehaviorSubject<boolean>(false);
-  constructor(private snackBar: MatSnackBar, private apiService: ApiService) {}
+
   tableData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   pinnedData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   recentlyAccessed$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -49,6 +51,12 @@ export class DataService {
   isEditModeNote = signal(false);
   currentApplicantSignal = signal(this.currentApplicant);
 
+  constructor(
+    private snackBar: MatSnackBar,
+    private apiService: ApiService,
+    private toast: NgToastService
+  ) {}
+
   openSackBar(message: string, action: string) {
     this.snackBar.open(message, (action = 'ok'), {
       duration: 1000,
@@ -58,15 +66,18 @@ export class DataService {
 
   getAllData(userId: string) {
     forkJoin({
-      url1: this.apiService.getAllNewApplicant(),
-      url2: this.apiService.getUserPinnedItems(userId),
-      url3: this.apiService.getRecentlyAccessedItems(
-        userId,
-        CommonConstants.organization
-      ),
+      url1: this.apiService
+        .getAllNewApplicant()
+        .pipe(catchError((err) => of(err.status))),
+      url2: this.apiService
+        .getUserPinnedItems(userId)
+        .pipe(catchError((err) => of([]))),
+      url3: this.apiService
+        .getRecentlyAccessedItems(userId, CommonConstants.organization)
+        .pipe(catchError((err) => of([]))),
     }).subscribe({
       next: (data) => {
-        const rowData = data.url1.map((data) => {
+        const rowData = data.url1?.map((data: any) => {
           if (data !== null && data !== undefined) {
             return this.mapRowItems(data);
           }
@@ -87,7 +98,7 @@ export class DataService {
 
         this.tableData$.next(searchData);
 
-        const pinnRowData = data.url3.map((data) => {
+        const pinnRowData = data.url3?.map((data) => {
           if (data !== null && data !== undefined) {
             return this.mapRowItems(data);
           }
@@ -136,15 +147,18 @@ export class DataService {
     //const joinByType = R.innerJoin(R.flip(R.propEq('type')))
 
     forkJoin({
-      url1: this.apiService.searchApplicant(params),
-      url2: this.apiService.getUserPinnedItems(userId),
-      url3: this.apiService.getRecentlyAccessedItems(
-        userId,
-        CommonConstants.organization
-      ),
+      url1: this.apiService
+        .searchApplicant(params)
+        .pipe(catchError((err) => of(err.status))),
+      url2: this.apiService
+        .getUserPinnedItems(userId)
+        .pipe(catchError((err) => of([]))),
+      url3: this.apiService
+        .getRecentlyAccessedItems(userId, CommonConstants.organization)
+        .pipe(catchError((err) => of([]))),
     }).subscribe({
       next: (data) => {
-        const rowData = data.url1.map((data) => {
+        const rowData = data.url1.map((data: any) => {
           console.log(`search data ${JSON.stringify(data)}`);
           if (data !== null && data !== undefined) {
             return this.mapRowItems(data);
@@ -183,7 +197,7 @@ export class DataService {
         }
 
         this.pinItemData = data.url2;
-        const pinnRowData = data.url3.map((data) => {
+        const pinnRowData = data.url3?.map((data) => {
           if (data !== null && data !== undefined) {
             return this.mapRowItems(data);
           }
@@ -556,5 +570,32 @@ export class DataService {
         error: console.log,
       });
     }
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsDirty({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
+  clearLocalStorage() {
+    localStorage.clear();
+  }
+
+  showSucess(message: string) {
+    this.toast.success({ detail: 'SUCCESS', summary: message, duration: 5000 });
+  }
+
+  showError(message: string) {
+    this.toast.error({ detail: 'ERROR', summary: message, sticky: true });
+  }
+
+  showInfo(message: string) {
+    this.toast.info({ detail: 'INFO', summary: message, sticky: true });
   }
 }

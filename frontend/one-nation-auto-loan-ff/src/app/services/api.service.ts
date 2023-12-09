@@ -20,21 +20,21 @@ export class ApiService {
   constructor(private http: HttpClient) {}
   endpoint!: string;
   baseUrl = environment.userApiEndpoint;
-  register(data: any): Observable<any> {
-    console.log(data);
-    const apiAction = 'user';
-    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
-    console.log(this.endpoint);
-    return this.http.post(this.endpoint, data);
-  }
+  // register(data: any): Observable<any> {
+  //   console.log(data);
+  //   const apiAction = 'user';
+  //   this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+  //   console.log(this.endpoint);
+  //   return this.http.post(this.endpoint, data);
+  // }
 
-  login(data: any): Observable<User> {
-    console.log(data);
-    const apiAction = 'user/login';
-    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
-    console.log(this.endpoint);
-    return this.http.post<User>(this.endpoint, data);
-  }
+  // login(data: any): Observable<any> {
+  //   console.log(data);
+  //   const apiAction = 'user/login';
+  //   this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+  //   console.log(this.endpoint);
+  //   return this.http.post<any>(this.endpoint, data);
+  // }
 
   createApplicant(data: any, userId: string): Observable<Applicant> {
     console.log(data);

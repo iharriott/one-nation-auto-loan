@@ -50,16 +50,16 @@
  <button
  
  mat-raised-button
- *ngIf="!isUserLoggedIn"
+ *ngIf="!auth.isLoggedIn()"
  (click)="login()"
 >
  Login
 </button>
-<button mat-raised-button *ngIf="isUserLoggedIn" (click)="logout()">
+<button mat-raised-button *ngIf="auth.isLoggedIn()" (click)="logout()">
   Logout
 </button>
 <mat-icon>account_circle</mat-icon>
-<p style="font-size: small">{{ getLoggedInUser() }}</p>
+<p style="font-size: small">{{ fullName }}</p>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav  [style.width]="sidenavWidth()" #drawer class="sidenav" 

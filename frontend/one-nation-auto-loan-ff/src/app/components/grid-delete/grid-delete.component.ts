@@ -35,9 +35,7 @@ export class GridDeleteComponent implements OnInit, ICellRendererAngularComp {
   }
 
   setViewTemplate() {
-    debugger;
-    this.componentParent.editRow(this.params);
-    this.componentParent.setViewTemplate();
+    this.componentParent.setViewTemplate(this.params);
   }
 
   agInit(params: ICellRendererParams): void {

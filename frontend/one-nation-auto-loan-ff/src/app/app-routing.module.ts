@@ -7,6 +7,8 @@ import { ApplicantListComponent } from './components/applicant-list/applicant-li
 import { AgGridListComponent } from './components/ag-grid-list/ag-grid-list.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { ApplicantViewComponent } from './components/applicant-view/applicant-view.component';
+import { SignupComponent } from './components/public/signup/signup.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,9 +21,15 @@ const routes: Routes = [
         data: { view: 'login' },
       },
       {
+        path: 'signup',
+        component: SignupComponent,
+        data: { view: 'signup' },
+      },
+      {
         path: 'dashboard',
         component: DashboardComponent,
         data: { view: 'dashboard' },
+        canActivate: [authGuard],
       },
       {
         path: 'applicantlist',

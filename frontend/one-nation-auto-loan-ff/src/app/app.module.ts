@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PublicModule } from './components/public/public.module';
 import { ComponentModule } from './components/component.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgToastModule } from 'ng-angular-popup';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 //import 'ag-grid-enterprise';
 
@@ -21,8 +23,15 @@ import { MatNativeDateModule } from '@angular/material/core';
     HttpClientModule,
     BrowserAnimationsModule,
     MatNativeDateModule,
+    NgToastModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -135,7 +135,7 @@ export class AgGridListComponent implements OnInit {
     {
       field: 'action',
       cellRenderer: GridDeleteComponent,
-      width: 200,
+      width: 280,
     },
   ];
 
@@ -180,7 +180,7 @@ export class AgGridListComponent implements OnInit {
   }
 
   submit() {
-    // debugger;
+    debugger;
     this.dataService.removeLocalStorageItem('searchData');
     const searchParams: SearchParams = this.searchForm.getRawValue();
     if (!this.dataService.isSearchParamsEmpty(searchParams)) {
@@ -517,7 +517,10 @@ export class AgGridListComponent implements OnInit {
     }
   }
 
-  setViewTemplate() {
+  setViewTemplate(row: any) {
+    const { pk, sk } = row.data;
+    this.dataService.applicantPk = pk;
+    this.dataService.applicantSk = sk;
     this.setTemplate('applicantview');
   }
 

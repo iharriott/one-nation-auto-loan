@@ -96,14 +96,18 @@
                                 </div>
                             </div>
                             <br>
-                          
-                            <mat-form-field class="text-input" appearance="outline">   
+                           <div class="textarea-size">
+                            
+                            <!-- <textarea placeholder="Notes"></textarea> -->
+                            <mat-form-field  appearance="outline">   
                                 <mat-label>Note</mat-label>
-                                <textarea rows="5" cols="10"   formControlName="noteText"
+                                <textarea cols="35" rows="8" formControlName="noteText"
                                 matInput
                                 placeholder="Note"
-                               ></textarea>
+                                cdkTextareaAutosize="false" [cdkAutosizeMinRows]="2"  [cdkAutosizeMaxRows]="5"></textarea>
                             </mat-form-field>
+                           </div>              
+                           
                         </div>
                     </div>
                 <div class="button-set">   
