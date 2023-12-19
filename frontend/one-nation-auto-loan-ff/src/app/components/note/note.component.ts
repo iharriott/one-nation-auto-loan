@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { NoteDetail } from 'src/app/interfaces/note';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-note',
@@ -62,6 +63,7 @@ export class NoteComponent implements OnInit, OnDestroy {
     if (this.dataService.isEditModeNote()) {
       if (this.dataService.currentNote != undefined) {
         const { notes, ...otherFormdata } = this.dataService.currentNote;
+        console.log(JSON.stringify(notes));
         this.noteForm.patchValue(otherFormdata);
         if (notes?.length > 0) {
           this.setNotes(notes);
@@ -73,11 +75,16 @@ export class NoteComponent implements OnInit, OnDestroy {
   addNoteFormGroup(note: NoteDetail): FormGroup {
     return this.fb.group({
       noteText: note.noteText,
+      createdBy: note.createdBy,
+      createdDate: moment(note.createdDate).format('MM/DD/YYYY h:mm:ss a'),
+      updatedBy: note.updatedBy,
+      updatedDate: moment(note.updatedDate).format('MM/DD/YYYY  h:mm:ss a'),
     });
   }
 
-  addNotes(addressInput: NoteDetail): FormGroup {
-    const note = this.addNoteFormGroup(addressInput);
+  addNotes(noteInput: NoteDetail): FormGroup {
+    // debugger;
+    const note = this.addNoteFormGroup(noteInput);
     (<FormArray>this.noteForm.get('notes')).push(note);
     return note;
   }
@@ -98,19 +105,37 @@ export class NoteComponent implements OnInit, OnDestroy {
         const { pk, sk } = currentNote;
         this.addNoteSubscription = this.apiService
           .updateNote(currentNote, userId, pk, sk)
-          .subscribe((data) => {
-            this.dataService.currentNote = data;
-            console.log(JSON.stringify(this.dataService.currentNote));
-            this.close();
+          .subscribe({
+            next: (data) => {
+              const message = 'Note updated Successfully';
+              this.dataService.currentNote = data;
+              this.dataService.isEditModeNote.set(true);
+              this.dataService.showSucess(message);
+              console.log(JSON.stringify(this.dataService.currentNote));
+              this.close();
+            },
+            error: (error) => {
+              const message = 'Note update Failed';
+              this.dataService.showError(message);
+            },
           });
       } else {
         const { pk, sk, gsI1PK, gsI1SK, ...data } = currentNote;
         this.addNoteSubscription = this.apiService
           .createNote(data, userId, appId)
-          .subscribe((data) => {
-            this.dataService.currentNote = data;
-            console.log(JSON.stringify(this.dataService.currentNote));
-            this.close();
+          .subscribe({
+            next: (data) => {
+              const message = 'Note created Successfully';
+              this.dataService.currentNote = data;
+              this.dataService.isEditModeNote.set(true);
+              this.dataService.showSucess(message);
+              console.log(JSON.stringify(this.dataService.currentNote));
+              this.close();
+            },
+            error: (error) => {
+              const message = 'Vehicle create Failed';
+              this.dataService.showError(message);
+            },
           });
       }
     }
@@ -132,6 +157,10 @@ export class NoteComponent implements OnInit, OnDestroy {
   noteFormGroup(): FormGroup {
     return this.fb.group({
       noteText: [''],
+      createdBy: [this.dataService.getLoggedInUserId()],
+      createdDate: [moment(Date.now()).format('MM/DD/YYYY  h:mm:ss a')],
+      updatedBy: [''],
+      updatedDate: [''],
     });
   }
 

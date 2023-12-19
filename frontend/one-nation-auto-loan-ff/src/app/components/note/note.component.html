@@ -96,17 +96,78 @@
                                 </div>
                             </div>
                             <br>
-                           <div class="textarea-size">
+                           <div class="row">
                             
                             <!-- <textarea placeholder="Notes"></textarea> -->
-                            <mat-form-field  appearance="outline">   
+                            <mat-form-field class="textarea-input"  appearance="outline">   
                                 <mat-label>Note</mat-label>
-                                <textarea cols="35" rows="8" formControlName="noteText"
+                                <textarea cols="120" rows="8" formControlName="noteText"
                                 matInput
                                 placeholder="Note"
-                                cdkTextareaAutosize="false" [cdkAutosizeMinRows]="2"  [cdkAutosizeMaxRows]="5"></textarea>
+                                cdkTextareaAutosize="true" [cdkAutosizeMinRows]="2"  [cdkAutosizeMaxRows]="5"></textarea>
                             </mat-form-field>
-                           </div>              
+                           </div> 
+                           <div class="grid-box2">
+                            <div class="">
+                                <mat-form-field 
+                                appearance="outline"   
+                                class="note-field"
+                            >
+                                <mat-label >Created By</mat-label>
+                                <input
+                                    formControlName="createdBy"
+                                    matInput
+                                    placeholder="Created By"
+                                />
+                            </mat-form-field>
+    
+                               </div>
+                               <div>
+                                <mat-form-field 
+                                appearance="outline"   
+                                class="note-field"
+                                style="margin-left: 3px;"
+                            >
+                                <mat-label >Created Date</mat-label>
+                                <input
+                                    formControlName="createdDate"
+                                    matInput
+                                    placeholder="Created Date"
+                                />
+                            </mat-form-field>
+                               </div>
+                           </div>
+                          <div class="grid-box2">
+                            <div class="">
+                                <mat-form-field 
+                                appearance="outline"   
+                                class="note-field"
+                            >
+                                <mat-label >Updated By</mat-label>
+                                <input
+                                    formControlName="updatedBy"
+                                    matInput
+                                    placeholder="Updated By"
+                                />
+                            </mat-form-field>
+                         
+                               </div>  
+                               <div>
+                                <mat-form-field 
+                                appearance="outline"   
+                                class="note-field"
+                                style="margin-left: 3px;"
+                            >
+                                <mat-label >Updated Date</mat-label>
+                                <input
+                                    formControlName="updatedDate"
+                                    matInput
+                                    placeholder="Updated Date"
+                                />
+                            </mat-form-field>
+                               </div>     
+                          </div>
+                                
                            
                         </div>
                     </div>

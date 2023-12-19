@@ -18,6 +18,16 @@ export class ApplicantViewComponent implements OnInit, OnDestroy {
   applicantPhone: string | undefined;
   applicantAddress: string | undefined;
   applicantEmail: string | undefined;
+  address!: any[];
+  notes!: any[];
+  otherFormData: any;
+  mortgage: any;
+  employmentList!: any[];
+  employmentOtherData: any;
+  private applicantSubscription?: Subscription;
+  private noteSubscription?: Subscription;
+  private employmentSubscription?: Subscription;
+  private mortgageSubscription?: Subscription;
   @Output() closeViewButtonClicked = new EventEmitter<any>();
   private viewApplicantSubscription?: Subscription;
 
@@ -27,7 +37,7 @@ export class ApplicantViewComponent implements OnInit, OnDestroy {
     // debugger;
     this.dataService.getApplicantData();
 
-    this.dataService.currentApplicant$.subscribe({
+    this.applicantSubscription = this.dataService.currentApplicant$.subscribe({
       next: (data) => {
         if (data !== undefined) {
           // console.log(`view applicant ${JSON.stringify(data)}`);
@@ -37,6 +47,8 @@ export class ApplicantViewComponent implements OnInit, OnDestroy {
           this.applicant = `${firstName} ${lastName}`;
           this.applicantPhone = phone;
           this.applicantEmail = email;
+          this.address = address;
+          this.otherFormData = otherFormdata;
 
           //this.applicantForm.patchValue(otherFormdata);
           if (address?.length > 0) {
@@ -49,6 +61,33 @@ export class ApplicantViewComponent implements OnInit, OnDestroy {
       },
       error: console.log,
     });
+
+    this.noteSubscription = this.dataService.currentNote$.subscribe({
+      next: (data) => {
+        const { notes, ...otherFormdata } = data;
+        this.notes = notes;
+        // console.log(`${JSON.stringify(this.notes)}`);
+      },
+      error: console.log,
+    });
+
+    this.mortgageSubscription = this.dataService.currentMortgage$.subscribe({
+      next: (data) => {
+        this.mortgage = data;
+      },
+      error: console.log,
+    });
+
+    this.employmentSubscription = this.dataService.currentEmployment$.subscribe(
+      {
+        next: (data) => {
+          const { employmentList, ...otherFormdata } = data;
+          this.employmentOtherData = otherFormdata;
+          this.employmentList = employmentList;
+        },
+      }
+    );
+
     // if (this.dataService?.currentApplicant !== null) {
 
     //   const fullName = `${this.dataService.currentApplicant?.firstName} ${this.dataService.currentApplicant?.lastName}`;
@@ -62,10 +101,12 @@ export class ApplicantViewComponent implements OnInit, OnDestroy {
     // }
   }
   close() {
-    this.closeViewButtonClicked.emit('note');
+    this.closeViewButtonClicked.emit('view');
   }
 
   ngOnDestroy(): void {
-    this.viewApplicantSubscription?.unsubscribe();
+    this.noteSubscription?.unsubscribe();
+    this.applicantSubscription?.unsubscribe();
+    this.mortgageSubscription?.unsubscribe();
   }
 }

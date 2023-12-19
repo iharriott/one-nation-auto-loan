@@ -12,6 +12,7 @@ import { PinnedApplicant } from '../interfaces/pinnedApplicants';
 import { SearchParams } from '../interfaces/searchParams';
 import { Note } from '../interfaces/note';
 import { Mortgage } from '../interfaces/mortgage';
+import { Vehicle } from '../interfaces/vehicle';
 
 @Injectable({
   providedIn: 'root',
@@ -99,6 +100,20 @@ export class ApiService {
     return this.http.put<Mortgage>(this.endpoint, data);
   }
 
+  updateVehicle(
+    data: any,
+    userId: string,
+    appId: string,
+    id: string
+  ): Observable<Vehicle> {
+    //debugger;
+    console.log(data);
+    const apiAction = 'api/Vehicle';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?appId=${appId}&userId=${userId}`;
+    console.log(this.endpoint);
+    return this.http.put<Vehicle>(this.endpoint, data);
+  }
+
   deleteApplicant(id: string, orgId: string): Observable<any> {
     const apiAction = 'applicant';
     this.endpoint = `${this.baseUrl}/${apiAction}`;
@@ -121,9 +136,9 @@ export class ApiService {
     return this.http.get<Applicant[]>(this.endpoint);
   }
 
-  getAllNewApplicant(): Observable<Applicant[]> {
+  getAllNewApplicant(user: string): Observable<Applicant[]> {
     const apiAction = 'applicant/new';
-    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}&user=${user}`;
     console.log(this.endpoint);
     return this.http.get<Applicant[]>(this.endpoint);
   }
@@ -163,6 +178,15 @@ export class ApiService {
     return this.http.post<Note>(this.endpoint, data);
   }
 
+  createVehicle(data: any, user: string, appId: string): Observable<Vehicle> {
+    //debugger;
+    console.log(data);
+    const apiAction = 'api/Vehicle';
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}&userId=${user}&appId=${appId}`;
+    console.log(this.endpoint);
+    return this.http.post<Vehicle>(this.endpoint, data);
+  }
+
   createMortgage(data: any, user: string, appId: string): Observable<Mortgage> {
     console.log(data);
     const apiAction = 'mortgage';
@@ -200,6 +224,12 @@ export class ApiService {
     const apiAction = 'mortgage/applicant';
     this.endpoint = `${this.baseUrl}/${apiAction}/${appId}`;
     return this.http.get<Mortgage>(this.endpoint);
+  }
+
+  getCurrentVehicle(appId: string): Observable<Vehicle> {
+    const apiAction = 'api/Vehicle/applicant';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${appId}`;
+    return this.http.get<Vehicle>(this.endpoint);
   }
 
   getRecentlyAccessedItems(

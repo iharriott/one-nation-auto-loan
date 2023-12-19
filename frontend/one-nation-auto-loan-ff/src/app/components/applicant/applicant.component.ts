@@ -6,7 +6,13 @@ import {
   Output,
   OnDestroy,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CommonConstants } from 'src/app/constants/common-constants';
 import { DataService } from 'src/app/services/data.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -72,6 +78,7 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       creditScore: [],
       status: [],
       dealStatus: [],
+      display: [],
       referralCode: [],
       tempDealerId: [],
       sales: [],
@@ -123,6 +130,10 @@ export class ApplicantComponent implements OnInit, OnDestroy {
     } else {
       this.addAddress();
     }
+  }
+
+  get assignedDealer(): FormControl {
+    return this.applicantForm.get('tempDealerId') as FormControl;
   }
 
   addressFormGroup(): FormGroup {
@@ -290,6 +301,14 @@ export class ApplicantComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
+    this.dataService.isEditModeApplicant.set(false);
+    this.dataService.isEditModeNote.set(false);
+    this.dataService.isEditModeMortgage.set(false);
+    this.dataService.isEditModeEmployment.set(false);
+    this.dataService.isEditModeVehicle.set(false);
+    this.dataService.applicantExist$.next(false);
+    this.dataService.editMode$.next(false);
+    this.dataService.primaryApplicant = null;
     this.closeApplicantButtonClicked.emit('applicant');
   }
 

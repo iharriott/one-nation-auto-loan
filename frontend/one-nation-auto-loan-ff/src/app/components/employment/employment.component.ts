@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { CommonConstants } from 'src/app/constants/common-constants';
 import { Employment } from 'src/app/interfaces/employment';
@@ -164,8 +165,9 @@ export class EmploymentComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    // debugger;
+    debugger;
     const currentEmployment = this.employmentForm.getRawValue();
+    console.log(`CURRENT EMP ${JSON.stringify(currentEmployment)}`);
     const userId = this.dataService.getLoggedInUserId();
     const appId = this.dataService.getPrimaryApplicantId();
     if (currentEmployment != null && userId != null) {
@@ -174,8 +176,11 @@ export class EmploymentComponent implements OnInit, OnDestroy {
         this.addEmploymentSubscription = this.apiService
           .updateEmployment(currentEmployment, userId, pk, sk)
           .subscribe((data) => {
+            const message = 'Employment Updated Successfully';
             this.dataService.currentEmployment = data;
+            this.dataService.isEditModeEmployment.set(true);
             console.log(JSON.stringify(this.dataService.currentEmployment));
+            this.dataService.showSucess(message);
             this.close();
           });
       } else {
@@ -184,7 +189,10 @@ export class EmploymentComponent implements OnInit, OnDestroy {
         this.addEmploymentSubscription = this.apiService
           .createEmployment(currentEmployment, userId, appId)
           .subscribe((data) => {
+            const message = 'Employment Created Successfully';
             this.dataService.currentEmployment = data;
+            this.dataService.isEditModeEmployment.set(true);
+            this.dataService.showSucess(message);
             console.log(JSON.stringify(this.dataService.currentEmployment));
             this.close();
           });

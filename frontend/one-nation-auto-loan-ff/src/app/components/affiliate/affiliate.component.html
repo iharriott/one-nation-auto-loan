@@ -1,0 +1,136 @@
+<div class="form-margin">
+    <form [formGroup]="affiliateForm" (ngSubmit)="submit()">
+        <mat-card class="example-card success-card">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title class="success-card-title">Affiliate Form</mat-card-title>
+                <!-- <mat-card-subtitle class="success-card-subtitle">mat-sm-card-image</mat-card-subtitle> -->
+                <!-- <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" > -->
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="success-card-content2">
+            
+            </mat-card-content>
+          </mat-card>
+          <br>
+        <mat-card class="example-card success-card">
+            <mat-card-header>
+                <!-- <mat-card-title class="text">
+                    Note Form
+                </mat-card-title>
+                <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle> -->
+            </mat-card-header>
+            <mat-card-content>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="pk" matInput placeholder="pk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="sk" matInput placeholder="sk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1PK" matInput placeholder="gsI1PK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1SK" matInput placeholder="gsI1SK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="documentType" matInput placeholder="documentType"  type="input">
+                </mat-form-field> 
+                <div class="row ">
+                    <mat-form-field 
+                    appearance="outline" >
+                        <mat-label>First Name</mat-label>
+                            <input
+                                formControlName="firstName"
+                                matInput
+                                placeholder="FirstName"
+                            />
+                          
+                        </mat-form-field>
+                    </div>
+                     <div class="row">
+                        <mat-form-field 
+                        appearance="outline"   
+                    >
+                        <mat-label >Last Name</mat-label>
+                        <input
+                            formControlName="lastName"
+                            matInput
+                            placeholder="LastName"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field  
+                    appearance="outline"   
+                >
+                    <mat-label class="">Phone</mat-label>
+                    <input
+                        formControlName="phone"
+                        matInput
+                        placeholder="Phone"
+                        
+                    />
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field 
+                appearance="outline"   
+            >
+                <mat-label>Email</mat-label>
+                <input
+                    formControlName="email"
+                    matInput
+                    placeholder="Email"
+                />
+            </mat-form-field>
+        </div>
+                   
+                               <div class="row">
+                                
+                                <!-- <textarea placeholder="Notes"></textarea> -->
+                                <mat-form-field class="textarea-input"  appearance="outline">   
+                                    <mat-label>Note</mat-label>
+                                    <textarea cols="120" rows="8" formControlName="note"
+                                    matInput
+                                    placeholder="Note"
+                                    cdkTextareaAutosize="true" [cdkAutosizeMinRows]="2"  [cdkAutosizeMaxRows]="5"></textarea>
+                                </mat-form-field>
+                               </div>              
+                                           
+
+                    <div class="button-set">   
+                        <button
+                                mat-raised-button
+                                color="primary"
+                                type="submit"
+                                class="button-width"
+                                
+                            >
+                                Save
+                            </button>
+                            <button
+                            mat-raised-button
+                            (click)="clear()"
+                            color="primary"
+                            type="submit"
+                            class="button-width"
+                           
+                        >
+                            clear
+                        </button>
+                        <button         
+                        
+                        mat-raised-button
+                        color="primary"
+                        (click)="close()"
+                        class="button-width"
+                    >
+                        Close
+                    </button>      
+                    </div>       
+           </mat-card-content>        
+        </mat-card>
+    </form>
+    </div>
+    

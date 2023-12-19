@@ -1,0 +1,8 @@
+export interface AffiliateSearchParams {
+  firstName: string;
+  lastName: string;
+  email: string;
+  affiliateName: string;
+  createdStartDate: Date;
+  createdEndDate: Date;
+}

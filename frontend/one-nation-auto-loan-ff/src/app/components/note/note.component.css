@@ -1,5 +1,14 @@
 @import "../../../assets/styles/form-field.css";
 
+.note-field {
+  width: 100%;
+}
+
+/* ::ng-deep .textarea-input .mat-mdc-text-field-wrapper{
+  height: 100px !important;
+  font-size: 10px;
+ }  */
+
 /*Background Color Mat-input filled*/
 /* ::ng-deep .mdc-text-field--outlined {
     background-color: rgb(254,250,212) !important;

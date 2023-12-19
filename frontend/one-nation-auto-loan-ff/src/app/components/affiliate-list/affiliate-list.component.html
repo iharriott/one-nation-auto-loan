@@ -1,0 +1,184 @@
+<div class="example-container">
+    <legend>Affiliate Search</legend>
+    <!-- <p>Applicant Search</p> -->
+    <div class="">
+        <div class="button-set">
+            <div>
+                <button
+                *ngIf="!dataService.isEditModeAffiliate()"
+                mat-raised-button
+                color="primary"
+                (click)="setTemplate('affiliate')"
+                class="button-width"
+            >
+              {{dataService.isEditModeAffiliate() ? 'Edit Lead' : 'Add Lead'}}  
+            </button>
+                        
+                    <button     
+                    mat-raised-button
+                    color="primary"
+                    (click)="setTemplate('')"
+                    class="button-width"
+                >
+                    Close
+                </button>
+
+        </div>
+    </div>
+<form [formGroup]="searchForm" (ngSubmit)="submit()">
+    <mat-card class="example-card success-card">
+        <mat-card-header>
+            <!-- <mat-card-title class="text">
+                Note Form
+            </mat-card-title>
+            <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content>
+            <div class="grid-box">
+                <div class="">
+                    <mat-form-field 
+                    appearance="outline"
+                    class="search-field-width"
+                    >
+                   <mat-label  class="">Affiliate Name</mat-label>
+                            <input 
+                                formControlName="affiliateName"
+                                matInput
+                                placeholder="AffiliateName"
+                                style="max-height: 10px;"
+                            />             
+                        </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field 
+                    appearance="outline"
+                    class="search-field-width"
+                    >
+                   <mat-label  class="">First Name</mat-label>
+                            <input 
+                                formControlName="firstName"
+                                matInput
+                                placeholder="FirstName"
+                                style="max-height: 10px;"
+                            />             
+                        </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field
+                    appearance="outline"  
+                    class="search-field-width"
+                >
+                    <mat-label >Last Name</mat-label>
+                    <input
+                        formControlName="lastName"
+                        matInput
+                        placeholder="LastName"
+                        value=""
+                    />
+                </mat-form-field>
+                </div>
+                <div class="">
+                    <mat-form-field
+                    appearance="outline"   
+                    class="search-field-width"
+                >
+                    <mat-label >Email</mat-label>
+                    <input
+                        formControlName="email"
+                        matInput
+                        placeholder="Email"
+                        value=""
+                    />
+                </mat-form-field>
+                </div>
+             
+        </div>
+        <div class="grid-box">
+            <div >
+                <mat-form-field   appearance="outline" class="search-field-width">
+                    <mat-label>Created Start Date</mat-label>
+                    <input matInput [matDatepicker]="picker3"
+                    formControlName ="createdStartDate"
+                    >
+                    <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                  </mat-form-field>
+            </div>
+            <div >
+                <mat-form-field  appearance="outline" class="search-field-width">
+                    <mat-label>Created End Date</mat-label>
+                    <input matInput [matDatepicker]="picker4"
+                    formControlName ="createdEndDate"
+                    >
+                   
+                    <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-datepicker #picker4></mat-datepicker>
+                  </mat-form-field>
+        
+            </div>
+        </div>
+      
+            <div class="button-set2">
+                <button
+                (click)="onReset()"
+                mat-raised-button
+                type="button"
+                color="primary"
+            >
+                clear
+            </button>
+                <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+            >
+                Search
+            </button>
+            </div>
+       </mat-card-content>        
+    </mat-card>  
+</form>
+</div>
+<!-- <div class="search-icon">
+    <input class="account-row-setter" tabindex="0" voyagerAutoFocus type="text" #searchField />
+    <mat-icon class="search-img">search</mat-icon>
+    <mat-icon *ngIf="searchValue !== ''" 
+        title="Clear"
+        class="close-icon"
+        (click)="clearSearchField()"
+    >close</mat-icon>
+</div> -->
+
+<ag-grid-angular
+[rowData]="dataService.tableData$ | async"
+[columnDefs]="colsDef"
+[enableCharts]="true"
+[enableRangeSelection]="true"
+class="ag-theme-alpine"
+style="height:400px; width: 100%; padding-top: 2px; font-size: medium"
+(cellClicked)="onCellClicked($event)"
+[getRowStyle]="getRowStyle"
+[defaultColDef]="defaultColDef"
+[animateRows]="true"
+(gridReady)="onGridReady($event)"
+[context]="context"
+[getRowHeight]="getRowHeight"
+[paginationAutoPageSize]="true"
+[pagination]="true"
+(firstDataRendered)="onFirstDataRendered($event)"
+>
+</ag-grid-angular>
+
+<ng-template #affiliate>
+    <div class="book-appointment-container scrolling-container">
+        <app-affiliate
+        (closeAffiliateButtonClicked)="setTemplate('')"
+        ></app-affiliate>
+    </div>
+</ng-template>
+
+
+<ng-container #container></ng-container>
+
+

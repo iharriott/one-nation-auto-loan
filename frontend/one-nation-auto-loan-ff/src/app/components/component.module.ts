@@ -28,6 +28,11 @@ import { PinIconHooverDirective } from './directives/pin-icon-hoover.directive';
 import { CustomSidenavComponent } from './custom-sidenav/custom-sidenav.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { ApplicantViewComponent } from './applicant-view/applicant-view.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { AffiliateListComponent } from './affiliate-list/affiliate-list.component';
+import { AffiliateComponent } from './affiliate/affiliate.component';
+import { DateFormatPipe } from './pipes/date-format.pipe';
+//import { MDBModalRef, MDBModalService } from '';
 
 @NgModule({
   declarations: [
@@ -49,6 +54,10 @@ import { ApplicantViewComponent } from './applicant-view/applicant-view.componen
     CustomSidenavComponent,
     AnalyticsComponent,
     ApplicantViewComponent,
+    VehicleComponent,
+    AffiliateListComponent,
+    AffiliateComponent,
+    DateFormatPipe,
   ],
   imports: [
     CommonModule,

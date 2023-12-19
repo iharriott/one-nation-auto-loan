@@ -1,0 +1,356 @@
+<div class="form-margin">
+    <form [formGroup]="vehicleForm" (ngSubmit)="submit()">
+        <mat-card class="example-card success-card">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title class="success-card-title">Vehicle Form</mat-card-title>
+                <!-- <mat-card-subtitle class="success-card-subtitle">mat-sm-card-image</mat-card-subtitle> -->
+                <!-- <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" > -->
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="success-card-content2">
+             <b>Name:</b> {{applicant}} <br>
+             <b>Email:</b>  {{applicantEmail}} <br>
+             <b>Phone:</b> {{applicantPhone}} <br>
+             <b>Address:</b> {{applicantAddress}} <br>
+            </mat-card-content>
+          </mat-card>
+          <br>
+        <mat-card class="example-card success-card">
+            <mat-card-header>
+                <!-- <mat-card-title class="text">
+                    Note Form
+                </mat-card-title>
+                <mat-card-subtitle class="text">{{applicant}}</mat-card-subtitle> -->
+            </mat-card-header>
+            <mat-card-content>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="pk" matInput placeholder="pk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="sk" matInput placeholder="sk"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1PK" matInput placeholder="gsI1PK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="gsI1SK" matInput placeholder="gsI1SK"  type="input">
+                </mat-form-field>
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="documentType" matInput placeholder="documentType"  type="input">
+                </mat-form-field> 
+                
+
+                    <button
+                    type="button"
+                     mat-icon-button
+                        color="primary"
+                        (click)="addVehicle()"
+                       
+                        matTooltip="Add Vehicle"
+                        matTooltipPosition="right"
+                    >
+                    <span  class="form-title2">Add Vehicle </span>
+                    <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="add_to_photos"
+                ></mat-icon>
+    
+                </button>
+                    <div
+                            *ngIf="isVehicleExists() > 0"
+                            formArrayName="vehicles"
+                        >
+                            <div
+                                *ngFor="
+                                    let entity of getAllVehicle()?.controls;
+                                    let i = index
+                                "
+                                [formGroupName]="i"
+                            >
+                                <div class="">
+                                    <div>
+                                        <!-- <legend class="w-10 w-5">Note {{ i + 1 }}</legend> -->
+                                    </div>
+                                    <div>
+                                        <button
+                                        type="button"
+                                        matTooltip= "Delete Vehicle"  
+                                        matTooltipPosition="below"
+                                        mat-icon-button
+                                            color="accent"
+                                            (click)="removeVehicle(i)"
+                                        >
+                                        <span class="form-title">Vehicle {{ i + 1 }}</span>
+                                        <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row ">
+                                    <mat-form-field 
+                                    appearance="outline" >
+                                        <mat-label>First Name</mat-label>
+                                            <input
+                                                formControlName="firstName"
+                                                matInput
+                                                placeholder="FirstName"
+                                            />
+                                          
+                                        </mat-form-field>
+                                    </div>
+                                     <div class="row">
+                                        <mat-form-field 
+                                        appearance="outline"   
+                                    >
+                                        <mat-label >Last Name</mat-label>
+                                        <input
+                                            formControlName="lastName"
+                                            matInput
+                                            placeholder="LastName"
+                                        />
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field 
+                                    appearance="outline"   
+                                >
+                                    <mat-label >Contact Email</mat-label>
+                                    <input
+                                        formControlName="email"
+                                        matInput
+                                        placeholder="email"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="row">
+                                <mat-form-field 
+                                appearance="outline"   
+                            >
+                                <mat-label >Contact Phone</mat-label>
+                                <input
+                                    formControlName="phone"
+                                    matInput
+                                    placeholder="phone"
+                                />
+                            </mat-form-field>
+                        </div>
+                                <div class="row">  
+                                    <mat-form-field
+                                    appearance="outline"    
+                                >
+                                <mat-label>Type</mat-label>
+                                <mat-select formControlName="type">
+                                    <mat-option
+                                        *ngFor="let type of vehicleType"
+                                        [value]="type.viewValue"
+                                    >
+                                        {{ type.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                                </mat-form-field >
+                                
+                               </div>
+                               <div class="row">
+                                <mat-form-field 
+                                appearance="outline"   
+                            >
+                                <mat-label >Year</mat-label>
+                                <input
+                                    formControlName="year"
+                                    matInput
+                                    placeholder="Year"
+                                />
+                            </mat-form-field>
+                        </div>
+                               <div class="row">  
+                                <mat-form-field
+                                appearance="outline"    
+                            >
+                            <mat-label>Make</mat-label>
+                            <mat-select formControlName="make">
+                                <mat-option
+                                    *ngFor="let make of vehicleMake"
+                                    [value]="make.viewValue"
+                                >
+                                    {{ make.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field >
+                            
+                           </div>
+                           <div class="row">  
+                            <mat-form-field
+                            appearance="outline"    
+                        >
+                        <mat-label>Model</mat-label>
+                        <mat-select formControlName="model">
+                            <mat-option
+                                *ngFor="let model of vehicleModel"
+                                [value]="model.viewValue"
+                            >
+                                {{ model.viewValue }}
+                            </mat-option>
+                        </mat-select>
+                        </mat-form-field >
+                        
+                       </div>
+                    <div class="row">  
+                    <mat-form-field
+                        appearance="outline"    
+                    >
+                    <mat-label>Body Style</mat-label>
+                    <mat-select formControlName="bodyStyle">
+                        <mat-option
+                            *ngFor="let style of vehicleBodyStyle"
+                            [value]="style.viewValue"
+                        >
+                            {{ style.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field >
+                    
+                   </div>
+                   <div class="row">
+                    <mat-form-field 
+                    appearance="outline"   
+                >
+                    <mat-label >Price</mat-label>
+                    <input
+                        formControlName="price"
+                        matInput
+                        placeholder="Price"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field 
+                appearance="outline"   
+            >
+                <mat-label >Mileage</mat-label>
+                <input
+                    formControlName="mileage"
+                    matInput
+                    placeholder="mileage"
+                />
+            </mat-form-field>
+        </div>
+                   <div class="row">  
+                    <mat-form-field
+                        appearance="outline"    
+                    >
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="locatedStatus">
+                        <mat-option
+                            *ngFor="let status of vehicleStatus"
+                            [value]="status.viewValue"
+                        >
+                            {{ status.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field >
+                    
+                   </div>           
+                               <div class="row">   
+                                <mat-form-field class="textarea-input"  appearance="outline">   
+                                    <mat-label>Note</mat-label>
+                                    <textarea cols="35" rows="8" formControlName="note"
+                                    matInput
+                                    placeholder="Note"
+                                    cdkTextareaAutosize="false" [cdkAutosizeMinRows]="2"  [cdkAutosizeMaxRows]="5"></textarea>
+                                </mat-form-field>
+                               </div>
+                               <div class="row">
+                            <img [src]="imageObject[i+1]" *ngIf="productImageUploaded"  title="Car Picture" height="150px" width="150px"/>
+                               </div>
+                               <button  mat-icon-button matTooltip=  
+                               "Attach Image"
+                                   matTooltipPosition="above" color="primary" (click)="openFilePopup()"
+                                   matTooltipClass="primary-tooltip">
+                                   <mat-icon>attach_file</mat-icon>
+                               </button>
+                
+                               <!-- <h2>Upload Image</h2>
+                               <div class="picture-container">  
+                              <img [src]="url"  title="Car Picture" height="150px" width="150px"/>
+                              <input formControlName="imageUrl" type="file" id="img" accept="image/*" (change)="onChange($event)" style="display:none" />
+                              <label for="img">Upload Image</label>
+
+                               </div>               -->
+                               
+                            </div>
+                        </div>
+                    <div class="button-set">   
+                        <button
+                                mat-raised-button
+                                color="primary"
+                                type="submit"
+                                class="button-width"
+                                
+                            >
+                                Save
+                            </button>
+                            <button
+                            mat-raised-button
+                            (click)="clear()"
+                            color="primary"
+                            type="submit"
+                            class="button-width"
+                           
+                        >
+                            clear
+                        </button>
+                        <button         
+                        
+                        mat-raised-button
+                        color="primary"
+                        (click)="close()"
+                        class="button-width"
+                    >
+                        Close
+                    </button>      
+                    <!-- <button (click)="openFilePopup()">Upload</button> -->
+                    </div>       
+           </mat-card-content>        
+        </mat-card>
+    </form>
+    </div>
+
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Upload Image</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="closeFilePopup()"></button>
+            <!-- <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button> -->
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <label for="img">Upload Image</label>
+                    <input class="form-control"  type="file" id="img" accept="image/*" (change)="onChange($event)" style="display:none" />
+                    <img class="img-responsive img-thumbnail" [src]="productImageArray[currentVehicleIndex - 1]" height="150px" width="150px"/>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <!-- <div class="col-lg-6">
+                    <mat-progress-bar
+                    *ngIf="value"
+                    class="example-margin2"
+                    [color]="color"
+                    [mode]="mode"
+                    [value]="value"
+                    [bufferValue]="bufferValue">
+                </mat-progress-bar>
+                </div> -->
+                <!-- <div class="col-lg-12"> -->
+                    <button style="margin-top: 20px; justify-content: center;" type="button" class="btn btn-primary" (click)="proceedUpload()">Proceed Upload</button>
+                <!-- </div> -->
+                <!-- <div class="col-lg-3">
+                    <button type="button" class="btn btn-primary" (click)="closeFilePopup()">Close</button>
+                </div> -->
+            </div>     
+        </div>
+    </ng-template>
+    

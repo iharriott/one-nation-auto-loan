@@ -13,4 +13,8 @@ export interface Note {
 
 export interface NoteDetail {
   noteText: string;
+  createdBy: string;
+  createdDate: Date;
+  updatedBy: string;
+  updatedDate: Date;
 }

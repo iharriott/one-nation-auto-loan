@@ -405,6 +405,13 @@ tr.data-element-row:not(.data-expanded-row):active {
 
 .button-set {
   display: block !important;
+  margin-left: 20px;
+}
+
+.button-set2 {
+  display: block !important;
+  margin-left: 6px;
+  margin-top: 20px;
 }
 
 /*Change mat-Form-Field Input Height*/
@@ -540,4 +547,17 @@ padding: 10px 10px;
   padding: 0px;
   margin: 0 5px;
 }
+
+.grid-box2 {
+  display: grid;
+  grid-template-columns: repeat(2,50%);
+  grid-gap: 0px
+}
+
+/* .grid-box2>div {
+ 
+  border: none;
+  padding: 0px;
+  margin: 0px 5px;
+} */
 

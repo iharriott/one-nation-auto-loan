@@ -48,14 +48,14 @@
  <span style="font-size: medium; margin-left: 20px;  margin-top: 20px">Leads Tracker</span>
  <span class="toolbar-spacer"></span>
  <button
+ class="btn btn-primary btn-block w-800"
  
- mat-raised-button
  *ngIf="!auth.isLoggedIn()"
  (click)="login()"
 >
  Login
 </button>
-<button mat-raised-button *ngIf="auth.isLoggedIn()" (click)="logout()">
+<button class="btn btn-warning"  *ngIf="auth.isLoggedIn()" (click)="logout()">
   Logout
 </button>
 <mat-icon>account_circle</mat-icon>
@@ -69,7 +69,7 @@
   >
   <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
   </mat-sidenav>
-  <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+  <mat-sidenav-content class="" [style.margin-left]="sidenavWidth()">
    
     <router-outlet> </router-outlet>
   </mat-sidenav-content>

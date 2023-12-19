@@ -5,13 +5,13 @@
         <div class="button-set">
             <div>
                 <button
-               *ngIf="!isEditMode"
+                *ngIf="!dataService.isEditModeApplicant()"
                 mat-raised-button
                 color="primary"
                 (click)="setTemplate('applicant')"
                 class="button-width"
             >
-              {{isEditMode ? 'Edit Applicant' : 'Add Applicant'}}  
+              {{dataService.isEditModeApplicant() ? 'Edit Applicant' : 'Add Applicant'}}  
             </button>
             <button
                     *ngIf="isapplicantExists"   
@@ -39,6 +39,15 @@
                         class="button-width"
                     >
                     {{dataService.isEditModeMortgage() ? 'Edit Mortgage' : 'Add Mortgage'}} 
+                    </button>
+                    <button
+                    *ngIf="isapplicantExists"
+                        mat-raised-button
+                        color="primary"
+                        (click)="setTemplate('vehicle')"
+                        class="button-width"
+                    >
+                    {{dataService.isEditModeVehicle() ? 'Edit Vehicle' : 'Add Vehicle'}} 
                     </button>
             
                     <button     
@@ -225,7 +234,7 @@
         appearance="outline"  
         class="search-field-width"  
         >
-        <mat-label>ApplicantStatus</mat-label>
+        <mat-label>Applicant Status</mat-label>
         <mat-select formControlName="display">
         <mat-option
             *ngFor="let appl of applicantStatus"
@@ -237,7 +246,7 @@
         </mat-form-field >
                 </div>
             </div>
-            <div class="button-set">
+            <div class="button-set2">
                 <button
                 (click)="onReset()"
                 mat-raised-button
@@ -322,6 +331,13 @@ style="height:400px; width: 100%; padding-top: 2px; font-size: medium"
         <app-applicant-view
         (closeViewButtonClicked)="setTemplate('')"
         ></app-applicant-view>
+    </div>
+</ng-template>
+<ng-template #vehicle>
+    <div class="book-appointment-container scrolling-container">
+        <app-vehicle
+        (closeVehicleButtonClicked)="setTemplate('')"
+        ></app-vehicle>
     </div>
 </ng-template>
 

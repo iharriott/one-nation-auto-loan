@@ -73,6 +73,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.dataService.loginStatus$.next(false);
     this.dataService.user = null;
     this.auth.signOut();
+    this.userStore.setFullNameForStore('');
     this.dataService.primaryApplicant = null;
     this.dataService.editMode$.next(false);
   }

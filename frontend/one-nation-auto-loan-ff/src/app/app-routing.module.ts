@@ -9,6 +9,9 @@ import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { ApplicantViewComponent } from './components/applicant-view/applicant-view.component';
 import { SignupComponent } from './components/public/signup/signup.component';
 import { authGuard } from './guards/auth.guard';
+import { VehicleComponent } from './components/vehicle/vehicle.component';
+import { AffiliateComponent } from './components/affiliate/affiliate.component';
+import { AffiliateListComponent } from './components/affiliate-list/affiliate-list.component';
 
 const routes: Routes = [
   {
@@ -50,6 +53,21 @@ const routes: Routes = [
         path: 'applicantview',
         component: ApplicantViewComponent,
         data: { view: 'view' },
+      },
+      {
+        path: 'vehicle',
+        component: VehicleComponent,
+        data: { view: 'vehicle' },
+      },
+      {
+        path: 'affiliate',
+        component: AffiliateComponent,
+        data: { view: 'affiliate' },
+      },
+      {
+        path: 'affiliatelist',
+        component: AffiliateListComponent,
+        data: { view: 'affiliatelist' },
       },
     ],
   },

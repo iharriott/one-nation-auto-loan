@@ -21,11 +21,11 @@ export interface PinnedApplicant {
   accessedDate: Date;
   dealStatus: string;
   referralCode: string;
-  tempDealerId: TempDealer[];
+  tempDealerId: string[];
   sales: number;
   finance: number;
   gross: number;
-  display: boolean;
+  display: string;
   createdBy: string;
   assignedDate: Date;
   completedDate: Date;

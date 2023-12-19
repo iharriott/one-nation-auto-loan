@@ -88,6 +88,8 @@ export class AgGridListComponent implements OnInit {
   public applicant!: TemplateRef<any>;
   @ViewChild('applicantview', { static: true })
   public applicantview!: TemplateRef<any>;
+  @ViewChild('vehicle', { static: true })
+  public vehicle!: TemplateRef<any>;
   utility: any;
   selectedUI!: string;
   applicantExist!: boolean;
@@ -265,124 +267,6 @@ export class AgGridListComponent implements OnInit {
     }
   }
 
-  // onClickCheckbox(value: any) {
-  //   // debugger;
-  //   if (!value) {
-  //     const data = this.dataService.rowData;
-  //     const pred = R.whereEq({
-  //       display: 'active',
-  //     });
-
-  //     const applicants = R.filter((appl) => {
-  //       return pred(appl);
-  //     }, data);
-
-  //     //console.log(`applicants ${JSON.stringify(applicants)}`);
-  //     const pred2 = R.whereEq({
-  //       pinStatus: 'Y',
-  //       display: 'active',
-  //     });
-
-  //     const pred3 = R.whereEq({
-  //       pinStatus: 'N',
-  //       display: 'active',
-  //     });
-
-  //     const pinnedRecord: any = R.filter((pinnedDataItem) => {
-  //       return pred2(pinnedDataItem);
-  //     }, this.dataService.pinnedApplicants);
-
-  //     const recentlyAccessed: any = R.filter((pinnedDataItem) => {
-  //       return pred3(pinnedDataItem);
-  //     }, this.dataService.pinnedApplicants);
-
-  //     this.dataService.tableData$.next(applicants);
-  //     this.dataService.pinnedData$.next(pinnedRecord);
-  //     this.dataService.recentlyAccessed$.next(recentlyAccessed);
-  //   } else {
-  //     const pred2 = R.whereEq({
-  //       pinStatus: 'Y',
-  //     });
-
-  //     const pred3 = R.whereEq({
-  //       pinStatus: 'N',
-  //     });
-
-  //     const pinnedRecord: any = R.filter((pinnedDataItem) => {
-  //       return pred2(pinnedDataItem);
-  //     }, this.dataService.pinnedApplicants);
-
-  //     const recentlyAccessed: any = R.filter((pinnedDataItem) => {
-  //       return pred3(pinnedDataItem);
-  //     }, this.dataService.pinnedApplicants);
-
-  //     this.dataService.tableData$.next(this.dataService.rowData);
-  //     this.dataService.pinnedData$.next(pinnedRecord);
-  //     this.dataService.recentlyAccessed$.next(recentlyAccessed);
-  //   }
-  // }
-
-  // populateUserPinnedItems() {
-  //   const user = this.dataService.getLoggedInUser();
-  //   const { sk } = user;
-  //   this.apiService.getUserPinnedItems(sk).subscribe({
-  //     next: (data) => {
-  //       this.dataService.pinItemData = data;
-  //       console.log(`pinned items ${JSON.stringify(data)}`);
-  //     },
-  //     error: console.log,
-  //   });
-  // }
-
-  // setApplicantPinnedStatus(searchData: any, pinnedData: any) {
-  //   let result;
-  //   if (searchData !== undefined && pinnedData !== undefined) {
-  //     result = R.map((data) => {
-  //       const { sk } = data;
-  //       const userId = this.dataService.getLoggedInUserId();
-  //       const pred = R.whereEq({
-  //         pk: userId,
-  //         sk,
-  //       });
-
-  //       const pinnedRecord: any = R.find((pinnedDataItem) => {
-  //         return pred(pinnedDataItem);
-  //       }, pinnedData);
-
-  //       if (pinnedRecord !== undefined) {
-  //         const { pinStatus } = pinnedRecord;
-  //         return { ...data, pinnedStatus: pinStatus };
-  //       }
-  //       return { ...data, pinnedStatus: 'N' };
-  //     }, searchData);
-  //   }
-
-  //   return result;
-  // }
-
-  // getAccountPinnedStatus(data: any) {
-  //   const pred = R.whereEq({
-  //     pinStatus: 'Y',
-  //   });
-
-  //   const pred2 = R.whereEq({
-  //     pinStatus: 'N',
-  //   });
-
-  //   const pinnedClients = R.filter((pinnedDataItem) => {
-  //     return pred(pinnedDataItem);
-  //   }, data);
-
-  //   const unPinnedClients = R.filter((pinnedDataItem) => {
-  //     return pred2(pinnedDataItem);
-  //   }, data);
-  //   return {
-  //     searchData: [...data],
-  //     pinnedClients,
-  //     unPinnedClients,
-  //   };
-  // }
-
   hideApplicant(data: any) {
     // debugger;
     const user = this.dataService.getLoggedInUser();
@@ -424,6 +308,7 @@ export class AgGridListComponent implements OnInit {
     const { pk, sk } = row.data;
     this.dataService.applicantPk = pk;
     this.dataService.applicantSk = sk;
+    this.dataService.isEditModeApplicant.set(true);
     this.setTemplate('applicant');
     this.dataService.primaryApplicant = row.data;
     this.dataService.editMode$.next(true);
@@ -510,6 +395,10 @@ export class AgGridListComponent implements OnInit {
         this.container.createEmbeddedView(this.applicantview);
         break;
       }
+      case 'vehicle': {
+        this.container.createEmbeddedView(this.vehicle);
+        break;
+      }
       default: {
         // this.container.createEmbeddedView(this.employment);
         break;
@@ -525,9 +414,6 @@ export class AgGridListComponent implements OnInit {
   }
 
   setTemplate(val: string) {
-    //debugger;
-    // this.dataService.editMode$.next(true);
-    //this.dataService.applicantExist$.next(true);
     this.selectedUI = val;
     this.utility = CommonConstants.listOfUI[this.selectedUI];
     this.determineTemplate();

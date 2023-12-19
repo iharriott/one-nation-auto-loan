@@ -5,6 +5,7 @@ export class CommonConstants {
     note: 'note',
     applicant: 'applicant',
     applicantview: 'applicantview',
+    vehicle: 'vehicle',
   };
 
   public static maritalStatus: any[] = [
@@ -31,6 +32,7 @@ export class CommonConstants {
     { value: 'P', viewValue: 'Pending Verification' },
     { value: 'V', viewValue: 'Verified' },
     { value: 'C', viewValue: 'Completed' },
+    { value: 'N', viewValue: 'New' },
   ];
 
   public static applicantStatus: any[] = [
@@ -76,4 +78,45 @@ export class CommonConstants {
   ];
 
   public static organization = 'ORGN:MAYFIELDTOYOTA:DBZPAQK';
+
+  public static vehicleType: any[] = [
+    { viewValue: 'New' },
+    { viewValue: 'Used' },
+  ];
+
+  public static vehicleMake: any[] = [
+    { viewValue: 'All' },
+    { viewValue: 'Audi' },
+    { viewValue: 'BMW' },
+    { viewValue: 'Cadillac' },
+    { viewValue: 'Ford' },
+    { viewValue: 'Chystler' },
+    { viewValue: 'Dodge' },
+  ];
+
+  public static vehicleModel: any[] = [
+    { viewValue: 'All' },
+    { viewValue: 'A3' },
+    { viewValue: 'A6' },
+    { viewValue: 'Q7' },
+    { viewValue: '2 Series' },
+    { viewValue: '3 Series' },
+    { viewValue: 'M5' },
+    { viewValue: 'X5' },
+  ];
+
+  public static vehicleBodyStyle: any[] = [
+    { viewValue: 'Sedan' },
+    { viewValue: 'SUV' },
+    { viewValue: 'Coupe' },
+    { viewValue: 'Convertible' },
+    { viewValue: 'Hatchback' },
+    { viewValue: 'Wagon' },
+  ];
+
+  public static vehicleStatus: any[] = [
+    { viewValue: 'Requested' },
+    { viewValue: 'Located' },
+    { viewValue: 'Confirmed' },
+  ];
 }

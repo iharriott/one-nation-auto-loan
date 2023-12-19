@@ -26,6 +26,9 @@
                 <mat-form-field [hidden]="true" class="small-height-input">
                     <input formControlName="documentType" matInput placeholder="documentType"  type="input">
                 </mat-form-field> 
+                <mat-form-field [hidden]="true" class="small-height-input">
+                    <input formControlName="display" matInput placeholder="display"  type="input">
+                </mat-form-field> 
                 <div class="row">
                     <mat-form-field 
                     appearance="outline" 
@@ -203,7 +206,7 @@
                         </div>
                     </div>
                 <!-- </div> -->
-                <br>
+                <!-- <br> -->
                 <div class="row">
                     <mat-form-field  
                     appearance="outline"   
@@ -270,7 +273,6 @@
             </mat-option>
         </mat-select>
         </mat-form-field >
-        
        </div>
        
     <div class="row">     
@@ -341,17 +343,29 @@
 </mat-form-field >
 </div>
 
-<div >  
-    <mat-label class="m-20">Assigned Dealer</mat-label> 
+<div class="row">  
+    <mat-form-field class="select-boxes" color="warn" appearance="outline">
+        <mat-label>Assigned Dealer</mat-label>
+        <mat-select  formControlName="tempDealerId" multiple>
+          <mat-select-trigger>
+            {{assignedDealer.value?.[0] || ''}}
+              <span *ngIf="(assignedDealer.value?.length || 0) > 1" class="example-additional-selection">
+                (+{{(assignedDealer.value?.length || 0) - 1}} {{assignedDealer.value?.length === 2 ? 'other' : 'others'}})
+              </span>
+          </mat-select-trigger>
+        <mat-option *ngFor="let dealer of dealers" [value]="dealer.item">{{dealer.item}}</mat-option>
+      <!-- } -->
+        </mat-select>
+      </mat-form-field>
+    <!-- <mat-label class="m-20">Assigned Dealer</mat-label> 
 <ng-multiselect-dropdown
 [settings]="dropdownSettings"
 [data]="dropdownList"
 formControlName="tempDealerId"
 >
 
-</ng-multiselect-dropdown>
+</ng-multiselect-dropdown> -->
 </div>
-<br>
 <div class="row">
     <mat-form-field 
     appearance="outline"   

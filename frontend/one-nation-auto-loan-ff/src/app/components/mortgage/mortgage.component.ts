@@ -80,6 +80,7 @@ export class MortgageComponent implements OnInit, OnDestroy {
           .updateMortgage(currentMortgage, userId, pk, sk)
           .subscribe((data) => {
             this.dataService.currentMortgage = data;
+            this.dataService.isEditModeMortgage.set(true);
             console.log(JSON.stringify(this.dataService.currentNote));
             this.close();
           });
@@ -90,6 +91,7 @@ export class MortgageComponent implements OnInit, OnDestroy {
           .createMortgage(data, userId, appId)
           .subscribe((data) => {
             this.dataService.currentMortgage = data;
+            this.dataService.isEditModeMortgage.set(true);
             console.log(JSON.stringify(this.dataService.currentNote));
             this.close();
           });

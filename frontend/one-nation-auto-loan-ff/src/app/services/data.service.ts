@@ -14,6 +14,7 @@ import { Mortgage } from '../interfaces/mortgage';
 import { Note } from '../interfaces/note';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { Vehicle } from '../interfaces/vehicle';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,7 @@ export class DataService {
   currentEmployment!: Employment | undefined;
   currentMortgage!: Mortgage | undefined;
   currentNote!: Note | undefined;
+  currentVehicle!: Vehicle | undefined;
   applicantName = '';
   applicantPk = '';
   applicantSk = '';
@@ -38,6 +40,10 @@ export class DataService {
   pinnedData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   recentlyAccessed$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   currentApplicant$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  currentNote$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  currentEmployment$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  currentMortgage$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  currentVehicle$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   data: any;
   rowData!: any[];
   pinnedApplicants!: any[];
@@ -49,6 +55,9 @@ export class DataService {
   isEditModeMortgage = signal(false);
   isEditModeEmployment = signal(false);
   isEditModeNote = signal(false);
+  isEditModeApplicant = signal(false);
+  isEditModeVehicle = signal(false);
+  isEditModeAffiliate = signal(false);
   currentApplicantSignal = signal(this.currentApplicant);
 
   constructor(
@@ -67,7 +76,7 @@ export class DataService {
   getAllData(userId: string) {
     forkJoin({
       url1: this.apiService
-        .getAllNewApplicant()
+        .getAllNewApplicant(userId)
         .pipe(catchError((err) => of(err.status))),
       url2: this.apiService
         .getUserPinnedItems(userId)
@@ -79,6 +88,7 @@ export class DataService {
       next: (data) => {
         const rowData = data.url1?.map((data: any) => {
           if (data !== null && data !== undefined) {
+            console.log(`new data ${JSON.stringify(data)}`);
             return this.mapRowItems(data);
           }
           return null;
@@ -291,8 +301,7 @@ export class DataService {
             display: res?.display,
             pinStatus: res?.pinStatus,
             accessedDate: res?.accessedDate,
-            assigned:
-              res?.tempDealerId != null ? res?.tempDealerId[0]?.item : '',
+            assigned: res?.tempDealerId != null ? res?.tempDealerId[0] : '',
             verifiedStatus: res?.status,
             dealStatus: res?.dealStatus,
             dateCompleted: moment(res?.completedDate).format('MM/DD/YYYY'),
@@ -314,7 +323,7 @@ export class DataService {
 
   getNewListData() {
     this.populateUserPinnedItems();
-    this.apiService.getAllNewApplicant().subscribe({
+    this.apiService.getAllNewApplicant('user').subscribe({
       next: (result) => {
         this.data = result.map((res) => {
           return {
@@ -328,8 +337,7 @@ export class DataService {
             phone: res.phone,
             creditScore: res.creditScore,
             display: res.display,
-            assigned:
-              res?.tempDealerId != null ? res?.tempDealerId[0]?.item : '',
+            assigned: res?.tempDealerId != null ? res?.tempDealerId[0] : '',
             verifiedStatus: res.status,
             dealStatus: res.dealStatus,
             dateCompleted: moment(res.completedDate).format('MM/DD/YYYY'),
@@ -514,7 +522,7 @@ export class DataService {
       pinStatus: res?.pinStatus,
       accessedDate: res?.accessedDate,
       display: res?.display,
-      assigned: res?.tempDealerId != null ? res?.tempDealerId[0]?.item : '',
+      assigned: res?.tempDealerId != null ? res?.tempDealerId[0] : '',
       verifiedStatus: res?.status,
       dealStatus: res?.dealStatus,
       dateCompleted: moment(res?.completedDate).format('MM/DD/YYYY'),
@@ -539,6 +547,9 @@ export class DataService {
         url4: this.apiService
           .getCurrentMortgage(sk)
           .pipe(catchError((err) => of(undefined))),
+        url5: this.apiService
+          .getCurrentVehicle(sk)
+          .pipe(catchError((err) => of(undefined))),
       }).subscribe({
         next: (data) => {
           this.currentApplicant = data.url1;
@@ -552,20 +563,28 @@ export class DataService {
           this.applicantExist$.next(true);
           this.editMode$.next(true);
           this.currentEmployment = data.url2;
+          this.currentEmployment$.next(this.currentEmployment);
           this.currentEmployment === undefined
             ? this.isEditModeEmployment.set(false)
             : this.isEditModeEmployment.set(true);
           console.log(`EMPLOYMENT ${JSON.stringify(this.currentEmployment)}`);
           (this.currentNote = data.url3),
-            console.log(`NOTE ${JSON.stringify(this.currentNote)}`);
+            this.currentNote$.next(this.currentNote);
+          console.log(`NOTE ${JSON.stringify(this.currentNote)}`);
           this.currentNote === undefined
             ? this.isEditModeNote.set(false)
             : this.isEditModeNote.set(true);
           this.currentMortgage = data.url4;
+          this.currentMortgage$.next(this.currentMortgage);
           this.currentMortgage === undefined
             ? this.isEditModeMortgage.set(false)
             : this.isEditModeMortgage.set(true);
-          console.log(`MORTGAGE ${JSON.stringify(this.currentMortgage)}`);
+          this.currentVehicle = data.url5;
+          this.currentVehicle$.next(this.currentVehicle);
+          this.currentVehicle === undefined
+            ? this.isEditModeVehicle.set(false)
+            : this.isEditModeVehicle.set(true);
+          console.log(`VEHICLE ${JSON.stringify(this.currentVehicle)}`);
         },
         error: console.log,
       });

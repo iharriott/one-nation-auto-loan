@@ -17,11 +17,11 @@ export interface Applicant {
   status: string;
   dealStatus: string;
   referralCode: string;
-  tempDealerId: TempDealer[];
+  tempDealerId: string[];
   sales: number;
   finance: number;
   gross: number;
-  display: boolean;
+  display: string;
   createdBy: string;
   pinStatus: string;
   accessedDate: Date;

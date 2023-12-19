@@ -12,7 +12,80 @@
          <b>Email:</b>  {{applicantEmail}} <br>
          <b>Phone:</b> {{applicantPhone}} <br>
          <b>Address:</b> {{applicantAddress}} <br>
-        </mat-card-content>
+       
+        <p class="success-card-title">Applicant Info</p>
+        <div *ngFor="let addr of address">
+          <b>Street:</b> {{addr.street}} <br>
+          <b>City:</b>  {{addr.city}} <br>
+          <b>Province:</b> {{addr.province}} <br>
+          <b>Postal Code:</b> {{addr.postalCode}} <br>
+          <b>Country:</b> {{addr.country}} <br>
+          <b>Residence Years:</b> {{addr.residenceYears}} <br>
+          <b>Residence Months:</b> {{addr.residenceMonths}} <br>
+          <mat-divider></mat-divider>
+        </div>
+          <b>Applicant Type:</b> {{otherFormData.applicantType}} <br>
+          <b>DOB:</b>  {{otherFormData.dob | dateFormat}} <br>
+          <b>Marital Status:</b> {{otherFormData.maritalStatus}} <br>
+          <b>Gender:</b> {{otherFormData.gender}} <br>
+          <b>Credit Score:</b> {{otherFormData.creditScore}} <br>
+          <b>Status:</b> {{otherFormData.status}} <br>
+          <b>Deal Status:</b> {{otherFormData.dealStatus}} <br>
+          <b>Referral Code:</b>  {{otherFormData.referralCode}} <br>
+          <b>TempDealer Id:</b> {{otherFormData.tempDealerId}} <br>
+          <b>Sales:</b> {{otherFormData.sales}} <br>
+          <b>Finance:</b> {{otherFormData.finance}} <br>
+          <b>Gross:</b> {{otherFormData.gross}} <br>
+          <b>Completed Date:</b> {{otherFormData.completedDate | dateFormat}} <br>
+        <mat-divider></mat-divider>
+        <p class="success-card-title">Note Info</p>
+        <div *ngFor="let note of notes">
+          <b>Note:</b> {{note.noteText}} <br>  
+          <mat-divider></mat-divider>
+        </div>
+        <p class="success-card-title">Mortgage Info</p>
+        <b>Mortgage Holder:</b> {{mortgage.mortgageHolder}} <br>
+        <b>Mortgage Type:</b> {{mortgage.mortgageType}} <br>
+        <b>Mortgage Status:</b> {{mortgage.status}} <br>
+        <b>Mortgage Payment:</b> {{mortgage.mortgagePayment}} <br>
+        <b>Mortgage Amount:</b> {{mortgage.mortgageAmount}} <br> 
+        <b>Market Value:</b> {{mortgage.marketValue}} <br>
+        <p class="success-card-title">Employment Info</p>
+
+        <div *ngFor="let employment of employmentList">
+          <b>Employment Status:</b> {{employment.employmentStatus}} <br>
+          <b>Employment Type:</b> {{employment.employmentType}} <br>  
+          <b>Organization Name:</b> {{employment.organizationName}} <br>  
+          <b>Street:</b> {{employment.street}} <br>  
+          <b>City:</b> {{employment.city}} <br>  
+          <b>Province:</b> {{employment.province}} <br>  
+          <b>Postal Code:</b> {{employment.postalCode}} <br>  
+          <b>Country:</b> {{employment.country}} <br>  
+          <b>Phone:</b> {{employment.phone}} <br>  
+          <b>Employment Years:</b> {{employment.employmentYears}} <br>  
+          <b>Employment Months:</b> {{employment.employmentMonths}} <br>  
+          <b>Gross Income:</b> {{employment.grossIncome}} <br>  
+          <b>Start Date:</b> {{employment.startDate | dateFormat }} <br> 
+          <b>End Date:</b> {{employment.endDate | dateFormat}} <br>    
+          <mat-divider></mat-divider>
+        </div>
+        <b>Occupation:</b> {{employmentOtherData.occupation}} <br>
+        <b>Other Income:</b> {{employmentOtherData.otherIncome}} <br>
+        <b>Income Type:</b> {{employmentOtherData.otherIncomeType}} <br>
+        <b>Frequency:</b> {{employmentOtherData.frequency}} <br> 
+        <b>Status:</b> {{employmentOtherData.status}} <br>
+        <div class="button-set" style="margin-top: 20px; justify-content: center;">
+          <button
+          mat-raised-button
+          color="primary"
+          (click)="close()"
+          class="button-width"
+          style="margin-left: 100px;"
+      >
+          Close
+      </button>  
+        </div>
+        </mat-card-content>     
       </mat-card>
       <br>
 </div>

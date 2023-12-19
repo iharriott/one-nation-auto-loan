@@ -49,11 +49,11 @@
     border-radius: 50%;
 }  
 
-button {
+/* button {
   width: 15px !important;
   height: 20px !important;
   font-size: x-small;
-}
+} */
 
 .content{
   padding: 24px;
