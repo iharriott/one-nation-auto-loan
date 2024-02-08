@@ -14,7 +14,6 @@ phases:
   pre_build:
     commands:
       - echo Installing source NPM dependencies...
-      - npm install --legacy-peer-deps
       - npm install -g @angular/cli
   build:
     commands:
@@ -29,5 +28,5 @@ phases:
 artifacts:
   files:
       - '**/*'
-  base-directory: 'dist*'
-  discard-paths: yes
+  base-directory: 'dist/one-nation-auto-loan-ff'
+  discard-paths: no
