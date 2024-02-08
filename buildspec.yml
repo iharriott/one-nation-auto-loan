@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     CACHE_CONTROL: "86400"
-    S3_BUCKET: "https://s3.console.aws.amazon.com/s3/buckets?region=us-west-1&region=us-west-1"
+    S3_BUCKET: "angular-leads-app"
     BUILD_FOLDER: "dist"
     BUILD_ENV: "prod"
     BUILD_DIR: "./frontend/one-nation-auto-loan-ff"
