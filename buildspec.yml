@@ -28,5 +28,5 @@ phases:
 artifacts:
   files:
       - '**/*'
-  base-directory: 'dist/one-nation-auto-loan-ff'
+  base-directory: 'dist/one-nation-auto-loan-ff*'
   discard-paths: yes
