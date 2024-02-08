@@ -23,7 +23,7 @@
             </div>
         </td> -->
    
-        <div class="">
+        <div class="" *ngIf="dataService.isStaff()">
             <mat-card class="card mat-elevation-z0">
                 <mat-card-title
                     ><mat-icon
@@ -44,7 +44,7 @@
             </mat-card>
         </div>
    
-        <div class="">
+        <div class="" *ngIf="dataService.isUser()">
             <mat-card class="card mat-elevation-z0">
                 <mat-card-title
                     ><mat-icon
@@ -60,6 +60,47 @@
                     </p>
                     <button mat-button color="primary" (click)="affiliateList()">
                         Add/Edit Leads
+                    </button>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="" *ngIf="dataService.isAdmin()">
+            <mat-card class="card mat-elevation-z0">
+                <mat-card-title
+                    ><mat-icon
+                        aria-hidden="false"
+                        aria-label="Example home icon"
+                        fontIcon="edit"
+                    ></mat-icon
+                ></mat-card-title>
+                <mat-card-subtitle>User Admin</mat-card-subtitle>
+                <mat-card-content>
+                    <p>
+                       Add User Roles and Organization
+                    </p>
+                    <button mat-button color="primary" (click)="userList()">
+                        Edit User
+                    </button>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="" *ngIf="dataService.isUser()">
+            <mat-card class="card mat-elevation-z0">
+                <mat-card-title
+                    ><mat-icon
+                        aria-hidden="false"
+                        aria-label="Example home icon"
+                        fontIcon="edit"
+                    ></mat-icon
+                ></mat-card-title>
+                <mat-card-subtitle>Email Subscription</mat-card-subtitle>
+                <mat-card-content>
+                    <p>
+                        This Manages Email Subscription
+                    </p>
+                    <button mat-button color="primary" (click)="subscribe()">
+                        Subscribe/Unsubscribe
                     </button>
                 </mat-card-content>
             </mat-card>

@@ -1,0 +1,8 @@
+@import "../../../assets/styles/form-field.css";
+
+.form-header {
+    font-size: 9pt;
+    margin: 10px 0;
+    color: #5a5a5a;
+    font-weight: 400;
+  }

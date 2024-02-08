@@ -16,4 +16,5 @@ export const environment = {
     'https://f7ni5ijhvyf4gzrrikeuatrgta0itrtj.lambda-url.us-west-1.on.aws',
   testendpoint2:
     'https://h2jbj3j6hd7aedjp7r5qu4ete40qzbxq.lambda-url.us-west-1.on.aws/',
+  emailSubscriptiontopicArn: 'arn:aws:sns:us-west-1:549656849742:youtube-sns',
 };

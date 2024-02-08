@@ -58,6 +58,7 @@ export class ApplicantComponent implements OnInit, OnDestroy {
   formData: any;
   isEditMode!: boolean;
   private addApplicantSubscription?: Subscription;
+  private currentApplicantSubscription?: Subscription;
 
   ngOnInit(): void {
     this.applicantForm = this.fb.group({
@@ -67,6 +68,7 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       gsI1SK: [''],
       documentType: [''],
       applicantType: [''],
+      relatedApplicantId: [],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phone: ['', Validators.required],
@@ -114,19 +116,20 @@ export class ApplicantComponent implements OnInit, OnDestroy {
     if (this.isEditMode) {
       this.dataService.getApplicantData();
       // debugger;
-      this.dataService.currentApplicant$.subscribe({
-        next: (data) => {
-          if (data !== undefined) {
-            this.formData = data;
-            const { address, ...otherFormdata } = data;
-            this.applicantForm.patchValue(otherFormdata);
-            if (address?.length > 0) {
-              this.setAddresses(address);
+      this.currentApplicantSubscription =
+        this.dataService.currentApplicant$.subscribe({
+          next: (data) => {
+            if (data !== undefined) {
+              this.formData = data;
+              const { address, ...otherFormdata } = data;
+              this.applicantForm.patchValue(otherFormdata);
+              if (address?.length > 0) {
+                this.setAddresses(address);
+              }
             }
-          }
-        },
-        error: console.log,
-      });
+          },
+          error: console.log,
+        });
     } else {
       this.addAddress();
     }
@@ -143,8 +146,8 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       province: [''],
       country: [''],
       postalCode: [''],
-      residenceYears: [''],
-      residenceMonths: [''],
+      residenceYears: [0],
+      residenceMonths: [0],
     });
   }
 
@@ -171,58 +174,6 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       const addedAddress = this.addAddresses(address);
     });
   }
-
-  // getApplicantData() {
-  //   const pk = this.dataService.applicantPk;
-  //   const sk = this.dataService.applicantSk;
-  //   if (pk.length > 0 && sk.length > 0) {
-  //     forkJoin({
-  //       url1: this.apiService
-  //         .getApplicantById(sk, pk)
-  //         .pipe(catchError((err) => of(err.status))),
-  //       url2: this.apiService
-  //         .getCurrentEmployment(sk)
-  //         .pipe(catchError((err) => of(undefined))),
-  //       url3: this.apiService
-  //         .getCurrentNote(sk)
-  //         .pipe(catchError((err) => of(undefined))),
-  //       url4: this.apiService
-  //         .getCurrentMortgage(sk)
-  //         .pipe(catchError((err) => of(undefined))),
-  //     }).subscribe({
-  //       next: (data) => {
-  //         this.formData = data.url1;
-  //         const { address, ...otherFormdata } = data.url1;
-  //         this.applicantForm.patchValue(otherFormdata);
-  //         if (address?.length > 0) {
-  //           this.setAddresses(address);
-  //         }
-  //         this.dataService.applicantExist$.next(true);
-  //         this.dataService.editMode$.next(true);
-  //         this.dataService.currentEmployment = data.url2;
-  //         this.dataService.currentEmployment === undefined
-  //           ? this.dataService.isEditModeEmployment.set(false)
-  //           : this.dataService.isEditModeEmployment.set(true);
-  //         console.log(
-  //           `EMPLOYMENT ${JSON.stringify(this.dataService.currentEmployment)}`
-  //         );
-  //         (this.dataService.currentNote = data.url3),
-  //           console.log(`NOTE ${JSON.stringify(this.dataService.currentNote)}`);
-  //         this.dataService.currentNote === undefined
-  //           ? this.dataService.isEditModeNote.set(false)
-  //           : this.dataService.isEditModeNote.set(true);
-  //         this.dataService.currentMortgage = data.url4;
-  //         this.dataService.currentMortgage === undefined
-  //           ? this.dataService.isEditModeMortgage.set(false)
-  //           : this.dataService.isEditModeMortgage.set(true);
-  //         console.log(
-  //           `MORTGAGE ${JSON.stringify(this.dataService.currentMortgage)}`
-  //         );
-  //       },
-  //       error: console.log,
-  //     });
-  //   }
-  // }
 
   addAddress(): void {
     const address = this.addressFormGroup();
@@ -264,7 +215,7 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       error: console.log,
     });
 
-    //debugger;
+    // debugger;
 
     console.log(`The user from local storage ${user!}`);
     if (isEditmode) {
@@ -274,6 +225,15 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       const { pk, sk, gsI1PK, gsI1SK, ...data } =
         this.applicantForm.getRawValue();
       currentApplicant = data;
+      if (currentApplicant.applicantType == 'Co-Applicant') {
+        currentApplicant = {
+          ...data,
+          relatedApplicantId: [this.dataService.currentApplicant?.sk],
+          relatedTo: [
+            `${this.dataService.currentApplicant?.firstName} ${this.dataService.currentApplicant?.lastName}`,
+          ],
+        };
+      }
     }
 
     if (currentApplicant != null && userId != null) {
@@ -308,7 +268,7 @@ export class ApplicantComponent implements OnInit, OnDestroy {
     this.dataService.isEditModeVehicle.set(false);
     this.dataService.applicantExist$.next(false);
     this.dataService.editMode$.next(false);
-    this.dataService.primaryApplicant = null;
+    // this.dataService.primaryApplicant = null;
     this.closeApplicantButtonClicked.emit('applicant');
   }
 
@@ -336,7 +296,12 @@ export class ApplicantComponent implements OnInit, OnDestroy {
       this.isDisabled = true;
       this.openDialog();
     } else if (apptype == 'Co-Applicant' && applicant != null) {
-      this.dialogData = `Your are about to create a co-applicant for ${this.dataService.primaryApplicant?.firstName} ${this.dataService.primaryApplicant?.lastName}`;
+      // console.log(
+      //   `primary app in notification ${JSON.stringify(
+      //     this.dataService.primaryApplicant
+      //   )}`
+      // );
+      this.dialogData = `Your are about to create a co-applicant for ${this.dataService.primaryApplicant?.fullName}`;
       this.openDialog();
     }
   }
@@ -372,5 +337,6 @@ export class ApplicantComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.addApplicantSubscription?.unsubscribe();
+    this.currentApplicantSubscription?.unsubscribe();
   }
 }

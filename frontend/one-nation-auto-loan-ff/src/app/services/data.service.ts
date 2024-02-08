@@ -15,6 +15,7 @@ import { Note } from '../interfaces/note';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { Vehicle } from '../interfaces/vehicle';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ import { Vehicle } from '../interfaces/vehicle';
 export class DataService {
   isapplicantExists!: boolean;
   primaryApplicant: any = null;
-  currentApplicant!: Applicant;
+  currentApplicant!: Applicant | undefined;
   currentEmployment!: Employment | undefined;
   currentMortgage!: Mortgage | undefined;
   currentNote!: Note | undefined;
@@ -30,13 +31,20 @@ export class DataService {
   applicantName = '';
   applicantPk = '';
   applicantSk = '';
+  affiliatePk = '';
+  affiliateSk = '';
+  userPk = '';
+  userSk = '';
   user!: User | null;
+  currentUser: any;
   isEditMode = false;
   loginStatus$ = new BehaviorSubject<boolean>(false);
   applicantExist$ = new BehaviorSubject<boolean>(false);
   editMode$ = new BehaviorSubject<boolean>(false);
 
   tableData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  affiliateTableData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  userTableData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   pinnedData$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   recentlyAccessed$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   currentApplicant$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -44,6 +52,8 @@ export class DataService {
   currentEmployment$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   currentMortgage$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   currentVehicle$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  currentAffiliateLead$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  colsDefs$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   data: any;
   rowData!: any[];
   pinnedApplicants!: any[];
@@ -59,10 +69,14 @@ export class DataService {
   isEditModeVehicle = signal(false);
   isEditModeAffiliate = signal(false);
   currentApplicantSignal = signal(this.currentApplicant);
+  isUser = signal(false);
+  isStaff = signal(false);
+  isAdmin = signal(false);
 
   constructor(
     private snackBar: MatSnackBar,
     private apiService: ApiService,
+    private authService: AuthService,
     private toast: NgToastService
   ) {}
 
@@ -514,6 +528,9 @@ export class DataService {
       sk: res.sk,
       gsI1PK: res.gsI1PK,
       gsI1SK: res.gsI1SK,
+      relatedApplicantId: res.relatedApplicantId,
+      applicantType: res.applicantType,
+      relatedTo: res.relatedTo,
       fullName: `${res.firstName} ${res.lastName}`,
       city: res?.address[0]?.city,
       province: res?.address[0]?.province,
@@ -522,12 +539,24 @@ export class DataService {
       pinStatus: res?.pinStatus,
       accessedDate: res?.accessedDate,
       display: res?.display,
-      assigned: res?.tempDealerId != null ? res?.tempDealerId[0] : '',
+      assigned:
+        res?.tempDealerId != null ? this.dealersToList(res?.tempDealerId) : '',
       verifiedStatus: res?.status,
       dealStatus: res?.dealStatus,
       dateCompleted: moment(res?.completedDate).format('MM/DD/YYYY'),
       dateAssigned: moment(res?.assignedDate).format('MM/DD/YYYY'),
     };
+  }
+
+  dealersToList(dealers: any[]) {
+    let result = null;
+    if (dealers.length !== 0) {
+      result = dealers.reduce((accum, val) => {
+        return `${accum}, ${val}`;
+      });
+    }
+
+    return result;
   }
 
   getApplicantData() {
@@ -616,5 +645,36 @@ export class DataService {
 
   showInfo(message: string) {
     this.toast.info({ detail: 'INFO', summary: message, sticky: true });
+  }
+
+  getAffiliateLeads() {
+    var user = this.getLoggedInUserId();
+    this.apiService.getAffiliateLeads(user).subscribe({
+      next: (data) => {
+        console.log(`aff data ${JSON.stringify(data)}`);
+        this.affiliateTableData$.next(data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  getAllUsers() {
+    this.authService.getAllUsers().subscribe({
+      next: (data) => {
+        console.log(`user data ${JSON.stringify(data)}`);
+        this.userTableData$.next(data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  resetAccess() {
+    this.isAdmin.set(false);
+    this.isUser.set(false);
+    this.isAdmin.set(false);
   }
 }

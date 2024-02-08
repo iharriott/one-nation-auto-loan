@@ -10,6 +10,7 @@
 
 			</div>
             <div class="panel-body p-3">
+              <mat-spinner class="center" *ngIf="isSpinnerStarted"></mat-spinner>
 				<form [formGroup]="signUpForm">
                     <div class="form-group pt-3">
                         <div class="input-field" [class.error]="signUpForm.controls['firstName'].dirty && signUpForm.hasError('required', 'firstName')">

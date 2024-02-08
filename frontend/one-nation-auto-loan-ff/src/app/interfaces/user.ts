@@ -4,12 +4,11 @@ export interface User {
   gsI1PK: string;
   gsI1SK: string;
   documentType: string;
-  organization: string;
+  organization: string[];
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   userName: string;
-  //isError: boolean;
-  //result: string[];
+  role: string[];
 }

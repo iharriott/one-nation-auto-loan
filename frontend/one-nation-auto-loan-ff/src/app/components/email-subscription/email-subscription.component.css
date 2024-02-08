@@ -1,0 +1,17 @@
+.card {
+    font-size: medium;
+    width: 300px;
+    height: 160px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-color: lightblue;
+}
+.flex {
+    display:flex
+}
+
+.card-align {
+    justify-content: center !important;
+}

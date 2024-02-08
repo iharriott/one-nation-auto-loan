@@ -9,6 +9,8 @@ export interface PinnedApplicant {
   applicantType: string;
   firstName: string;
   lastName: string;
+  relatedApplicantId: string[];
+  relatedTo: string[];
   phone: string;
   email: string;
   sin: string;

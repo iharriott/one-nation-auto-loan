@@ -49,24 +49,25 @@
  <span class="toolbar-spacer"></span>
  <button
  class="btn btn-primary btn-block w-800"
- 
+ style="text-align: center;"
  *ngIf="!auth.isLoggedIn()"
  (click)="login()"
 >
  Login
 </button>
-<button class="btn btn-warning"  *ngIf="auth.isLoggedIn()" (click)="logout()">
+<button class="btn btn-warning" sytle="padding: 0.5rem;" *ngIf="auth.isLoggedIn()" (click)="logout()">
   Logout
 </button>
 <mat-icon>account_circle</mat-icon>
 <p style="font-size: small">{{ fullName }}</p>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav  [style.width]="sidenavWidth()" #drawer class="sidenav" 
+  <mat-sidenav [style.width]="sidenavWidth()" #drawer class="sidenav" 
   [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
   [mode]="(isHandset$ | async) ? 'over' : 'side'"
   [opened]="(isHandset$ | async) === false"
   >
+  
   <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
   </mat-sidenav>
   <mat-sidenav-content class="" [style.margin-left]="sidenavWidth()">

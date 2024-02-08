@@ -12,8 +12,17 @@ import { authGuard } from './guards/auth.guard';
 import { VehicleComponent } from './components/vehicle/vehicle.component';
 import { AffiliateComponent } from './components/affiliate/affiliate.component';
 import { AffiliateListComponent } from './components/affiliate-list/affiliate-list.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { UserAdminComponent } from './components/user-admin/user-admin.component';
+import { UserAdminListComponent } from './components/user-admin-list/user-admin-list.component';
+import { EmailSubscriptionComponent } from './components/email-subscription/email-subscription.component';
 
 const routes: Routes = [
+  {
+    path: 'outsideaffiliate',
+    component: AffiliateComponent,
+    data: { view: 'outsideaffiliate' },
+  },
   {
     path: '',
     component: MainNavComponent,
@@ -68,6 +77,26 @@ const routes: Routes = [
         path: 'affiliatelist',
         component: AffiliateListComponent,
         data: { view: 'affiliatelist' },
+      },
+      {
+        path: 'passwordupdate',
+        component: ForgotPasswordComponent,
+        data: { view: 'passwordupdate' },
+      },
+      {
+        path: 'useradmin',
+        component: UserAdminComponent,
+        data: { view: 'useradmin' },
+      },
+      {
+        path: 'useradminlist',
+        component: UserAdminListComponent,
+        data: { view: 'useradminlist' },
+      },
+      {
+        path: 'subscribe',
+        component: EmailSubscriptionComponent,
+        data: { view: 'subscribe' },
       },
     ],
   },

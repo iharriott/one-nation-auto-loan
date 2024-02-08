@@ -13,6 +13,7 @@ import { SearchParams } from '../interfaces/searchParams';
 import { Note } from '../interfaces/note';
 import { Mortgage } from '../interfaces/mortgage';
 import { Vehicle } from '../interfaces/vehicle';
+import { Affiliate } from '../interfaces/affiliate';
 
 @Injectable({
   providedIn: 'root',
@@ -230,6 +231,45 @@ export class ApiService {
     const apiAction = 'api/Vehicle/applicant';
     this.endpoint = `${this.baseUrl}/${apiAction}/${appId}`;
     return this.http.get<Vehicle>(this.endpoint);
+  }
+
+  getAffiliateLeads(affId: string): Observable<Affiliate[]> {
+    const apiAction = 'api/Affiliate/all';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${affId}`;
+    return this.http.get<Affiliate[]>(this.endpoint);
+  }
+
+  getAffiliateLeadById(affId: string, id: string): Observable<Affiliate> {
+    const apiAction = 'api/Affiliate';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?affId=${affId}`;
+    return this.http.get<Affiliate>(this.endpoint);
+  }
+
+  updateAffiliateLead(
+    affiliate: Affiliate,
+    affId: string,
+    id: string,
+    userId: string
+  ): Observable<Affiliate> {
+    const apiAction = 'api/Affiliate';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?affId=${affId}&userId=${userId}`;
+    return this.http.put<Affiliate>(this.endpoint, affiliate);
+  }
+
+  createAffiliateLead(
+    affiliate: Affiliate,
+    orgId: string,
+    userId: string
+  ): Observable<Affiliate> {
+    const apiAction = 'api/Affiliate';
+    this.endpoint = `${this.baseUrl}/${apiAction}/?orgId=${orgId}&userId=${userId}`;
+    return this.http.post<Affiliate>(this.endpoint, affiliate);
+  }
+
+  deleteAffiliateLead(affId: string, id: string): Observable<boolean> {
+    const apiAction = 'api/Affiliate';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${id}/?affId=${affId}`;
+    return this.http.delete<boolean>(this.endpoint);
   }
 
   getRecentlyAccessedItems(

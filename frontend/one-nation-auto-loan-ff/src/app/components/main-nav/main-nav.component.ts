@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DestroyRef,
   inject,
   OnDestroy,
   OnInit,
@@ -25,12 +26,16 @@ export class MainNavComponent implements OnInit, OnDestroy {
     private router: Router,
     private dataService: DataService,
     public auth: AuthService,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private breakpointObserver: BreakpointObserver,
+    private destroyRef: DestroyRef
   ) {}
   isUserLoggedIn!: boolean;
   collapsed = signal(true);
   public fullName: string = '';
   role!: string;
+  protected isVisible = false;
+  isHandset$: Observable<boolean> = new Observable<boolean>();
 
   sidenavWidth = computed(() => (this.collapsed() ? '65px' : '250px'));
 
@@ -39,6 +44,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
 
     this.dataService.loginStatus$.subscribe((data) => {
       this.isUserLoggedIn = data;
+      console.log(`user ${data}`);
     });
 
     if (this.dataService.getLoggedInUser() != null) {
@@ -48,22 +54,31 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.userStore.getFullNameFromStore().subscribe((val) => {
       const fullNameFromToken = this.auth.getfullnameFromToken();
       this.fullName = val || fullNameFromToken;
+      console.log(`fullname ${this.fullName}`);
     });
 
     this.userStore.getRoleFromStore().subscribe((val) => {
       const roleFromToken = this.auth.getfullnameFromToken();
       this.role = val || roleFromToken;
+      console.log(`role ${this.role}`);
     });
+
+    this.isHandset$ = this.breakpointObserver
+      .observe('(max-width: 300px)')
+      .pipe(
+        map((result) => result.matches),
+        shareReplay()
+      );
   }
 
-  private breakpointObserver = inject(BreakpointObserver);
+  // private breakpointObserver = inject(BreakpointObserver);
 
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
+  // isHandset$: Observable<boolean> = this.breakpointObserver
+  //   .observe(Breakpoints.Handset)
+  //   .pipe(
+  //     map((result) => result.matches),
+  //     shareReplay()
+  //   );
 
   login() {
     this.router.navigate(['login']);
@@ -76,6 +91,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.userStore.setFullNameForStore('');
     this.dataService.primaryApplicant = null;
     this.dataService.editMode$.next(false);
+    this.dataService.resetAccess();
   }
   getLoggedInUser() {
     //debugger;
@@ -87,13 +103,18 @@ export class MainNavComponent implements OnInit, OnDestroy {
       }
     }
 
-    // if (this.dataService.user != undefined) {
-    //   return `${this.dataService.user?.firstName} ${this.dataService.user?.lastName}`;
-    // }
     return null;
   }
 
   ngOnDestroy() {
     this.dataService.loginStatus$.unsubscribe();
   }
+}
+function takeUntilDestroyed(
+  destroyRef: DestroyRef
+): import('rxjs').OperatorFunction<
+  import('@angular/cdk/layout').BreakpointState,
+  unknown
+> {
+  throw new Error('Function not implemented.');
 }

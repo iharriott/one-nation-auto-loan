@@ -1,0 +1,25 @@
+<div class="example-button-row">
+    <div class ="example-flex-container" >
+        <button  mat-icon-button matTooltip=  
+        "Delete Lead"
+            matTooltipPosition="above" color="warn" (click)="deleteRow()"
+            matTooltipClass="primary-tooltip">
+            <mat-icon   class="inline-icon">delete_forever</mat-icon>
+        </button>
+    
+            <button  mat-icon-button matTooltip= 
+             "Edit Lead"
+            matTooltipPosition="above"
+            matTooltipClass="primary-tooltip" color="primary" (click)="editRow()">
+            <mat-icon   class="inline-icon">edit</mat-icon>
+        </button>
+        <button  mat-icon-button matTooltip= 
+        "View Details"
+       matTooltipPosition="above" 
+       matTooltipClass="primary-tooltip" color="primary" (click)="setViewTemplate()">
+       <mat-icon   class="inline-icon">visibility</mat-icon>
+    </button>
+    </div>
+</div>
+
+

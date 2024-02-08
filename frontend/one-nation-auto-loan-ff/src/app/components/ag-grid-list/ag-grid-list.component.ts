@@ -22,12 +22,12 @@ import { GridDeleteComponent } from '../grid-delete/grid-delete.component';
 import { CommonConstants } from 'src/app/constants/common-constants';
 import * as R from 'ramda';
 import { ApiService } from 'src/app/services/api.service';
-import { Pinitem } from 'src/app/interfaces/pinitem';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SearchParams } from 'src/app/interfaces/searchParams';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-ag-grid-list',
@@ -75,6 +75,8 @@ export class AgGridListComponent implements OnInit {
   dropdownList: any[] = [];
   dropdownSettings: IDropdownSettings = {};
   context: any;
+  params: any;
+  showMoreText: string = 'More';
 
   @ViewChild('container', { read: ViewContainerRef, static: true })
   public container!: ViewContainerRef;
@@ -102,47 +104,14 @@ export class AgGridListComponent implements OnInit {
   checkboxLabel = 'Show Hidden';
   getRowHeight: any;
   searchValue = 'searcg';
-
-  colsDef: ColDef[] = [
-    { field: 'pk', suppressColumnsToolPanel: true, hide: true },
-    { field: 'sk', suppressColumnsToolPanel: true, hide: true },
-    { field: 'gsI1PK', suppressColumnsToolPanel: true, hide: true },
-    { field: 'gsI1SK', suppressColumnsToolPanel: true, hide: true },
-    { field: 'display', suppressColumnsToolPanel: true, hide: true },
-    { field: 'pinStatus', suppressColumnsToolPanel: true, hide: true },
-    {
-      field: 'fullName',
-      lockPosition: 'left',
-      cellRenderer: (params: ICellRendererParams) => {
-        if (params.data.display != 'inactive') {
-          return `<button  (click)="onClickLink()" class="link-button"> ${params.value} </button>`;
-        }
-        return `<button  class="link-button-del"> ${params.value} </button>`;
-      },
-      cellRendererParams: {
-        clicked: (field: any) => {
-          alert(`${field} was clicked`);
-        },
-      },
-    },
-    { field: 'city' },
-    { field: 'province' },
-    { field: 'phone' },
-    { field: 'creditScore' },
-    { field: 'assigned' },
-    { field: 'verifiedStatus' },
-    { field: 'dealStatus' },
-    { field: 'dateCompleted' },
-    { field: 'dateAssigned' },
-    {
-      field: 'action',
-      cellRenderer: GridDeleteComponent,
-      width: 280,
-    },
-  ];
+  color: ThemePalette = 'primary';
+  checked = false;
+  disabled = false;
+  showLessCols = true;
+  colsDef!: ColDef[];
 
   defaultColDef: ColDef = {
-    width: 120,
+    // width: 120,
     sortable: true,
     filter: true,
     resizable: true,
@@ -151,6 +120,8 @@ export class AgGridListComponent implements OnInit {
   };
   ngOnInit(): void {
     //debugger;
+    this.colsDef = this.getColDefs();
+    this.dataService.colsDefs$.next(this.colsDef);
     this.dataService.getRowData();
 
     this.dataService.applicantExist$.subscribe({
@@ -182,7 +153,7 @@ export class AgGridListComponent implements OnInit {
   }
 
   submit() {
-    debugger;
+    // debugger;
     this.dataService.removeLocalStorageItem('searchData');
     const searchParams: SearchParams = this.searchForm.getRawValue();
     if (!this.dataService.isSearchParamsEmpty(searchParams)) {
@@ -201,6 +172,18 @@ export class AgGridListComponent implements OnInit {
     this.searchForm.reset();
   }
 
+  toggleChange(event: any) {
+    this.showLessCols = event._checked ? true : false;
+    if (this.showLessCols) {
+      this.showMoreText = 'More';
+    } else {
+      this.showMoreText = 'Less';
+    }
+    const cols = this.getColDefs();
+    this.dataService.colsDefs$.next(cols);
+    this.onGridReady(this.params);
+  }
+
   rowHeight(params: any) {
     if (params.node && params.node.detail) {
       // debugger;
@@ -211,6 +194,10 @@ export class AgGridListComponent implements OnInit {
       var gridSizes = params.api.getSizesForCurrentTheme();
       return allDetailRowHeight + gridSizes.headerHeight + offset;
     }
+  }
+
+  onClearApplicant() {
+    this.dataService.currentApplicant = undefined;
   }
 
   sizeToFit() {
@@ -329,10 +316,12 @@ export class AgGridListComponent implements OnInit {
 
   onGridReady(params: any) {
     //debugger;
+    //this.params = params;
     this.gridApi = params.api;
     this.gridApi.setDomLayout('autoHeight');
     this.gridColumnApi = params.columnApi;
     this.getRowHeight = this.rowHeight(params);
+    this.autoSizeAll(false);
     this.sizeToFit();
   }
 
@@ -417,5 +406,92 @@ export class AgGridListComponent implements OnInit {
     this.selectedUI = val;
     this.utility = CommonConstants.listOfUI[this.selectedUI];
     this.determineTemplate();
+  }
+
+  getColDefs(): ColDef[] {
+    let coldfs: ColDef[];
+    if (!this.showLessCols) {
+      coldfs = [
+        { field: 'pk', suppressColumnsToolPanel: true, hide: true },
+        { field: 'sk', suppressColumnsToolPanel: true, hide: true },
+        { field: 'gsI1PK', suppressColumnsToolPanel: true, hide: true },
+        { field: 'gsI1SK', suppressColumnsToolPanel: true, hide: true },
+        { field: 'display', suppressColumnsToolPanel: true, hide: true },
+        { field: 'pinStatus', suppressColumnsToolPanel: true, hide: true },
+        {
+          field: 'relatedApplicantId',
+          suppressColumnsToolPanel: true,
+          hide: true,
+        },
+        {
+          field: 'fullName',
+          lockPosition: 'left',
+        },
+
+        { field: 'applicantType', headerName: 'Type' },
+        { field: 'relatedTo', headerName: 'RelatedTo' },
+        { field: 'city' },
+        { field: 'province' },
+        { field: 'phone' },
+        { field: 'creditScore' },
+        { field: 'assigned' },
+        { field: 'verifiedStatus' },
+        { field: 'dealStatus' },
+        { field: 'dateCompleted' },
+        { field: 'dateAssigned' },
+        {
+          field: 'action',
+          cellRenderer: GridDeleteComponent,
+          width: 350,
+          // flex: 1,
+        },
+      ];
+    } else {
+      coldfs = [
+        { field: 'pk', suppressColumnsToolPanel: true, hide: true },
+        { field: 'sk', suppressColumnsToolPanel: true, hide: true },
+        { field: 'gsI1PK', suppressColumnsToolPanel: true, hide: true },
+        { field: 'gsI1SK', suppressColumnsToolPanel: true, hide: true },
+        { field: 'display', suppressColumnsToolPanel: true, hide: true },
+        { field: 'pinStatus', suppressColumnsToolPanel: true, hide: true },
+        {
+          field: 'relatedApplicantId',
+          suppressColumnsToolPanel: true,
+          hide: true,
+        },
+        {
+          field: 'fullName',
+          lockPosition: 'left',
+        },
+
+        { field: 'applicantType', headerName: 'Type' },
+        { field: 'relatedTo', headerName: 'RelatedTo' },
+        // { field: 'city' },
+        // { field: 'province' },
+        // { field: 'phone' },
+        // { field: 'creditScore' },
+        // { field: 'assigned' },
+        { field: 'verifiedStatus' },
+        { field: 'dealStatus' },
+        { field: 'dateCompleted' },
+        // { field: 'dateAssigned' },
+        {
+          field: 'action',
+          cellRenderer: GridDeleteComponent,
+          // flex: 1,
+          width: 350,
+        },
+      ];
+    }
+
+    return coldfs;
+  }
+
+  agInit(params: ICellRendererParams<any, any, any>): void {
+    debugger;
+    this.params = params;
+  }
+  refresh(params: ICellRendererParams<any, any, any>): boolean {
+    return false;
   }
 }

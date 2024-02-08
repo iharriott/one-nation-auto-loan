@@ -32,6 +32,12 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { AffiliateListComponent } from './affiliate-list/affiliate-list.component';
 import { AffiliateComponent } from './affiliate/affiliate.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { AffiliateGridActionsComponent } from './affiliate-grid-actions/affiliate-grid-actions.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { UserAdminComponent } from './user-admin/user-admin.component';
+import { UserAdminListComponent } from './user-admin-list/user-admin-list.component';
+import { UserAdminGridActionsComponent } from './user-admin-grid-actions/user-admin-grid-actions.component';
+import { EmailSubscriptionComponent } from './email-subscription/email-subscription.component';
 //import { MDBModalRef, MDBModalService } from '';
 
 @NgModule({
@@ -58,6 +64,12 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     AffiliateListComponent,
     AffiliateComponent,
     DateFormatPipe,
+    AffiliateGridActionsComponent,
+    ForgotPasswordComponent,
+    UserAdminComponent,
+    UserAdminListComponent,
+    UserAdminGridActionsComponent,
+    EmailSubscriptionComponent,
   ],
   imports: [
     CommonModule,

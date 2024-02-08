@@ -10,6 +10,7 @@
 
 			</div>
             <div class="panel-body p-3">
+				<mat-spinner class="center" *ngIf="isSpinnerStarted"></mat-spinner>
 				<form [formGroup]="loginForm">
                 <div class="form-group pt-3">
                   <div class="input-field" [class.error]="loginForm.controls['username'].dirty && loginForm.hasError('required', 'username')">
@@ -27,7 +28,7 @@
 				  </div>
 				  <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required', 'password')" class="text-danger">*Password is required</small>
 				  <div class="form-inline fr mt-4">
-					<a type="button" [routerLink]="['/signup']" id="forget" class="font-weight-bold">Forget Password?</a>
+					<a type="button" [routerLink]="['/passwordupdate']" id="forget" class="font-weight-bold">Forget Password?</a>
 				  </div>
                   <button (click) ="onSubmit()" type="submit" class=" btn btn-primary btn-block mt-4 w-100">Login</button>
                  <div class="text-center pt-4 text-muted">Don't have account? <a type="button" [routerLink]="['/signup']" id="forget" >Sign Up</a></div>

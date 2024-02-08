@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const formValues = this.form.getRawValue();
     this.isRegistrationSpinnerStarted = true;
     console.log(this.form.getRawValue());
-    this.authService.register(formValues).subscribe({
+    this.authService.signup(formValues).subscribe({
       next: (data) => {
         this.isRegistrationSpinnerStarted = false;
         this.dataService.openSackBar('Registered Successfully', 'Ok');
@@ -147,16 +147,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.isSpinnerStarted = true;
       console.log(this.loginForm.value);
       this.authService.login(this.loginForm.value).subscribe({
         next: (data) => {
           this.loginForm.reset();
+          this.isSpinnerStarted = false;
           console.log(JSON.stringify(data));
           const { message } = data;
           const { token } = data.data;
           console.log(`token ${token}`);
           this.authService.storeToken(token);
           const tokenPayload = this.authService.decodeToken();
+          this.authService.setPayload(tokenPayload);
+          console.log(
+            `token payload ${JSON.stringify(tokenPayload)} name: ${
+              tokenPayload.name
+            }`
+          );
           this.userStore.setFullNameForStore(tokenPayload.name);
           this.userStore.setRoleForStore(tokenPayload.role);
           this.dataService.setLocalStorageItem('userData', data.data);

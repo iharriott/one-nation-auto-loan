@@ -21,16 +21,46 @@ export class AuthService {
   private userPayload: any;
 
   login(data: any): Observable<any> {
-    const apiAction = 'user/login';
+    const apiAction = 'api/User/login';
     this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
     console.log(this.endpoint);
     return this.http.post<any>(this.endpoint, data);
   }
 
-  register(data: any): Observable<any> {
+  getAllUsers(): Observable<any> {
+    const apiAction = 'api/User/all';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${CommonConstants.organization}`;
+    console.log(this.endpoint);
+    return this.http.get<any>(this.endpoint);
+  }
+
+  getUser(userId: string, orgId: string): Observable<any> {
+    const apiAction = 'api/User';
+    this.endpoint = `${this.baseUrl}/${apiAction}/${userId}?orgId=${orgId}`;
+    console.log(this.endpoint);
+    return this.http.get<any>(this.endpoint);
+  }
+
+  signup(data: any): Observable<any> {
     console.log(data);
-    const apiAction = 'user';
+    const apiAction = 'api/User';
     this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+    console.log(this.endpoint);
+    return this.http.post(this.endpoint, data);
+  }
+
+  updatePassword(data: any): Observable<any> {
+    console.log(data);
+    const apiAction = 'api/User/updatepassword';
+    this.endpoint = `${this.baseUrl}/${apiAction}?orgId=${CommonConstants.organization}`;
+    console.log(this.endpoint);
+    return this.http.put(this.endpoint, data);
+  }
+
+  updateUserRoleOrganization(data: any): Observable<any> {
+    console.log(`role data ${JSON.stringify(data)}`);
+    const apiAction = 'api/User/role';
+    this.endpoint = `${this.baseUrl}/${apiAction}`;
     console.log(this.endpoint);
     return this.http.post(this.endpoint, data);
   }
@@ -49,6 +79,7 @@ export class AuthService {
 
   signOut() {
     localStorage.clear();
+    this.setPayload(null);
     this.router.navigate(['login']);
   }
 
@@ -60,7 +91,7 @@ export class AuthService {
 
   getfullnameFromToken() {
     if (this.userPayload) {
-      return this.userPayload.name;
+      return this.userPayload.unique_name;
     }
   }
 
@@ -68,5 +99,9 @@ export class AuthService {
     if (this.userPayload) {
       return this.userPayload.role;
     }
+  }
+
+  setPayload(payLoad: any) {
+    this.userPayload = payLoad;
   }
 }

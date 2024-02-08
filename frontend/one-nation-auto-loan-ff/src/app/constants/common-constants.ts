@@ -54,6 +54,16 @@ export class CommonConstants {
     { viewValue: 'Co-Applicant' },
   ];
 
+  public static roles: any[] = [
+    { viewValue: 'Admin' },
+    { viewValue: 'User' },
+    { viewValue: 'Staff' },
+  ];
+
+  public static organizations: any[] = [
+    { viewValue: 'ORGN:MAYFIELDTOYOTA:DBZPAQK' },
+  ];
+
   public static empStatus: any[] = [
     { viewValue: 'Empstatus1' },
     { viewValue: 'Empstatus2' },

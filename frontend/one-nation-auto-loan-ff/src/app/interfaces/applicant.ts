@@ -5,6 +5,8 @@ export interface Applicant {
   gsI1SK: string;
   documentType: string;
   applicantType: string;
+  relatedApplicantId: string[];
+  relatedTo: string[];
   firstName: string;
   lastName: string;
   phone: string;

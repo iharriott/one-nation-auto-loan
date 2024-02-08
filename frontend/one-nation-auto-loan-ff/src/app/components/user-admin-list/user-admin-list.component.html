@@ -1,0 +1,29 @@
+<ag-grid-angular
+[rowData]="dataService.userTableData$ | async"
+[columnDefs]="colsDef"
+[enableCharts]="true"
+[enableRangeSelection]="true"
+class="ag-theme-alpine"
+style="height:400px; width: 100%; padding-top: 2px; font-size: medium"
+(cellClicked)="onCellClicked($event)"
+[getRowStyle]="getRowStyle"
+[defaultColDef]="defaultColDef"
+[animateRows]="true"
+(gridReady)="onGridReady($event)"
+[context]="context"
+[getRowHeight]="getRowHeight"
+[paginationAutoPageSize]="true"
+[pagination]="true"
+(firstDataRendered)="onFirstDataRendered($event)"
+>
+</ag-grid-angular>
+
+<ng-template #user>
+    <div class="book-appointment-container scrolling-container">
+        <app-user-admin
+        (closeUserAdminButtonClicked)="setTemplate('')"
+        ></app-user-admin>
+    </div>
+</ng-template>
+
+<ng-container #container></ng-container>
