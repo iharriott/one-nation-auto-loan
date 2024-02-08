@@ -20,6 +20,7 @@ phases:
     commands:
       - echo Build started on `date`
       - cd ${BUILD_DIR}
+      - npm install --legacy-peer-deps
       - ng build --configuration production --aot
   post_build:
      commands:
