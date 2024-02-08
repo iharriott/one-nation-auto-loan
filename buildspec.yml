@@ -2,7 +2,11 @@
 version: 0.2
 env:
   variables:
-    S3_BUCKET: "cv.schreck.berlin"
+    CACHE_CONTROL: "86400"
+    S3_BUCKET: "https://s3.console.aws.amazon.com/s3/buckets?region=us-west-1&region=us-west-1"
+    BUILD_FOLDER: "dist"
+    BUILD_ENV: "prod"
+    BUILD_DIR: "/frontend/one-nation-auto-loan-ff"
 phases:
   install:
     runtime-versions:
@@ -15,6 +19,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - cd ${BUILD_DIR}
       - ng build --configuration production --aot
   post_build:
      commands:
