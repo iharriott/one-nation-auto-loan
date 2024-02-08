@@ -19,7 +19,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - cd ${BUILD_DIR}
+      - dir
       - ng build --configuration production --aot
   post_build:
      commands:
