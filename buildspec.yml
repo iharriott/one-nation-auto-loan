@@ -24,9 +24,12 @@ phases:
   post_build:
      commands:
       - aws s3 cp ${BUILD_FOLDER} s3://${S3_BUCKET} --recursive
-      - cd ${BUILD_DIR}
       - echo Build completed on `date`
 artifacts:
+  commands:
+      - echo Artifacts started on `date`
+      - cd ${BUILD_DIR}
+      - dir
   files:
       - '**/*.html'
       - '**/*.js'
