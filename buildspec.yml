@@ -26,14 +26,10 @@ phases:
       - aws s3 cp ${BUILD_FOLDER} s3://${S3_BUCKET} --recursive
       - echo Build completed on `date`
 artifacts:
-  commands:
-      - echo Artifacts started on `date`
-      - cd ${BUILD_DIR}
-      - dir
   files:
       - '**/*.html'
       - '**/*.js'
       - '**/*.css'
       - '**/*.ico'
-  base-directory: 'dist/one-nation-auto-loan-ff'
+  base-directory: 'frontend/one-nation-auto-loan-ff/dist'
   discard-paths: yes
