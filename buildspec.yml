@@ -27,6 +27,9 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-      - '**/*'
-  base-directory: 'dist/one-nation-auto-loan-ff*'
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - '**/*.ico'
+  base-directory: 'dist/one-nation-auto-loan-ff'
   discard-paths: yes
