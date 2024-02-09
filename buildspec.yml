@@ -26,10 +26,12 @@ phases:
       - aws s3 cp ${BUILD_FOLDER} s3://${S3_BUCKET} --recursive
       - echo Build completed on `date`
 artifacts:
-  files:
-      - '**/*.html'
-      - '**/*.js'
-      - '**/*.css'
-      - '**/*.ico'
-  base-directory: 'frontend/one-nation-auto-loan-ff/dist'
-  discard-paths: yes
+  secondary-artifacts:
+    angulardevopsartifact:
+      files:
+         - '**/*.html'
+         - '**/*.js'
+         - '**/*.css'
+         - '**/*.ico'
+      base-directory: 'frontend/one-nation-auto-loan-ff/dist'
+      discard-paths: yes
